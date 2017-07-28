@@ -19,6 +19,13 @@ app.use(bodyParser.json({ type: '*/* '}));
 
 // app.use('/users', index);
 
+
+app.use(express.static(__dirname + '/build'));
+
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/build');
+});
+
 app.get('/events', function (req, res) {
   res.json(JSON.parse(fs.readFileSync('./data.json', 'utf8')));
 })
