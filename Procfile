@@ -1,1 +1,1 @@
-web: npm i ./ && node ./app.js
+web: npm i ./ && npm start ./
