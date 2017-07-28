@@ -3,6 +3,7 @@ import express from 'express';
 import axios from 'axios';
 import cheerio from 'cheerio';
 
+
 import fs from 'fs';
 import tress  from 'tress';
 
@@ -12,6 +13,11 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
 const app = express();
+
+const port = process.env.PORT || 3090;
+app.listen(port, () => {
+  console.log('Server ready on:', port);
+});
 
 
 app.use(morgan('combined'));
@@ -65,10 +71,7 @@ app.get('/event', function (req, res) {
 })
 
 
-const port = process.env.PORT || 3090;
-app.listen(port, () => {
-  console.log('Server ready on:', port);
-});
+
 
 const URL = 'http://meetup.by/';
 var results = [];
