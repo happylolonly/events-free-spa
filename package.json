@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec npm run babel-node",
-    "babel-node": "babel-node -- app.js --presets node6",
+    "babel-node": "babel app.js --presets node6 --out-file app2.js",
     "test": ""
   },
   "author": "",

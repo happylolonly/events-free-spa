@@ -1,1 +1,1 @@
-web: npm i ./ && npm run babel-node ./
+web: npm i ./ && node app2.js ./
