@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec npm run babel-node",
-    "babel-node": "babel app.js --presets node6 --out-file app2.js",
+    "babel-node": "babel-node -- app.js --presets node6",
+    "babel-node2": "babel app.js --presets node6 --out-file app2.js",
     "test": ""
   },
   "author": "",
@@ -15,9 +16,11 @@
     "body-parser": "^1.17.2",
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.15.3",
+    "moment": "^2.18.1",
     "mongoose": "^4.11.4",
     "morgan": "^1.8.2",
-    "tress": "^1.0.3"
+    "tress": "^1.0.3",
+    "vk-io": "^3.1.7"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

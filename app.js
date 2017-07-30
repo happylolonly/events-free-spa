@@ -7,6 +7,11 @@ import cheerio from 'cheerio';
 import fs from 'fs';
 import tress  from 'tress';
 
+import meetupBy from './parse/meetupBy';
+import eventsDevBy from './parse/eventsDevBy';
+import imaguru from './parse/imaguru';
+import vk from './parse/vk';
+
 // import { index } from './routes/index';
 
 const bodyParser = require('body-parser');
@@ -15,9 +20,12 @@ const morgan = require('morgan');
 const app = express();
 
 const port = process.env.PORT || 3090;
+
 app.listen(port, () => {
   console.log('Server ready on:', port);
 });
+
+fs.writeFileSync('./data.json', '[]');
 
 
 app.use(morgan('combined'));
@@ -33,35 +41,62 @@ app.get('/', function(req, res){
 });
 
 app.get('/events', function (req, res) {
-  res.json(JSON.parse(fs.readFileSync('./data.json', 'utf8')));
+  res.json(JSON.parse(fs.readFileSync('./data.json')));
 })
+
+// console.log(meetupBy);
+// meetupBy();
+
+meetupBy.init();
+eventsDevBy.init();
+imaguru.init();
+vk.init();
 
 app.get('/event', function (req, res) {
   const id = req.param('id');
-
   const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
 
 
   data.forEach(item => {
     if (item.link == id) {
 
+
       const { originalLinkTitle, originalLink } = item;
-      console.log(`${originalLinkTitle}${originalLink}`);
-      axios.get(`http://${originalLinkTitle}${originalLink}`)
+      let link;
+      if (originalLinkTitle === 'imaguru.by') {
+        link = originalLink;
+      } else if (originalLinkTitle === 'vk.com/minskforfree') {
+        link = `https://vk.com/${originalLink}`;
+      } else {
+        link = `http://${originalLinkTitle}${originalLink}`;
+      }
+      console.log(link);
+      axios.get(link)
 
         .then(data => {
 
-          var $ = cheerio.load(data.data);
-          const html = $('.node.node-event.node-published').text();
-
-          const obj = {
-            title: item.title,
-            text: html,
-            date: item.date,
-            images: [],
+          let obj = {};
+          if (originalLinkTitle === 'events.dev.by') {
+            eventsDevBy.parseEvent(data, item).then((data) => {
+              res.send(data);
+            })
           }
-
-          res.send(obj);
+          if (originalLinkTitle === 'meetup.by') {
+            meetupBy.parseEvent(data, item).then((data) => {
+              res.send(data);
+            })
+          }
+          if (originalLinkTitle === 'imaguru.by') {
+            imaguru.parseEvent(data, item).then((data) => {
+              res.send(data);
+            })
+          }
+          if (originalLinkTitle === 'vk.com/minskforfree') {
+            vk.parseEvent(data, item).then((data) => {
+              res.send(data);
+            })
+          }
+          // res.send(obj);
 
         })
         .catch(error => {
@@ -69,70 +104,3 @@ app.get('/event', function (req, res) {
     }
   })
 })
-
-
-
-
-const URL = 'http://meetup.by/';
-var results = [];
-
-// `tress` последовательно вызывает наш обработчик для каждой ссылки в очереди
-var q = tress(function(url, callback){
-
-    //тут мы обрабатываем страницу с адресом url
-    axios.get(url).then(function(data){
-        // if (err) throw err;
-
-        // здесь делаем парсинг страницы из res.body
-            // делаем results.push для данных о новости
-            // делаем q.push для ссылок на обработку
-
-            var $ = cheerio.load(data.data);
-
-
-
-            console.log($('#block-system-main .view-content h1 a').text());
-
-            // if($('#block-system-main .view-content h1 a').text().trim()){
-            // results.push({
-            //     title: $('h1').text(),
-            //     date: $('.b_infopost>.date').text(),
-            //     href: url,
-            //     size: $('.newsbody').text().length
-            // });
-
-            // const { date, title, time, link, originalLink, originalLinkTitle } = item;
-
-            $('#block-system-main .views-row').each((item, i) => {
-              // console.log(item, i);
-
-
-              results.push({
-                title: $(i).find('a').text(),
-                originalLink: $(i).find('a').attr('href'),
-                date: $(i).find('.date-display-single').text(),
-                originalLinkTitle: 'meetup.by',
-                link: Date.now() + item,
-              });
-
-            })
-        // });
-        callback(); //вызываем callback в конце
-      })
-      .catch(error => {
-        console.log(error.data);
-      })
-        // }
-
-            // fs.writeFileSync('./data.json', JSON.stringify(results, null, 4));
-
-    });
-// });
-
-// эта функция выполнится, когда в очереди закончатся ссылки
-q.drain = function(){
-    fs.writeFileSync('./data.json', JSON.stringify(results, null, 4));
-}
-
-// добавляем в очередь ссылку на первую страницу списка
-q.push(URL);
