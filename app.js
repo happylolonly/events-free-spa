@@ -36,6 +36,8 @@ app.use(bodyParser.json({ type: '*/* '}));
 
 app.use(express.static(__dirname + '/build'));
 
+
+
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/build');
 });
@@ -104,3 +106,8 @@ app.get('/event', function (req, res) {
     }
   })
 })
+
+// app.get('/event/', function(req, res) {
+//   res.sendFile(__dirname + '/build');
+//   // next();
+// });
