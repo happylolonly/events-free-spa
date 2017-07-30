@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec npm run babel-node",
-    "babel-node": "babel-node -- app.js --presets node6",
-    "babel-node2": "babel app.js --presets node6 --out-file app2.js",
+    "start": "./node_modules/.bin/nodemon --exec npm run babel-node",
+    "babel-node": "./node_modules/.bin/babel-node -- app.js --presets node6",
+    "babel-node2": "babel -d app.js --presets node6 --out-file app2.js",
     "test": ""
   },
   "author": "",
