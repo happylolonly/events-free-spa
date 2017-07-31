@@ -20,10 +20,11 @@
     "mongoose": "^4.11.4",
     "morgan": "^1.8.2",
     "tress": "^1.0.3",
-    "vk-io": "^3.1.7"
+    "vk-io": "^3.1.7",
+    "babel-cli": "^6.24.1",
+    "nodemon": "^1.11.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-preset-node6": "^11.0.0",
     "eslint": "^3.19.0",
@@ -32,7 +33,6 @@
     "eslint-plugin-flowtype": "^2.33.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^5.0.1",
-    "eslint-plugin-react": "^7.0.1",
-    "nodemon": "^1.11.0"
+    "eslint-plugin-react": "^7.0.1"
   }
 }
