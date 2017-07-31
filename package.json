@@ -22,11 +22,11 @@
     "tress": "^1.0.3",
     "vk-io": "^3.1.7",
     "babel-cli": "^6.24.1",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "babel-preset-node6": "^11.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
-    "babel-preset-node6": "^11.0.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-config-react-app": "^1.0.4",
