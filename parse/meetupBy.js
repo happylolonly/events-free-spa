@@ -1,6 +1,9 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 
+import Event from '../model/event';
+
+import moment from 'moment';
 
 import fs from 'fs';
 import tress  from 'tress';
@@ -39,13 +42,24 @@ var q = tress(function(url, callback){
             $('#block-system-main .views-row').each((item, i) => {
               // console.log(item, i);
 
+              const dat =  $(i).find('.date-display-single').text();
+              // console.log(moment)
+              const month = moment().month(dat.split('.')[1] - 1).format('MM');
+
+              let time = '00:00';
+
+              const date = Date.parse(`2017-${month}-${dat.split('.')[0]}`);
+              // console.log(Date.parse(`2017-${month}-${date.split('.')[0]}T${time}:00`));
+
+              // console.log(date);
+
 
               results.push({
+                date,
                 title: $(i).find('a').text(),
+
                 originalLink: $(i).find('a').attr('href'),
-                date: $(i).find('.date-display-single').text(),
-                originalLinkTitle: 'meetup.by',
-                link: Date.now() + item,
+                source: 'meetup.by',
               });
 
             })
@@ -65,11 +79,23 @@ var q = tress(function(url, callback){
 // эта функция выполнится, когда в очереди закончатся ссылки
 q.drain = function(){
     // fs.appendFile('./data.json', JSON.stringify(results, null, 4));
-    var configFile = fs.readFileSync('./data.json');
-    var config = configFile.length === 2 ? [] : JSON.parse(configFile);
-    config.push(...results);
-    var configJSON = JSON.stringify(config, null, 4);
-    fs.writeFileSync('./data.json', configJSON);
+
+    results.forEach(item => {
+      const event = new Event(item);
+
+      event.save()
+        .then(() => {
+          console.log('saved');
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    })
+    // var configFile = fs.readFileSync('./data.json');
+    // var config = configFile.length === 2 ? [] : JSON.parse(configFile);
+    // config.push(...results);
+    // var configJSON = JSON.stringify(config, null, 4);
+    // fs.writeFileSync('./data.json', configJSON);
 }
 
 // добавляем в очередь ссылку на первую страницу списка

@@ -13,17 +13,17 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.16.2",
+    "babel-cli": "^6.24.1",
+    "babel-preset-node6": "^11.0.0",
     "body-parser": "^1.17.2",
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.15.3",
     "moment": "^2.18.1",
-    "mongoose": "^4.11.4",
+    "mongoose": "4.1.9",
     "morgan": "^1.8.2",
-    "tress": "^1.0.3",
-    "vk-io": "^3.1.7",
-    "babel-cli": "^6.24.1",
     "nodemon": "^1.11.0",
-    "babel-preset-node6": "^11.0.0"
+    "tress": "^1.0.3",
+    "vk-io": "^3.1.7"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

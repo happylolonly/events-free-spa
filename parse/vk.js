@@ -1,6 +1,9 @@
 import VK from 'vk-io';
 
 import axios from 'axios';
+
+import Event from '../model/event';
+
 import cheerio from 'cheerio';
 
 import moment from 'moment';
@@ -129,7 +132,7 @@ const init = () => {
 
       vk.api.wall.search({
           domain: 'minskforfree',
-          query: `${moment().locale('ru').format('DD MMMM')}`,
+          query: `${moment().locale('ru').format('MMMM')}`,
           count: 10,
           'access_token': 'b58844e3b58844e3b58844e34eb5d5cbf8bb588b58844e3ecf6456263d1070e24bb2a38',
       })
@@ -140,25 +143,48 @@ const init = () => {
 
           wall.items.forEach((item, i) => {
 
-            // console.log(item);
-            const { from_id, id } = item;
+            const { from_id, id, text } = item;
+            const index = text.indexOf(`${moment().locale('ru').format('MMMM')}`);
+            if (index > 0) {
+              const before = text.substr(index - 2, index);
+              console.log('before');
+              console.log(before);
+            }
+
             // console.log(`minskforfree?w=wall${from_id}_${id}`);
+
+            // console.log(`${moment().format('DD MM')}`);
+            // console.log('query', `${moment().locale('ru').format('MMMM')}`);
 
             results.push({
               title: item.text.substring(0, 50) + '...',
-              originalLink: `minskforfree?w=wall${from_id}_${id}`,
+              originalLink: `?w=wall${from_id}_${id}`,
               date: `${moment().format('DD MM')}`,
-              originalLinkTitle: 'vk.com/minskforfree',
-              link: Date.now() + i,
+              source: 'vk.com/minskforfree',
             });
 
-          })
+          });
 
-          var configFile = fs.readFileSync('./data.json');
-          var config = configFile.length === 2 ? [] : JSON.parse(configFile);
-          config.push(...results);
-          var configJSON = JSON.stringify(config, null, 4);
-          fs.writeFileSync('./data.json', configJSON);
+          // console.log(results);
+
+          // results.forEach(item => {
+          //   const event = new Event(item);
+          //
+          //   event.save()
+          //     .then(() => {
+          //       console.log('saved');
+          //     })
+          //     .catch(error => {
+          //       console.log(error);
+          //     })
+          // })
+
+
+          // var configFile = fs.readFileSync('./data.json');
+          // var config = configFile.length === 2 ? [] : JSON.parse(configFile);
+          // config.push(...results);
+          // var configJSON = JSON.stringify(config, null, 4);
+          // fs.writeFileSync('./data.json', configJSON);
       })
       .catch((error) => {
           console.error(error);

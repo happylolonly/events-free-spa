@@ -1,6 +1,8 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 
+import Event from '../model/event';
+
 import moment from 'moment';
 
 
@@ -46,21 +48,25 @@ var q = tress(function(url, callback){
               let month = $(i).find('.events-timetable__time p:nth-child(2)').text();
               let time = $(i).find('.events-timetable__time p:nth-child(1)').text();
 
-              console.log($(i).find('.events-timetable__time p:nth-child(1)').text());
+              // console.log($(i).find('.events-timetable__time p:nth-child(1)').text());
 
               let l = moment().month(month.split(' ')[1]).format("MM");
               // let l = moment().month(month.split(' ')[1]).format("HH:MM");
 
               let full = moment()
 
-              console.log(Date.parse(`2017-${l}-${month.split(' ')[0]}T${time}:00`));
+              const date = Date.parse(`2017-${l}-${month.split(' ')[0]}T${time}:00`);
+
+              let link = $(i).find('a.events-timetable__title').attr('href');
+              // console.log(link.subsrting());
 
               results.push({
+                // date: $(i).find('.date-display-single').text(),
+                date,
                 title: $(i).find('a.events-timetable__title').text(),
-                originalLink: $(i).find('a.events-timetable__title').attr('href'),
-                date: $(i).find('.date-display-single').text(),
-                originalLinkTitle: 'imaguru.by',
-                link: Date.now() + item,
+
+                originalLink: link.substring(19),
+                source: 'imaguru.by'
               });
 
             })
@@ -80,11 +86,25 @@ var q = tress(function(url, callback){
 // эта функция выполнится, когда в очереди закончатся ссылки
 q.drain = function(){
     // fs.appendFile('./data.json', JSON.stringify(results, null, 4));
-    var configFile = fs.readFileSync('./data.json');
-    var config = configFile.length === 2 ? [] : JSON.parse(configFile);
-    config.push(...results);
-    var configJSON = JSON.stringify(config, null, 4);
-    fs.writeFileSync('./data.json', configJSON);
+
+    // console.log(results);
+
+    results.forEach(item => {
+      const event = new Event(item);
+
+      event.save()
+        .then(() => {
+          console.log('saved');
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    })
+    // var configFile = fs.readFileSync('./data.json');
+    // var config = configFile.length === 2 ? [] : JSON.parse(configFile);
+    // config.push(...results);
+    // var configJSON = JSON.stringify(config, null, 4);
+    // fs.writeFileSync('./data.json', configJSON);
 }
 
 // добавляем в очередь ссылку на первую страницу списка

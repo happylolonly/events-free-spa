@@ -1,6 +1,8 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 
+import Event from '../model/event';
+
 
 import fs from 'fs';
 import tress  from 'tress';
@@ -46,8 +48,8 @@ var q = tress(function(url, callback){
                 title: $(i).find('.item-body a.title').text(),
                 originalLink: $(i).find('.item-body a.title').attr('href'),
                 date: new Date(date).getTime(date),
-                originalLinkTitle: 'events.dev.by',
-                link: Date.now() + item,
+                source: 'events.dev.by',
+                // link: Date.now() + item,
               });
 
             })
@@ -75,11 +77,29 @@ q.drain = function(){
     //
     // console.log(config);
 
-    var configFile = fs.readFileSync('./data.json');
-    var config = configFile.length === 2 ? [] : JSON.parse(configFile);
-    config.push(...results);
-    var configJSON = JSON.stringify(config, null, 4);
-    fs.writeFileSync('./data.json', configJSON);
+    console.log(results);
+
+
+
+    results.forEach(item => {
+      const event = new Event(item);
+
+      // console.log(item);
+
+      event.save()
+        .then(() => {
+          console.log('saved');
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    })
+
+    // var configFile = fs.readFileSync('./data.json');
+    // var config = configFile.length === 2 ? [] : JSON.parse(configFile);
+    // config.push(...results);
+    // var configJSON = JSON.stringify(config, null, 4);
+    // fs.writeFileSync('./data.json', configJSON);
 }
 
 // добавляем в очередь ссылку на первую страницу списка
