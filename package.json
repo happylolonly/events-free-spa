@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec npm run babel-node",
+    "start": "nodemon --inspect-brk=3090 --exec npm run babel-node",
     "babel-node": "babel-node -- app.js --presets node6",
     "babel-node2": "babel -d app.js --presets node6 --out-file app2.js",
     "test": ""
@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.5.0",
     "axios": "^0.16.2",
     "babel-cli": "^6.24.1",
     "babel-preset-node6": "^11.0.0",
@@ -19,7 +20,7 @@
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.15.3",
     "moment": "^2.18.1",
-    "mongoose": "4.1.9",
+    "mongoose": "^4.11.5",
     "morgan": "^1.8.2",
     "nodemon": "^1.11.0",
     "tress": "^1.0.3",

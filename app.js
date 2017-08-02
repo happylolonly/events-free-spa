@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
-import fs from 'fs';
 
 import axios from 'axios';
 
@@ -14,8 +13,6 @@ import vk from './parse/vk';
 
 
 
-// import { index } from './routes/index';
-
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
@@ -23,42 +20,44 @@ const app = express();
 
 const port = process.env.PORT || 3090;
 
-// const uri = 'mongodb://<dbuser>:<dbpassword>@ds061246.mlab.com:61246/cubes';
+const url = 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes';
+// const url = 'mongodb://localhost/events_app';
 
-// mongodb://example_user:example_pass@mlab.com:12345/db
-// db = mongoose.connect(uri);
+mongoose.connect(url);
+mongoose.connection
+   .once('open', () => {
+     const { events } = mongoose.connection.collections;
+    //  console.log(events);
+     if (events) {
+       events.drop(() => {
+          console.log('droppped');
+
+          meetupBy.init();
+          eventsDevBy.init();
+          imaguru.init();
+          // vk.init();
+
+
+
+       });
+     }
+
+    // Event.remove({ })
+    // .then(() => {
+    //
+    // });
+
+    //  console.log('all ok')
+   })
+   .on('error', (error) => {
+     console.warn('Warning', error);
+   });
 
 app.listen(port, () => {
   console.log('Server ready on:', port);
 
-  // mongoose.connect('mongodb://localhost/events_app');
-  // mongoose.connect('mongodb://user:password@ds061246.mlab.com:61246/cubes?authSource=dbWithUserCredentials');
-  // mongoose.connect(uri);
-  mongoose.connection
-     .once('open', () => {
-      //  const { events } = mongoose.connection.collections;
-      //  console.log(events);
-      //  if (events) {
-      //    events.drop(() => {
-      //      console.log('droppped')
-      //
-        //  });
-      //  }
 
-      Event.remove({ })
-      .then(() => {
-            meetupBy.init();
-            eventsDevBy.init();
-            imaguru.init();
-            // vk.init();
 
-      });
-
-       console.log('all ok')
-     })
-     .on('error', (error) => {
-       console.warn('Warning', error);
-     });
 });
 
 // fs.writeFileSync('./data.json', '[]');
@@ -97,7 +96,7 @@ const obj = {};
 if (today) {
   obj.date = {$gte: Date.parse(start), $lt: Date.parse(end)};
 }
-if (true) {
+if (false) {
   // obj.title = /^`${search}`/;
   // obj.title = {$regex : "^" + search, 'i'};
   // obj.title = { $regex: new RegExp("^" + search.toLowerCase()) };
@@ -119,7 +118,16 @@ console.log(obj);
     .limit(50)
     .then((events) => {
       // console.log(events)
-      res.json(events);
+
+      //  if (this.state.events.length === 0) return this.state.events;
+      // пока костыль
+       let items = events.filter(item => {
+         let item2 = item.title.toLowerCase();
+         return item2.indexOf(search.toLowerCase()) !=-1;
+       })
+
+
+      res.json(items);
     });
 })
 

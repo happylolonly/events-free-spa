@@ -5,6 +5,8 @@ import Event from '../model/event';
 
 import moment from 'moment';
 
+import async from 'async';
+
 
 import fs from 'fs';
 import tress  from 'tress';
@@ -89,17 +91,36 @@ q.drain = function(){
 
     // console.log(results);
 
-    results.forEach(item => {
+    async.each(results, function (item, callback) {
+      console.log(item);
       const event = new Event(item);
 
-      event.save()
-        .then(() => {
-          console.log('saved');
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    })
+        event.save()
+          .then((data) => {
+            console.log('saved');
+            console.log(data);
+            callback(data);
+          })
+          .catch(error => {
+            console.log(error);
+            callback('jkjjl');
+          })
+
+    }, function(err) {
+    // if any of the file processing produced an error, err would equal that error
+    if( err ) {
+      // One of the iterations produced an error.
+      // All processing will now stop.
+      console.log('A file failed to process');
+      console.log(err);
+    } else {
+      console.log('All files have been processed successfully');
+    }
+});
+
+    // results.forEach(item => {
+    //
+    // })
     // var configFile = fs.readFileSync('./data.json');
     // var config = configFile.length === 2 ? [] : JSON.parse(configFile);
     // config.push(...results);

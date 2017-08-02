@@ -77,22 +77,35 @@ q.drain = function(){
     //
     // console.log(config);
 
-    console.log(results);
+    // console.log(results);
+
+    //   console.log(event);
+    //   event.save(function(err, news){
+    //     if(err) return console.error("Error while saving data to MongoDB: " + err); // <- this gets executed when there's an error
+    //     console.error(news); // <- this never gets logged, even if there's no error.
+    //     event.save(news);
+    // })(item)
 
 
+    results.forEach((item, i) => {
 
-    results.forEach(item => {
       const event = new Event(item);
 
-      // console.log(item);
+        event.save(item)
+          .then(() => {
+            console.log('saved -----------------------------');
+          })
+          .catch(error => {
+            console.log('error');
+            console.log(error);
+          })
 
-      event.save()
-        .then(() => {
-          console.log('saved');
-        })
-        .catch(error => {
-          console.log(error);
-        })
+
+      // setTimeout(() => {
+      //   console.log('jkjkjk');
+      // }, 1000*i);
+
+
     })
 
     // var configFile = fs.readFileSync('./data.json');
