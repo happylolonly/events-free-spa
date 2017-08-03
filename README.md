@@ -13,14 +13,15 @@ https://eventsfree.herokuapp.com
 3. Парсинг определенного мероприятия
 4. Отправка всего этого на frontend
 5. Сам frontend https://github.com/HappyCodeHere/events-spa-client
+6. Добавление MongoDB
+
 
 #
 
-6. Добавление MongoDB
+
 7. Возможно добавление кеширования на сервере и вебсокеты
 8. Создание изоморфного приложения
 9. Server side rendering
 10. PWA
 11. Защита от изменения структуры сайтов при парсинге
 12. тесты (возможно раньше)
-
