@@ -133,7 +133,7 @@ const init = () => {
       vk.api.wall.search({
           domain: 'minskforfree',
           query: `${moment().locale('ru').format('MMMM')}`,
-          count: 10,
+          count: 50,
           'access_token': 'b58844e3b58844e3b58844e34eb5d5cbf8bb588b58844e3ecf6456263d1070e24bb2a38',
       })
       .then((wall) => {
@@ -145,10 +145,36 @@ const init = () => {
 
             const { from_id, id, text } = item;
             const index = text.indexOf(`${moment().locale('ru').format('MMMM')}`);
-            if (index > 0) {
-              const before = text.substr(index - 2, index);
-              console.log('before');
+            // console.log(index);
+            // console.log(moment().locale('ru').format('DD MMMM'));
+            // console.log(text);
+            if (index >= 0) {
+              console.log('index',index);
+              let before = text.substr(index - 2, index);
+              if (text.substr(index - 3, index - 2) !== '' && index !== 2) {
+                before = text.substr(index - 3, index);
+              }
+              console.log('-------');
               console.log(before);
+
+              if (before.length > 5) {
+                return;
+              }
+
+              const month = moment().month('август').format("MM");
+
+              const date = Date.parse(`2017-${month}-${before}00:00:00`);
+
+              console.log(date);
+              console.log(moment(date));
+
+              results.push({
+                title: item.text.substring(0, 70) + '...',
+                originalLink: `?w=wall${from_id}_${id}`,
+                date: date,
+                source: 'vk.com/minskforfree',
+              });
+
             }
 
             // console.log(`minskforfree?w=wall${from_id}_${id}`);
@@ -156,28 +182,23 @@ const init = () => {
             // console.log(`${moment().format('DD MM')}`);
             // console.log('query', `${moment().locale('ru').format('MMMM')}`);
 
-            results.push({
-              title: item.text.substring(0, 50) + '...',
-              originalLink: `?w=wall${from_id}_${id}`,
-              date: `${moment().format('DD MM')}`,
-              source: 'vk.com/minskforfree',
-            });
+
 
           });
 
-          // console.log(results);
+          console.log(results);
 
-          // results.forEach(item => {
-          //   const event = new Event(item);
-          //
-          //   event.save()
-          //     .then(() => {
-          //       console.log('saved');
-          //     })
-          //     .catch(error => {
-          //       console.log(error);
-          //     })
-          // })
+          results.forEach(item => {
+            const event = new Event(item);
+
+            event.save()
+              .then(() => {
+                console.log('saved');
+              })
+              .catch(error => {
+                console.log(error);
+              })
+          })
 
 
           // var configFile = fs.readFileSync('./data.json');
@@ -210,10 +231,10 @@ const parseEvent = (data, item) => {
   return new Promise((resolve) => {
     console.log(item);
 
-    console.log(`-${item.originalLink.split('-')[1]}`);
+    console.log(`-${item[0].originalLink.split('-')[1]}`);
 
     vk.api.wall.getById({
-        posts: `-${item.originalLink.split('-')[1]}`,
+        posts: `-${item[0].originalLink.split('-')[1]}`,
         'access_token': 'b58844e3b58844e3b58844e34eb5d5cbf8bb588b58844e3ecf6456263d1070e24bb2a38',
     })
     .then((wall) => {

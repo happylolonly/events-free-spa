@@ -35,7 +35,7 @@ mongoose.connection
           meetupBy.init();
           eventsDevBy.init();
           imaguru.init();
-          // vk.init();
+          vk.init();
 
 
 
@@ -81,6 +81,10 @@ app.get('/events', function (req, res) {
 
   const today = req.param('today');
   const search = req.param('search');
+  const sources = req.param('sources');
+  if (!sources) {
+    res.send = [];
+  }
   console.log(today);
 
 
@@ -108,6 +112,21 @@ if (false) {
 
   // db.collection.find({name:{'$regex' : '^string$', })
   // username: {$regex : "^" + req.params.username
+}
+
+if (sources) {
+  console.log('here', sources);
+
+  const dict = {
+    meetupBy: 'meetup.by',
+    imaguru: 'imaguru.by',
+    eventsDevBy: 'events.dev.by',
+    minskforfree: 'vk.com/minskforfree',
+  }
+
+  console.log(sources.split(','));
+
+  obj.source = { $in: sources.split(',').map(item => dict[item]) };
 }
 
 console.log(obj);
