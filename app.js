@@ -10,6 +10,8 @@ import meetupBy from './parse/meetupBy';
 import eventsDevBy from './parse/eventsDevBy';
 import imaguru from './parse/imaguru';
 import vk from './parse/vk';
+import freeFitnessMinsk from './parse/freeFitnessMinsk';
+import sportMts from './parse/sportMts';
 
 
 
@@ -36,6 +38,8 @@ mongoose.connection
           eventsDevBy.init();
           imaguru.init();
           vk.init();
+          // freeFitnessMinsk.init();
+          sportMts.init();
 
 
 
@@ -122,6 +126,7 @@ if (sources) {
     imaguru: 'imaguru.by',
     eventsDevBy: 'events.dev.by',
     minskforfree: 'vk.com/minskforfree',
+    sportMts: 'sport.mts.by/master-klassy/minsk/'
   }
 
   console.log(sources.split(','));

@@ -131,7 +131,7 @@ const init = () => {
 
 
       vk.api.wall.search({
-          domain: 'minskforfree',
+          domain: 'free_fitness_minsk',
           query: `${moment().locale('ru').format('MMMM')}`,
           count: 50,
           'access_token': 'b58844e3b58844e3b58844e34eb5d5cbf8bb588b58844e3ecf6456263d1070e24bb2a38',
@@ -145,12 +145,13 @@ const init = () => {
 
             const { from_id, id, text } = item;
             const index = text.indexOf(`${moment().locale('ru').format('MMMM')}`);
+            console.log('moment', `${moment().locale('ru').format('MMMM')}`);
             // console.log(index);
-            // console.log(moment().locale('ru').format('MMMM'));
+            // console.log(moment().locale('ru').format('DD MMMM'));
             // console.log(text);
             if (index >= 0) {
               console.log('index',index);
-              let before = text.substr(index - 2, index);
+              let before = text.substr(index - 2, index - 1);
               if (text.substr(index - 3, index - 2) !== '' && index !== 2) {
                 before = text.substr(index - 3, index);
               }
@@ -161,9 +162,13 @@ const init = () => {
                 return;
               }
 
+
+
               const month = moment().month('август').format("MM");
 
               const date = Date.parse(`2017-${month}-${before}00:00:00`);
+
+              if (Number.isNaN(date)) return;
 
               console.log(date);
               console.log(moment(date));
@@ -172,7 +177,7 @@ const init = () => {
                 title: item.text.substring(0, 70) + '...',
                 originalLink: `?w=wall${from_id}_${id}`,
                 date: date,
-                source: 'vk.com/minskforfree',
+                source: 'vk.com/free_fitness_minsk',
               });
 
             }
