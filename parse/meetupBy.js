@@ -77,28 +77,47 @@ var q = tress(function(url, callback){
 // });
 
 // эта функция выполнится, когда в очереди закончатся ссылки
-q.drain = function(){
-    // fs.appendFile('./data.json', JSON.stringify(results, null, 4));
+q.drain = function() {
 
-    results.forEach(item => {
+  results.forEach(item => {
+
+    const saveEvent = () => {
       const event = new Event(item);
-
       event.save()
         .then(() => {
-          console.log('saved');
+          console.log('saved new');
         })
         .catch(error => {
           console.log(error);
         })
-    })
-    // var configFile = fs.readFileSync('./data.json');
-    // var config = configFile.length === 2 ? [] : JSON.parse(configFile);
-    // config.push(...results);
-    // var configJSON = JSON.stringify(config, null, 4);
-    // fs.writeFileSync('./data.json', configJSON);
+    }
+
+    const updateEvent = (_id, item) => {
+      const { date, title, originalLink, source } = item;
+      Event.findByIdAndUpdate(_id, { date }, { title }, { originalLink }, { source });
+    }
+
+    // ищем по ссылке вида event/2017-08-01/tensorflow-meetup
+    Event.find({ originalLink: item.originalLink })
+      .then((data) => {
+        // если что то нашлось
+        if (data.length > 0) {
+          // и другой title или date
+          // source тут никак не учавствует вроде
+          if (item.title !== data[0].title || item.date !== data[0].date) {
+            updateEvent(data._id, item);
+          }
+        // если не нашлось в бд
+        } else {
+          saveEvent();
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  })
 }
 
-// добавляем в очередь ссылку на первую страницу списка
 
 
 const init = () => {

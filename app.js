@@ -25,26 +25,31 @@ const port = process.env.PORT || 3090;
 const url = 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes';
 // const url = 'mongodb://localhost/events_app';
 
+var chrono = require('chrono-node')
+console.log(chrono.parseDate('17 августа'));
+
 mongoose.connect(url);
 mongoose.connection
    .once('open', () => {
-     const { events } = mongoose.connection.collections;
-    //  console.log(events);
-     if (events) {
-       events.drop(() => {
-          console.log('droppped');
+     meetupBy.init();
+     // eventsDevBy.init();
+     // imaguru.init();
+     // vk.init();
+     // freeFitnessMinsk.init();
+     // sportMts.init();
 
-          meetupBy.init();
-          eventsDevBy.init();
-          imaguru.init();
-          vk.init();
-          // freeFitnessMinsk.init();
-          sportMts.init();
-
-
-
-       });
-     }
+    //  const { events } = mongoose.connection.collections;
+    // //  console.log(events);
+    //  if (events) {
+    //    events.drop(() => {
+    //       console.log('droppped');
+    //
+    //
+    //
+    //
+    //
+    //    });
+    //  }
 
     // Event.remove({ })
     // .then(() => {
@@ -86,6 +91,8 @@ app.get('/events', function (req, res) {
   const today = req.param('today');
   const search = req.param('search');
   const sources = req.param('sources');
+  const offset = req.param('offset');
+
   if (!sources) {
     res.send = [];
   }
@@ -103,7 +110,10 @@ const obj = {};
 
 if (today) {
   obj.date = {$gte: Date.parse(start), $lt: Date.parse(end)};
+} else {
+  obj.date = {$gte: Date.parse(start) };
 }
+
 if (false) {
   // obj.title = /^`${search}`/;
   // obj.title = {$regex : "^" + search, 'i'};
@@ -139,9 +149,9 @@ console.log(obj);
 
   Event.find(obj)
     .sort({ date: 1 })
-    .limit(50)
+    .limit(+offset)
     .then((events) => {
-      // console.log(events)
+      console.log(events)
 
       //  if (this.state.events.length === 0) return this.state.events;
       // пока костыль
