@@ -3,6 +3,8 @@ import cheerio from 'cheerio';
 
 import Event from '../model/event';
 
+import { saveEventItemToDB } from './helpers';
+
 import moment from 'moment';
 
 import async from 'async';
@@ -86,51 +88,11 @@ var q = tress(function(url, callback){
 // });
 
 // эта функция выполнится, когда в очереди закончатся ссылки
-q.drain = function(){
-    // fs.appendFile('./data.json', JSON.stringify(results, null, 4));
-
-    // console.log(results);
-
-    async.each(results, function (item, callback) {
-      console.log(item);
-      const event = new Event(item);
-
-        event.save()
-          .then((data) => {
-            console.log('saved');
-            console.log(data);
-            callback(data);
-          })
-          .catch(error => {
-            console.log(error);
-            callback('jkjjl');
-          })
-
-    }, function(err) {
-    // if any of the file processing produced an error, err would equal that error
-    if( err ) {
-      // One of the iterations produced an error.
-      // All processing will now stop.
-      console.log('A file failed to process');
-      console.log(err);
-    } else {
-      console.log('All files have been processed successfully');
-    }
-});
-
-    // results.forEach(item => {
-    //
-    // })
-    // var configFile = fs.readFileSync('./data.json');
-    // var config = configFile.length === 2 ? [] : JSON.parse(configFile);
-    // config.push(...results);
-    // var configJSON = JSON.stringify(config, null, 4);
-    // fs.writeFileSync('./data.json', configJSON);
-}
+q.drain = function() {
+  saveEventItemToDB(results);
+};
 
 // добавляем в очередь ссылку на первую страницу списка
-
-
 const init = () => {
   q.push(URL);
 }

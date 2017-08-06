@@ -1,10 +1,8 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 
-import Event from '../model/event';
+import { saveEventItemToDB } from './helpers';
 
-
-import fs from 'fs';
 import tress  from 'tress';
 
 
@@ -67,59 +65,11 @@ var q = tress(function(url, callback){
 // });
 
 // эта функция выполнится, когда в очереди закончатся ссылки
-q.drain = function(){
-    // fs.appendFile('./data.json', JSON.stringify(results, null, 4));
-    // var configFile = fs.readFileSync('./data.json');
-    // var config = JSON.parse(configFile);
-    // config.push(results);
-    // // var configJSON = JSON.stringify(config);
-    // fs.writeFileSync('./data.json', config);
-    //
-    // console.log(config);
-
-    // console.log(results);
-
-    //   console.log(event);
-    //   event.save(function(err, news){
-    //     if(err) return console.error("Error while saving data to MongoDB: " + err); // <- this gets executed when there's an error
-    //     console.error(news); // <- this never gets logged, even if there's no error.
-    //     event.save(news);
-    // })(item)
-
-
-    results.forEach((item, i) => {
-
-      const event = new Event(item);
-
-        event.save(item)
-          .then(() => {
-            console.log('saved -----------------------------');
-          })
-          .catch(error => {
-            console.log('error');
-            console.log(error);
-          })
-
-
-      // setTimeout(() => {
-      //   console.log('jkjkjk');
-      // }, 1000*i);
-
-
-    })
-
-    // var configFile = fs.readFileSync('./data.json');
-    // var config = configFile.length === 2 ? [] : JSON.parse(configFile);
-    // config.push(...results);
-    // var configJSON = JSON.stringify(config, null, 4);
-    // fs.writeFileSync('./data.json', configJSON);
+q.drain = function() {
+  saveEventItemToDB(results);
 }
 
 // добавляем в очередь ссылку на первую страницу списка
-// q.push(URL);
-
-
-
 const init = () => {
   q.push(URL);
 }

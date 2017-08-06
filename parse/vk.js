@@ -2,7 +2,7 @@ import VK from 'vk-io';
 
 import axios from 'axios';
 
-import Event from '../model/event';
+import { saveEventItemToDB } from './helpers';
 
 import cheerio from 'cheerio';
 
@@ -11,8 +11,6 @@ import moment from 'moment';
 
 import fs from 'fs';
 import tress  from 'tress';
-
-
 
 
 // vk.setOptions({
@@ -163,7 +161,7 @@ const init = () => {
 
               const month = moment().month('август').format("MM");
 
-              const date = Date.parse(`2017-${month}-${before}00:00:00`);
+              const date = Date.parse(`2017-${month}-${before}T00:00`);
 
               console.log(date);
               console.log(moment(date));
@@ -186,26 +184,8 @@ const init = () => {
 
           });
 
-          console.log(results);
 
-          results.forEach(item => {
-            const event = new Event(item);
-
-            event.save()
-              .then(() => {
-                console.log('saved');
-              })
-              .catch(error => {
-                console.log(error);
-              })
-          })
-
-
-          // var configFile = fs.readFileSync('./data.json');
-          // var config = configFile.length === 2 ? [] : JSON.parse(configFile);
-          // config.push(...results);
-          // var configJSON = JSON.stringify(config, null, 4);
-          // fs.writeFileSync('./data.json', configJSON);
+          saveEventItemToDB(results);
       })
       .catch((error) => {
           console.error(error);
@@ -215,8 +195,6 @@ const init = () => {
   .catch((error) => {
       console.error(error);
   });
-
-
 }
 
 const parseEvent = (data, item) => {

@@ -1,14 +1,13 @@
-import axios from 'axios';
+import tress  from 'tress';
 import cheerio from 'cheerio';
 
-import Event from '../model/event';
-
 import moment from 'moment';
+import axios from 'axios';
 
-import fs from 'fs';
-import tress  from 'tress';
+import { saveEventItemToDB } from './helpers';
 
 const URL = 'http://meetup.by/';
+
 
 var results = [];
 
@@ -36,35 +35,19 @@ var q = tress(function(url, callback){
             //     href: url,
             //     size: $('.newsbody').text().length
             // });
-
             // const { date, title, time, link, originalLink, originalLinkTitle } = item;
+            if ($('#block-system-main .views-row')) {
+              handleEventsParse('#block-system-main .views-row', data.data);
+              callback();
+            }
 
-            $('#block-system-main .views-row').each((item, i) => {
-              // console.log(item, i);
+            // if ($('.block-main .field')) {
+            //   handleEventDetailParse('.block-main .field', data.data);
+            //   callback();
+            // }
+            // })
 
-              const dat =  $(i).find('.date-display-single').text();
-              // console.log(moment)
-              const month = moment().month(dat.split('.')[1] - 1).format('MM');
-
-              let time = '00:00';
-
-              const date = Date.parse(`2017-${month}-${dat.split('.')[0]}`);
-              // console.log(Date.parse(`2017-${month}-${date.split('.')[0]}T${time}:00`));
-
-              // console.log(date);
-
-
-              results.push({
-                date,
-                title: $(i).find('a').text(),
-
-                originalLink: $(i).find('a').attr('href'),
-                source: 'meetup.by',
-              });
-
-            })
-        // });
-        callback(); //вызываем callback в конце
+        // callback(); //вызываем callback в конце/
       })
       .catch(error => {
         console.log(error.data);
@@ -78,47 +61,58 @@ var q = tress(function(url, callback){
 
 // эта функция выполнится, когда в очереди закончатся ссылки
 q.drain = function() {
-
-  results.forEach(item => {
-
-    const saveEvent = () => {
-      const event = new Event(item);
-      event.save()
-        .then(() => {
-          console.log('saved new');
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    }
-
-    const updateEvent = (_id, item) => {
-      const { date, title, originalLink, source } = item;
-      Event.findByIdAndUpdate(_id, { date }, { title }, { originalLink }, { source });
-    }
-
-    // ищем по ссылке вида event/2017-08-01/tensorflow-meetup
-    Event.find({ originalLink: item.originalLink })
-      .then((data) => {
-        // если что то нашлось
-        if (data.length > 0) {
-          // и другой title или date
-          // source тут никак не учавствует вроде
-          if (item.title !== data[0].title || item.date !== data[0].date) {
-            updateEvent(data._id, item);
-          }
-        // если не нашлось в бд
-        } else {
-          saveEvent();
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  })
+  saveEventItemToDB(results);
 }
 
+const handleEventsParse = (selector, document) => {
+  // console.log('called');
+  var $ = cheerio.load(document);
+  $(selector).each((item, i) => {
+    // console.log(item, i);
 
+    const dat =  $(i).find('.date-display-single').text();
+    // console.log(moment)
+    const month = moment().month(dat.split('.')[1] - 1).format('MM');
+
+    let time = '00:00';
+
+    const date = Date.parse(`2017-${month}-${dat.split('.')[0]}`);
+    // console.log(Date.parse(`2017-${month}-${date.split('.')[0]}T${time}:00`));
+
+    // console.log(date);
+
+    // console.log('title',$(i).find('a').text());
+
+    const link = $(i).find('a').attr('href');
+
+    q.push(link);
+
+    results.push({
+      date,
+      title: $(i).find('a').text(),
+
+      originalLink: link,
+      source: 'meetup.by',
+    });
+  });
+}
+
+// const handleEventDetailParse = (document) => {
+//   var $ = cheerio.load(document);
+//   let html = ''
+//   $('.block-main .field').each((item, i) => {
+//     html += $(i).html();
+//   })
+//
+//   // console.log(html);
+//
+//   const obj = {
+//     title: item.title,
+//     text: html,
+//     date: item.date,
+//     images: [],
+//   }
+// }
 
 const init = () => {
   q.push(URL);

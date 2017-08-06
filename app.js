@@ -14,6 +14,7 @@ import freeFitnessMinsk from './parse/freeFitnessMinsk';
 import sportMts from './parse/sportMts';
 
 
+import cron from 'node-cron';
 
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -25,38 +26,33 @@ const port = process.env.PORT || 3090;
 const url = 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes';
 // const url = 'mongodb://localhost/events_app';
 
-var chrono = require('chrono-node')
-console.log(chrono.parseDate('17 августа'));
+// var chrono = require('chrono-node')
+// console.log(chrono.parseDate('17 августа'));
+
+
 
 mongoose.connect(url);
 mongoose.connection
    .once('open', () => {
-     meetupBy.init();
-     // eventsDevBy.init();
-     // imaguru.init();
-     // vk.init();
-     // freeFitnessMinsk.init();
-     // sportMts.init();
 
-    //  const { events } = mongoose.connection.collections;
-    // //  console.log(events);
-    //  if (events) {
-    //    events.drop(() => {
-    //       console.log('droppped');
-    //
-    //
-    //
-    //
-    //
-    //    });
-    //  }
+     const run = () => {
+      //  meetupBy.init();
+      //  eventsDevBy.init();
+      //  imaguru.init();
 
-    // Event.remove({ })
-    // .then(() => {
-    //
-    // });
+      //  vk.init();
+      //  freeFitnessMinsk.init();
 
-    //  console.log('all ok')
+       sportMts.init();
+     }
+
+     // now
+     run();
+
+     cron.schedule('* * 1 * *', () => {
+       console.log('running a task every hour');
+       run();
+     });
    })
    .on('error', (error) => {
      console.warn('Warning', error);
@@ -64,9 +60,6 @@ mongoose.connection
 
 app.listen(port, () => {
   console.log('Server ready on:', port);
-
-
-
 });
 
 // fs.writeFileSync('./data.json', '[]');
@@ -136,7 +129,7 @@ if (sources) {
     imaguru: 'imaguru.by',
     eventsDevBy: 'events.dev.by',
     minskforfree: 'vk.com/minskforfree',
-    sportMts: 'sport.mts.by/master-klassy/minsk/'
+    sportMts: 'sport.mts.by'
   }
 
   console.log(sources.split(','));
@@ -203,6 +196,16 @@ app.get('/event', function (req, res) {
                 res.send(data);
               })
               break;
+            case 'sport.mts.by':
+              sportMts.parseEvent(data, item).then(data => {
+                res.send(data);
+              })
+              break;
+            // case 'vk.com/minskforfree':
+            //   vk.parseEvent(data, item).then(data => {
+            //     res.send(data);
+            //   })
+            //   break;
             default:
               res.send({})
 
@@ -211,12 +214,8 @@ app.get('/event', function (req, res) {
         .catch(error => {
         })
     });
+});
 
-
-
-})
-
-// app.get('/event/', function(req, res) {
-//   res.sendFile(__dirname + '/build');
-//   // next();
-// });
+app.use(function(req, res, next) {
+  res.sendFile(__dirname + '/build');
+});
