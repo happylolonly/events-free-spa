@@ -19,15 +19,41 @@ import cron from 'node-cron';
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
-const app = express();
-
 const port = process.env.PORT || 3090;
+
+const app = express();
+// var server = require('http').Server(app);
+const server = app.listen(port, () => {
+  console.log('Server ready on:', port);
+});
+const io = require('socket.io').listen(server);
+
 
 const url = 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes';
 // const url = 'mongodb://localhost/events_app';
 
-// var chrono = require('chrono-node')
-// console.log(chrono.parseDate('17 августа'));
+var chrono = require('chrono-node')
+console.log(chrono.parse('ллдлд 9 – 22 august')[0].end);
+const connections = [];
+
+
+
+
+io.sockets.on('connection', function (socket) {
+
+  console.log('------------');
+
+  socket.once('disconnect', function()  {
+    console.log('disconnect');
+    // console.log('Connected: %s sockets connected.', connections.length);
+  });
+
+  connections.push(socket);
+  console.log('Connected: %s sockets connected.', connections.length);
+
+});
+
+
 
 
 
@@ -36,18 +62,30 @@ mongoose.connection
    .once('open', () => {
 
      const run = () => {
-      //  meetupBy.init();
-      //  eventsDevBy.init();
-      //  imaguru.init();
+       meetupBy.init();
+       eventsDevBy.init();
+       imaguru.init();
 
-      //  vk.init();
-      //  freeFitnessMinsk.init();
+       vk.init();
+       freeFitnessMinsk.init();
 
        sportMts.init();
+
+
+       setTimeout(() => {
+         io.sockets.emit('events-updated');
+       }, 1000*15);
      }
 
      // now
-     run();
+    //  run();
+
+     setTimeout(() => {
+       run();
+     }, 1000*60*5);
+     // 5 min for dev
+
+
 
      cron.schedule('* * 1 * *', () => {
        console.log('running a task every hour');
@@ -58,9 +96,7 @@ mongoose.connection
      console.warn('Warning', error);
    });
 
-app.listen(port, () => {
-  console.log('Server ready on:', port);
-});
+
 
 // fs.writeFileSync('./data.json', '[]');
 
@@ -82,6 +118,7 @@ app.get('/events', function (req, res) {
   // res.json(JSON.parse(fs.readFileSync('./data.json')));
 
   const today = req.param('today');
+  const past = req.param('past');
   const search = req.param('search');
   const sources = req.param('sources');
   const offset = req.param('offset');
@@ -103,6 +140,8 @@ const obj = {};
 
 if (today) {
   obj.date = {$gte: Date.parse(start), $lt: Date.parse(end)};
+} else if (past) {
+  obj.date = {$lt: Date.parse(start) };
 } else {
   obj.date = {$gte: Date.parse(start) };
 }
@@ -141,7 +180,7 @@ console.log(obj);
 
 
   Event.find(obj)
-    .sort({ date: 1 })
+    .sort(past ? { date: -1 } : { date: 1 })
     .limit(+offset)
     .then((events) => {
       console.log(events)
@@ -216,6 +255,23 @@ app.get('/event', function (req, res) {
     });
 });
 
+// app.get('*', function(req, res){
+//     console.log('sended');
+//
+//   res.sendFile(__dirname + '/build');
+// });
+
 app.use(function(req, res, next) {
-  res.sendFile(__dirname + '/build');
+    // res.sendFile(__dirname + '/build');
+    res.sendFile((__dirname + '/build/index.html'));
+    // express.static.send(req, res, next ,{
+    //     root: __dirname + "/public",
+    //     path: req.url,
+    //     getOnly: true
+    // });
 });
+
+// app.use('*', function(req, res) {
+//   console.log('sended');
+//   res.sendFile(__dirname + '/build');
+// });

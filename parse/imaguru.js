@@ -69,7 +69,7 @@ var q = tress(function(url, callback){
                 date,
                 title: $(i).find('a.events-timetable__title').text(),
 
-                originalLink: link.substring(19),
+                originalLink: link.substring(18),
                 source: 'imaguru.by'
               });
 

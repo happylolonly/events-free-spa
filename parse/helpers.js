@@ -33,14 +33,16 @@ export const saveEventItemToDB = (results) => {
     }
 
     // ищем по ссылке вида event/2017-08-01/tensorflow-meetup
+    console.log(item.originalLink);
     Event.find({ originalLink: item.originalLink })
       .then((data) => {
         // если что то нашлось
         if (data.length > 0) {
           // и другой title или date
           // source тут никак не учавствует вроде
-          if (item.title !== data[0].title || item.date !== data[0].date) {
+          if (item.title !== data[0].title || item.date !== data[0].date || item.source !== data[0].source ) {
             updateEvent(data[0]._id, item);
+            return;
           }
           console.log('event actual', item.title, 'from', item.source);
         // если не нашлось в бд

@@ -53,7 +53,7 @@ var q = tress(function(url, callback){
               results.push({
                 date: finalDate,
                 title: $(i).find('.events__item__title span').text(),
-                originalLink: $(i).attr('href').slice(1),
+                originalLink: $(i).attr('href'),
                 source: 'sport.mts.by',
               });
 
