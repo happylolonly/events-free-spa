@@ -1,107 +1,84 @@
-import axios from 'axios';
+import tress  from 'tress';
 import cheerio from 'cheerio';
 
-import { saveEventItemToDB } from './helpers';
-
+import chrono from 'chrono-node';
 import moment from 'moment';
+import axios from 'axios';
+
+import { saveEventItemToDB, convertMonths } from './helpers';
+
+const URL = 'http://sport.mts.by/master-klassy/minsk';
+
+const results = [];
+let pagesCount;
 
 
-import tress  from 'tress';
+const q = tress((url, callback) => {
+
+  axios.get(url)
+    .then(data => {
+        const $ = cheerio.load(data.data);
+
+        // if main page
+        if (url === 'http://sport.mts.by/master-klassy/minsk') {
+          // console.log('main url', url);
+          pagesCount = $('.page-container .tabs-general .events-list a').length;
+          $('.page-container .tabs-general .events-list a').each((item, i) => {
+            const link = $(i).attr('href');
+            q.push(`http://sport.mts.by${link}`);
+          });
+          callback();
+          return;
+        }
 
 
-const URL = 'http://sport.mts.by/master-klassy/minsk/';
-var results = [];
 
-// `tress` последовательно вызывает наш обработчик для каждой ссылки в очереди
-var q = tress(function(url, callback){
+        // if event's page
+        // console.log('parsing', url);
 
-    //тут мы обрабатываем страницу с адресом url
-    axios.get(url).then(function(data){
-        // if (err) throw err;
+        const page = '.wrapper';
 
-        // здесь делаем парсинг страницы из res.body
-            // делаем results.push для данных о новости
-            // делаем q.push для ссылок на обработку
+        const title = $(page).find('.page-container h2').text();
+        const html = $(page).find('.page-content').html();
+        const originalLink = url.split(`.by`)[1];
 
-            var $ = cheerio.load(data.data);
+        const dateBlock = $(page).find('.event-info__date').text();
 
+        const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
+        console.log(originalLink);
+        console.log(parsedDate);
+        const { day, month, hour } = parsedDate;
+        let year = moment().format('YYYY');
+        const date = Date.parse(moment(new Date(year, month - 1, day, hour || '')).locale('ru'));
 
+        results.push({
+          date: date,
+          title: title,
+          text: html,
+          originalLink,
+          source: 'sport.mts.by',
+        });
 
-            // console.log($('.body-events').text());
+        callback();
+    })
+    .catch(error => {
+      console.log(error.data);
+    })
+}, 5);
 
-            // if($('#block-system-main .view-content h1 a').text().trim()){
-            // results.push({
-            //     title: $('h1').text(),
-            //     date: $('.b_infopost>.date').text(),
-            //     href: url,
-            //     size: $('.newsbody').text().length
-            // });
-
-            // const { date, title, time, link, originalLink, originalLinkTitle } = item;
-
-            $('.tabs-general .events__item').each((item, i) => {
-              // console.log(item, i);
-
-              const date = $(i).find('.events__item-top .date').text().split(',');
-              const day = date[0].split(' ')[0];
-              const month = moment().month(date[0].split(' ')[1]).format('MM');
-              const time = $(i).find('.events__item-top .time').text();
-
-              const fullDate = `2017-${month}-${day}T${time}`;
-              const finalDate = Date.parse(moment(fullDate));
-
-              results.push({
-                date: finalDate,
-                title: $(i).find('.events__item__title span').text(),
-                originalLink: $(i).attr('href'),
-                source: 'sport.mts.by',
-              });
-
-            })
-        // });
-        callback(); //вызываем callback в конце
-      })
-      .catch(error => {
-        console.log(error.data);
-      })
-        // }
-
-            // fs.writeFileSync('./data.json', JSON.stringify(results, null, 4));
-
-    });
-// });
-
-// эта функция выполнится, когда в очереди закончатся ссылки
-q.drain = function() {
-  saveEventItemToDB(results);
+q.drain = () => {
+  console.log('pages count', pagesCount);
+  console.log('results length', results.length);
+  if (pagesCount === results.length) {
+    saveEventItemToDB(results);
+    // console.log(results);
+  } else {
+    console.log('some error happened');
+  }
 }
 
-
-// добавляем в очередь ссылку на первую страницу списка
 const init = () => {
   q.push(URL);
 }
 
-const parseEvent = (data, item) => {
-  return new Promise((resolve) => {
-    var $ = cheerio.load(data.data);
-    const html = $('.page-content').html();
-
-    const obj = {
-      title: item.title,
-      text: html,
-      date: item.date,
-      images: [],
-    }
-
-    console.log(obj);
-
-    resolve(obj);
-  })
-
-}
-
-export default {
-  init,
-  parseEvent,
-};
+export default { init };

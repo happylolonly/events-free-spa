@@ -1,146 +1,90 @@
 import tress  from 'tress';
 import cheerio from 'cheerio';
 
+import chrono from 'chrono-node';
 import moment from 'moment';
 import axios from 'axios';
 
-import { saveEventItemToDB } from './helpers';
-
-const URL = 'http://meetup.by/';
+import { saveEventItemToDB, convertMonths } from './helpers';
 
 
-var results = [];
+const URL = 'http://meetup.by';
 
-// `tress` последовательно вызывает наш обработчик для каждой ссылки в очереди
-var q = tress(function(url, callback){
-
-    //тут мы обрабатываем страницу с адресом url
-    axios.get(url).then(function(data){
-        // if (err) throw err;
-
-        // здесь делаем парсинг страницы из res.body
-            // делаем results.push для данных о новости
-            // делаем q.push для ссылок на обработку
-
-            var $ = cheerio.load(data.data);
+const results = [];
+let pagesCount;
 
 
+const q = tress((url, callback) => {
+  // console.log('ready', url);
+  // console.log('q', q.length());
+  axios.get(url)
+    .then(data => {
+      const $ = cheerio.load(data.data);
 
-            // console.log($('#block-system-main .view-content h1 a').text());
+      // if main page
+      if (url === 'http://meetup.by') {
+        // console.log('main url', url);
+        pagesCount = $('.region-content-inner .views-row').length;
+        $('.region-content-inner .views-row').each((item, i) => {
+          const link = $(i).find('a').attr('href');
+          q.push(`${URL}${link}`);
+        });
+        callback();
+        return;
+      }
 
-            // if($('#block-system-main .view-content h1 a').text().trim()){
-            // results.push({
-            //     title: $('h1').text(),
-            //     date: $('.b_infopost>.date').text(),
-            //     href: url,
-            //     size: $('.newsbody').text().length
-            // });
-            // const { date, title, time, link, originalLink, originalLinkTitle } = item;
-            if ($('#block-system-main .views-row')) {
-              handleEventsParse('#block-system-main .views-row', data.data);
-              callback();
-            }
+      // if event's page
+      // console.log('parsing', url);
 
-            // if ($('.block-main .field')) {
-            //   handleEventDetailParse('.block-main .field', data.data);
-            //   callback();
-            // }
-            // })
+      const page = '#region-content';
 
-        // callback(); //вызываем callback в конце/
-      })
-      .catch(error => {
-        console.log(error.data);
-      })
-        // }
+      const title = $(page).find('#page-title').text();
+      const html = $(page).find('article .content').html();
+      const originalLink = url.split(`${URL}`)[1];
 
-            // fs.writeFileSync('./data.json', JSON.stringify(results, null, 4));
+      const dateBlock = $(page).find('.date-display-single').text();
 
-    });
-// });
+      let parsedDate;
 
-// эта функция выполнится, когда в очереди закончатся ссылки
-q.drain = function() {
-  saveEventItemToDB(results);
+      if (dateBlock) {
+        const date =  $(page).find('.date-display-single').text();
+        parsedDate = chrono.parse(convertMonths(date))[0].start.knownValues;
+      } else {
+        const date = $(page).find('.date-display-start').text();
+        parsedDate = chrono.parse(convertMonths(date))[0].start.knownValues;
+      }
+
+      const { day, month, year, hour } = parsedDate;
+      const date = Date.parse(moment(new Date(year, month - 1, day, hour)).locale('ru'));
+
+      results.push({
+        date: date,
+        title: title,
+        text: html,
+        originalLink,
+        source: 'meetup.by',
+      });
+
+      callback();
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}, 5)
+
+q.drain = () => {
+  console.log('pages count', pagesCount);
+  console.log('results length', results.length);
+  if (pagesCount === results.length) {
+    saveEventItemToDB(results);
+    // console.log(results);
+  } else {
+    console.log('some error happened');
+  }
 }
-
-const handleEventsParse = (selector, document) => {
-  // console.log('called');
-  var $ = cheerio.load(document);
-  $(selector).each((item, i) => {
-    // console.log(item, i);
-
-    const dat =  $(i).find('.date-display-single').text();
-    // console.log(moment)
-    const month = moment().month(dat.split('.')[1] - 1).format('MM');
-
-    let time = '00:00';
-
-    const date = Date.parse(`2017-${month}-${dat.split('.')[0]}`);
-    // console.log(Date.parse(`2017-${month}-${date.split('.')[0]}T${time}:00`));
-
-    // console.log(date);
-
-    // console.log('title',$(i).find('a').text());
-
-    const link = $(i).find('a').attr('href');
-
-    q.push(link);
-
-    results.push({
-      date,
-      title: $(i).find('a').text(),
-
-      originalLink: link,
-      source: 'meetup.by',
-    });
-  });
-}
-
-// const handleEventDetailParse = (document) => {
-//   var $ = cheerio.load(document);
-//   let html = ''
-//   $('.block-main .field').each((item, i) => {
-//     html += $(i).html();
-//   })
-//
-//   // console.log(html);
-//
-//   const obj = {
-//     title: item.title,
-//     text: html,
-//     date: item.date,
-//     images: [],
-//   }
-// }
 
 const init = () => {
   q.push(URL);
 }
 
-const parseEvent = (data, item) => {
-  return new Promise((resolve) => {
-    var $ = cheerio.load(data.data);
-    let html = ''
-    $('.block-main .field').each((item, i) => {
-      html += $(i).html();
-    })
-
-    // console.log(html);
-
-    const obj = {
-      title: item.title,
-      text: html,
-      date: item.date,
-      images: [],
-    }
-
-    resolve(obj);
-  })
-
-}
-
-export default {
-  init,
-  parseEvent,
-};
+export default { init };

@@ -2,9 +2,12 @@ import VK from 'vk-io';
 
 import axios from 'axios';
 
-import { saveEventItemToDB } from './helpers';
+import { saveEventItemToDB, convertMonths } from './helpers';
 
 import cheerio from 'cheerio';
+import chrono from 'chrono-node';
+
+
 
 import moment from 'moment';
 
@@ -105,11 +108,11 @@ var q = tress(function(url, callback){
 // эта функция выполнится, когда в очереди закончатся ссылки
 q.drain = function(){
     // fs.appendFile('./data.json', JSON.stringify(results, null, 4));
-    var configFile = fs.readFileSync('./data.json');
-    var config = configFile.length === 2 ? [] : JSON.parse(configFile);
-    config.push(...results);
-    var configJSON = JSON.stringify(config, null, 4);
-    fs.writeFileSync('./data.json', configJSON);
+    // var configFile = fs.readFileSync('./data.json');
+    // var config = configFile.length === 2 ? [] : JSON.parse(configFile);
+    // config.push(...results);
+    // var configJSON = JSON.stringify(config, null, 4);
+    // fs.writeFileSync('./data.json', configJSON);
 }
 
 // добавляем в очередь ссылку на первую страницу списка
@@ -131,7 +134,7 @@ const init = () => {
       vk.api.wall.search({
           domain: 'minskforfree',
           query: `${moment().locale('ru').format('MMMM')}`,
-          count: 50,
+          count: 2,
           'access_token': 'b58844e3b58844e3b58844e34eb5d5cbf8bb588b58844e3ecf6456263d1070e24bb2a38',
       })
       .then((wall) => {
@@ -141,11 +144,21 @@ const init = () => {
 
           wall.items.forEach((item, i) => {
 
-            const { from_id, id, text } = item;
+
+            const { from_id, id } = item;
+            let { text } = item;
             const index = text.indexOf(`${moment().locale('ru').format('MMMM')}`);
-            // console.log(index);
-            // console.log(moment().locale('ru').format('MMMM'));
+            // while (text.indexOf('.') >= 0 ) {
+            //   text = text.replace('.', ':');
+            // }
             // console.log(text);
+            //
+            // console.log(chrono.parse(convertMonths(text))[0]);
+            // return;
+            console.log(index);
+            console.log(moment().locale('ru').format('MMMM'));
+            console.log(text);
+
             if (index >= 0) {
               console.log('index',index);
               let before = text.substr(index - 2, index);

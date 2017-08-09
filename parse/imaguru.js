@@ -1,126 +1,83 @@
-import axios from 'axios';
+import tress  from 'tress';
 import cheerio from 'cheerio';
 
-import Event from '../model/event';
-
-import { saveEventItemToDB } from './helpers';
-
+import chrono from 'chrono-node';
 import moment from 'moment';
+import axios from 'axios';
 
-import async from 'async';
+import { saveEventItemToDB, convertMonths } from './helpers';
 
-
-import fs from 'fs';
-import tress  from 'tress';
 
 const URL = 'https://imaguru.by/events/';
 
-var results = [];
-
-// `tress` последовательно вызывает наш обработчик для каждой ссылки в очереди
-var q = tress(function(url, callback){
-
-    //тут мы обрабатываем страницу с адресом url
-    axios.get(url).then(function(data){
-        // if (err) throw err;
-
-        // здесь делаем парсинг страницы из res.body
-            // делаем results.push для данных о новости
-            // делаем q.push для ссылок на обработку
-
-            var $ = cheerio.load(data.data);
+const results = [];
+let pagesCount;
 
 
+const q = tress((url, callback) => {
+  axios.get(url)
+    .then(data => {
 
-            // console.log($('#block-system-main .view-content h1 a').text());
+      const $ = cheerio.load(data.data);
 
-            // if($('#block-system-main .view-content h1 a').text().trim()){
-            // results.push({
-            //     title: $('h1').text(),
-            //     date: $('.b_infopost>.date').text(),
-            //     href: url,
-            //     size: $('.newsbody').text().length
-            // });
+      // if main page
+      if (url === 'https://imaguru.by/events/') {
+        // console.log('main url', url);
+        pagesCount = $('.events-timetable__list li').length;
+        $('.events-timetable__list li').each((item, i) => {
+          const link = $(i).find('a.events-timetable__title').attr('href');
+          q.push(`${link}`);
+        });
+        callback();
+        return;
+      }
 
-            // const { date, title, time, link, originalLink, originalLinkTitle } = item;
+      // if event's page
+      // console.log('parsing', url);
 
+      const page = 'main.wrapper';
 
-            $('.events-timetable__list li').each((item, i) => {
-              // console.log(item, i);
+      const title = $(page).find('h2.event-descr__title').text();
+      const html = $(page).find('.event-descr__content').html();
+      const originalLink = url.split(`.by`)[1];
 
-              // moment().month("July").format("M");
-              let month = $(i).find('.events-timetable__time p:nth-child(2)').text();
-              let time = $(i).find('.events-timetable__time p:nth-child(1)').text();
+      const dateBlock = $(page).find('.event-data__dayOutputWrapper').text();
 
-              // console.log($(i).find('.events-timetable__time p:nth-child(1)').text());
+      const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
+      const hour = chrono.parse($(page).find('.event-data__wrapper:nth-of-type(2) > div:first-child').text())[0].start.knownValues.hour;
 
-              let l = moment().month(month.split(' ')[1]).format("MM");
-              // let l = moment().month(month.split(' ')[1]).format("HH:MM");
+      const { day, month } = parsedDate;
+      let year = moment().format('YYYY');
+      const date = Date.parse(moment(new Date(year, month - 1, day, hour || '')).locale('ru'));
 
-              let full = moment()
+      results.push({
+        date: date,
+        title: title,
+        text: html,
+        originalLink,
+        source: 'imaguru.by',
+      });
 
-              const date = Date.parse(`2017-${l}-${month.split(' ')[0]}T${time}:00`);
+      callback();
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}, 5);
 
-              let link = $(i).find('a.events-timetable__title').attr('href');
-              // console.log(link.subsrting());
-
-              results.push({
-                // date: $(i).find('.date-display-single').text(),
-                date,
-                title: $(i).find('a.events-timetable__title').text(),
-
-                originalLink: link.substring(18),
-                source: 'imaguru.by'
-              });
-
-            })
-        // });
-        callback(); //вызываем callback в конце
-      })
-      .catch(error => {
-        console.log(error.data);
-      })
-        // }
-
-            // fs.writeFileSync('./data.json', JSON.stringify(results, null, 4));
-
-    });
-// });
-
-// эта функция выполнится, когда в очереди закончатся ссылки
-q.drain = function() {
-  saveEventItemToDB(results);
+q.drain = () => {
+  console.log('pages count', pagesCount);
+  console.log('results length', results.length);
+  if (pagesCount === results.length) {
+    saveEventItemToDB(results);
+    // console.log(results);
+  } else {
+    console.log('some error happened');
+  }
 };
 
-// добавляем в очередь ссылку на первую страницу списка
 const init = () => {
   q.push(URL);
 }
 
-const parseEvent = (data, item) => {
-  return new Promise((resolve) => {
-    var $ = cheerio.load(data.data);
-    // let html = ''
-    // $('.block-main .field').each((item, i) => {
-    //   html += $(i).html();
-    // })
-
-    const html = $('.event-descr__content').html();
-
-
-    const obj = {
-      title: item.title,
-      text: html,
-      date: item.date,
-      images: [],
-    }
-
-    resolve(obj);
-  })
-
-}
-
-export default {
-  init,
-  parseEvent,
-};
+export default { init };

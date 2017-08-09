@@ -33,7 +33,9 @@ const url = 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes';
 // const url = 'mongodb://localhost/events_app';
 
 var chrono = require('chrono-node')
-console.log(chrono.parse('ллдлд 9 – 22 august')[0].end);
+// console.log(chrono.parse('ллдлд 9 – 22 august')[0].end);
+// console.log('here');
+console.log(chrono.parse('12 — 13 august Витебск')[0]);
 const connections = [];
 
 
@@ -53,10 +55,6 @@ io.sockets.on('connection', function (socket) {
 
 });
 
-
-
-
-
 mongoose.connect(url);
 mongoose.connection
    .once('open', () => {
@@ -65,10 +63,10 @@ mongoose.connection
        meetupBy.init();
        eventsDevBy.init();
        imaguru.init();
-
+       //
        vk.init();
        freeFitnessMinsk.init();
-
+       //
        sportMts.init();
 
 
@@ -208,50 +206,54 @@ app.get('/event', function (req, res) {
 
   Event.find({ _id: id})
     .then(item => {
-      const { source, originalLink } = item[0];
 
-      const link = `http://${source}/${originalLink}`;
-      axios.get(link)
-        .then(data => {
+      res.send(item);
 
-          switch (source) {
-            case 'meetup.by':
-              meetupBy.parseEvent(data, item).then(data => {
-                res.send(data);
-              })
-              break;
-            case 'imaguru.by':
-              imaguru.parseEvent(data, item).then(data => {
-                res.send(data);
-              })
-              break;
-            case 'events.dev.by':
-              eventsDevBy.parseEvent(data, item).then(data => {
-                res.send(data);
-              })
-              break;
-            case 'vk.com/minskforfree':
-              vk.parseEvent(data, item).then(data => {
-                res.send(data);
-              })
-              break;
-            case 'sport.mts.by':
-              sportMts.parseEvent(data, item).then(data => {
-                res.send(data);
-              })
-              break;
-            // case 'vk.com/minskforfree':
-            //   vk.parseEvent(data, item).then(data => {
-            //     res.send(data);
-            //   })
-            //   break;
-            default:
-              res.send({})
 
-          }
-        })
-        .catch(error => {
-        })
+      // const { source, originalLink } = item[0];
+      //
+      // const link = `http://${source}/${originalLink}`;
+      // axios.get(link)
+      //   .then(data => {
+      //
+      //     switch (source) {
+      //       case 'meetup.by':
+      //         meetupBy.parseEvent(data, item).then(data => {
+      //           res.send(data);
+      //         })
+      //         break;
+      //       case 'imaguru.by':
+      //         imaguru.parseEvent(data, item).then(data => {
+      //           res.send(data);
+      //         })
+      //         break;
+      //       case 'events.dev.by':
+      //         eventsDevBy.parseEvent(data, item).then(data => {
+      //           res.send(data);
+      //         })
+      //         break;
+      //       case 'vk.com/minskforfree':
+      //         vk.parseEvent(data, item).then(data => {
+      //           res.send(data);
+      //         })
+      //         break;
+      //       case 'sport.mts.by':
+      //         sportMts.parseEvent(data, item).then(data => {
+      //           res.send(data);
+      //         })
+      //         break;
+      //       // case 'vk.com/minskforfree':
+      //       //   vk.parseEvent(data, item).then(data => {
+      //       //     res.send(data);
+      //       //   })
+      //       //   break;
+      //       default:
+      //         res.send({})
+      //
+      //     }
+      //   })
+      //   .catch(error => {
+      //   })
     });
 });
 

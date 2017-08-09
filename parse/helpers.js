@@ -22,8 +22,8 @@ export const saveEventItemToDB = (results) => {
     }
 
     const updateEvent = (_id, item) => {
-      const { date, title, originalLink, source } = item;
-      Event.findByIdAndUpdate(_id, { date, title, originalLink, source })
+      const { date, title, originalLink, source, text } = item;
+      Event.findByIdAndUpdate(_id, { date, title, originalLink, source, text })
         .then(() => {
           console.log('update event');
         })
@@ -33,14 +33,14 @@ export const saveEventItemToDB = (results) => {
     }
 
     // ищем по ссылке вида event/2017-08-01/tensorflow-meetup
-    console.log(item.originalLink);
+    // console.log(item.originalLink);
     Event.find({ originalLink: item.originalLink })
       .then((data) => {
         // если что то нашлось
         if (data.length > 0) {
           // и другой title или date
           // source тут никак не учавствует вроде
-          if (item.title !== data[0].title || item.date !== data[0].date || item.source !== data[0].source ) {
+          if (item.title !== data[0].title || item.date !== data[0].date || item.source !== data[0].source || item.text !== data[0].text) {
             updateEvent(data[0]._id, item);
             return;
           }
@@ -54,4 +54,29 @@ export const saveEventItemToDB = (results) => {
         console.log(error);
       })
   })
+}
+
+
+export const convertMonths = (text) => {
+
+  const monthRU = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июн', 'Июл', 'Август', 'Сентябр', 'Октябр', 'Ноябр', 'Декабр'];
+  const monthEN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+
+  monthRU.forEach((item, i) => {
+    let startIndex = text.toLowerCase().indexOf(item.toLowerCase());
+
+    while (startIndex >= 0) {
+      let endIndex = text.indexOf(' ', startIndex);
+      if (endIndex === -1) {
+        endIndex = text.length;
+      }
+      const russianMonth = text.slice(startIndex, endIndex);
+
+      text = text.replace(russianMonth, monthEN[i]);
+      startIndex = text.toLowerCase().indexOf(item.toLowerCase());
+    }
+  });
+
+  return text;
 }
