@@ -1,18 +1,13 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
-
-import axios from 'axios';
-
 import Event from './model/event';
 
 import meetupBy from './parse/meetupBy';
 import eventsDevBy from './parse/eventsDevBy';
 import imaguru from './parse/imaguru';
 import vk from './parse/vk';
-import freeFitnessMinsk from './parse/freeFitnessMinsk';
 import sportMts from './parse/sportMts';
-
 
 import cron from 'node-cron';
 
@@ -38,16 +33,15 @@ var chrono = require('chrono-node')
 console.log(chrono.parse('12 — 13 august Витебск')[0]);
 const connections = [];
 
-
-
-
 io.sockets.on('connection', function (socket) {
 
   console.log('------------');
 
   socket.once('disconnect', function()  {
     console.log('disconnect');
-    // console.log('Connected: %s sockets connected.', connections.length);
+    connections.splice(connections.indexOf(socket), 1);
+    socket.disconnect();
+    console.log('Connected: %s sockets connected.', connections.length);
   });
 
   connections.push(socket);
@@ -63,12 +57,10 @@ mongoose.connection
        meetupBy.init();
        eventsDevBy.init();
        imaguru.init();
-       //
-       vk.init();
-       freeFitnessMinsk.init();
-       //
        sportMts.init();
 
+       vk.init('minskforfree');
+       vk.init('free_fitness_minsk');
 
        setTimeout(() => {
          io.sockets.emit('events-updated');
@@ -83,8 +75,6 @@ mongoose.connection
      }, 1000*60*5);
      // 5 min for dev
 
-
-
      cron.schedule('* * 1 * *', () => {
        console.log('running a task every hour');
        run();
@@ -95,36 +85,23 @@ mongoose.connection
    });
 
 
-
-// fs.writeFileSync('./data.json', '[]');
-
-
 app.use(morgan('combined'));
 app.use(bodyParser.json({ type: '*/* '}));
 
-// app.use('/users', index);
-
 app.use(express.static(__dirname + '/build'));
-
-
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/build');
 });
 
 app.get('/events', function (req, res) {
-  // res.json(JSON.parse(fs.readFileSync('./data.json')));
 
-  const today = req.param('today');
-  const past = req.param('past');
-  const search = req.param('search');
-  const sources = req.param('sources');
-  const offset = req.param('offset');
+  const { today, past, search, sources, offset } = req.query;
 
   if (!sources) {
     res.send = [];
   }
-  console.log(today);
+  // console.log(today);
 
 
   var start = new Date();
@@ -159,29 +136,30 @@ if (false) {
 }
 
 if (sources) {
-  console.log('here', sources);
+  // console.log('here', sources);
 
   const dict = {
     meetupBy: 'meetup.by',
     imaguru: 'imaguru.by',
     eventsDevBy: 'events.dev.by',
     minskforfree: 'vk.com/minskforfree',
+    freeFitnessMinsk: 'vk.com/free_fitness_minsk',
     sportMts: 'sport.mts.by'
   }
 
-  console.log(sources.split(','));
+  // console.log(sources.split(','));
 
   obj.source = { $in: sources.split(',').map(item => dict[item]) };
 }
 
-console.log(obj);
+// console.log(obj);
 
 
   Event.find(obj)
     .sort(past ? { date: -1 } : { date: 1 })
     .limit(+offset)
     .then((events) => {
-      console.log(events)
+      // console.log(events)
 
       //  if (this.state.events.length === 0) return this.state.events;
       // пока костыль
@@ -195,66 +173,11 @@ console.log(obj);
     });
 })
 
-// console.log(meetupBy);
-// meetupBy();
+app.get('/event', (req, res) => {
+  const { id } = req.query;
 
-
-
-app.get('/event', function (req, res) {
-  const id = req.param('id');
-  // const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
-
-  Event.find({ _id: id})
-    .then(item => {
-
-      res.send(item);
-
-
-      // const { source, originalLink } = item[0];
-      //
-      // const link = `http://${source}/${originalLink}`;
-      // axios.get(link)
-      //   .then(data => {
-      //
-      //     switch (source) {
-      //       case 'meetup.by':
-      //         meetupBy.parseEvent(data, item).then(data => {
-      //           res.send(data);
-      //         })
-      //         break;
-      //       case 'imaguru.by':
-      //         imaguru.parseEvent(data, item).then(data => {
-      //           res.send(data);
-      //         })
-      //         break;
-      //       case 'events.dev.by':
-      //         eventsDevBy.parseEvent(data, item).then(data => {
-      //           res.send(data);
-      //         })
-      //         break;
-      //       case 'vk.com/minskforfree':
-      //         vk.parseEvent(data, item).then(data => {
-      //           res.send(data);
-      //         })
-      //         break;
-      //       case 'sport.mts.by':
-      //         sportMts.parseEvent(data, item).then(data => {
-      //           res.send(data);
-      //         })
-      //         break;
-      //       // case 'vk.com/minskforfree':
-      //       //   vk.parseEvent(data, item).then(data => {
-      //       //     res.send(data);
-      //       //   })
-      //       //   break;
-      //       default:
-      //         res.send({})
-      //
-      //     }
-      //   })
-      //   .catch(error => {
-      //   })
-    });
+  Event.find({ _id: id })
+    .then(item => res.send(item));
 });
 
 // app.get('*', function(req, res){

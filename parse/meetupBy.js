@@ -54,8 +54,9 @@ const q = tress((url, callback) => {
         parsedDate = chrono.parse(convertMonths(date))[0].start.knownValues;
       }
 
-      const { day, month, year, hour } = parsedDate;
-      const date = Date.parse(moment(new Date(year, month - 1, day, hour)).locale('ru'));
+      const { day, month, year, hour, minute } = parsedDate;
+      // console.log(parsedDate);
+      const date = Date.parse(moment(new Date(year, month - 1, day, hour, minute)).locale('ru'));
 
       results.push({
         date: date,

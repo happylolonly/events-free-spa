@@ -22,8 +22,8 @@ export const saveEventItemToDB = (results) => {
     }
 
     const updateEvent = (_id, item) => {
-      const { date, title, originalLink, source, text } = item;
-      Event.findByIdAndUpdate(_id, { date, title, originalLink, source, text })
+      const { date, title, originalLink, source, text, images} = item;
+      Event.findByIdAndUpdate(_id, { date, title, originalLink, source, text, images })
         .then(() => {
           console.log('update event');
         })
@@ -40,7 +40,7 @@ export const saveEventItemToDB = (results) => {
         if (data.length > 0) {
           // и другой title или date
           // source тут никак не учавствует вроде
-          if (item.title !== data[0].title || item.date !== data[0].date || item.source !== data[0].source || item.text !== data[0].text) {
+          if (item.title !== data[0].title || item.date !== data[0].date || item.source !== data[0].source || item.text !== data[0].text || item.images !== data[0].images) {
             updateEvent(data[0]._id, item);
             return;
           }

@@ -33,7 +33,7 @@ const q = tress((url, callback) => {
       }
 
       // if event's page
-      // console.log('parsing', url);
+      console.log('parsing', url);
 
       const page = '.show-events';
 
@@ -44,9 +44,12 @@ const q = tress((url, callback) => {
       const dateBlock = $(page).find('.time').text();
 
       const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
-      const { day, month, hour } = parsedDate;
+      console.log(parsedDate);
+      console.log(new Date());
+      const { day, month, hour, minute } = parsedDate;
       let year = moment().format('YYYY');
-      const date = Date.parse(moment(new Date(year, month - 1, day, hour || '')).locale('ru'));
+      const date = Date.parse(moment(new Date(year, month - 1, day, hour ? hour : '', minute || '')).locale('ru'));
+      console.log(new Date(date));
 
       results.push({
         date: date,

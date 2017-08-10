@@ -43,11 +43,14 @@ const q = tress((url, callback) => {
         const originalLink = url.split(`.by`)[1];
 
         const dateBlock = $(page).find('.event-info__date').text();
+        console.log(dateBlock)
 
         const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
         console.log(originalLink);
         console.log(parsedDate);
-        const { day, month, hour } = parsedDate;
+        const { day, month } = parsedDate;
+        const hour = chrono.parse(dateBlock.split('/')[1])[0].start.knownValues.hour;
+        console.log(hour);
         let year = moment().format('YYYY');
         const date = Date.parse(moment(new Date(year, month - 1, day, hour || '')).locale('ru'));
 
