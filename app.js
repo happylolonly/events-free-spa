@@ -68,11 +68,11 @@ mongoose.connection
      }
 
      // now
-    //  run();
+     run();
 
-     setTimeout(() => {
-       run();
-     }, 1000*60*5);
+    //  setTimeout(() => {
+    //    run();
+    //  }, 1000*60*5);
      // 5 min for dev
 
      cron.schedule('* * 1 * *', () => {
