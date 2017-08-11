@@ -57,7 +57,7 @@ const init = (group) => {
             let minute;
 
             let year = moment().format('YYYY');
-            const date = Date.parse(moment(new Date(year, month - 1, day, hour || '', minute || '')));
+            const date = Date.parse(moment(new Date(year, month - 1, day, hour || '', minute || '')).locale('ru'));
 
             // const month = moment().month('август').format("MM");
             // const date = Date.parse(`2017-${month}-${before}T00:00`);
