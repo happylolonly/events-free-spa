@@ -54,13 +54,13 @@ mongoose.connection
    .once('open', () => {
 
      const run = () => {
-       meetupBy.init();
-       eventsDevBy.init();
-       imaguru.init();
-       sportMts.init();
+      //  meetupBy.init();
+      //  eventsDevBy.init();
+      //  imaguru.init();
+      //  sportMts.init();
 
        vk.init('minskforfree');
-       vk.init('free_fitness_minsk');
+      //  vk.init('free_fitness_minsk');
 
        setTimeout(() => {
          io.sockets.emit('events-updated');
@@ -75,7 +75,8 @@ mongoose.connection
     //  }, 1000*60*5);
      // 5 min for dev
 
-     cron.schedule('* * 1 * *', () => {
+
+     cron.schedule('* * 1 * * *', () => {
        console.log('running a task every hour');
        run();
      });

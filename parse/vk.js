@@ -1,5 +1,6 @@
 import VK from 'vk-io';
 import moment from 'moment';
+import 'moment-timezone';
 import chrono from 'chrono-node';
 
 import { saveEventItemToDB, convertMonths } from './helpers';
@@ -43,13 +44,13 @@ const init = (group) => {
             // while (text.indexOf('.') >= 0 ) {
             //   text = text.replace('.', ':');
             // }
-            console.log(text);
+            // console.log(text);
             // console.log(chrono.parse(convertMonths(text))[0]);
 
             if (!chrono.parse(convertMonths(text))[0]) return;
 
             const parsedDate = chrono.parse(convertMonths(text))[0].start.knownValues;
-            console.log(parsedDate);
+            // console.log(parsedDate);
 
             const { day, month } = parsedDate;
             if (!day) return;
@@ -57,7 +58,15 @@ const init = (group) => {
             let minute;
 
             let year = moment().format('YYYY');
-            const date = Date.parse(moment(new Date(year, month - 1, day, hour || '', minute || '')).locale('ru'));
+            const date = Date.parse(moment.tz(new Date(year, month - 1, day, hour || '', minute || ''), 'Europe/Minsk'));
+            // Europe/Minsk
+            // console.log(moment(1369266934311).tz('America/Phoenix').format('YYYY-MM-DD HH:mm'));
+            // console.log(moment.tz("2013-11-18 11:55", "America/Toronto"));
+            // console.log(moment(new Date(year, month - 1, day, hour || '', minute || '')).locale('ru'));
+            // console.log(new Date(year, month - 1, day, hour || '', minute || ''));
+            console.log(date);
+            // console.log('without', moment(new Date(year, month - 1, day, hour || '', minute || '')));
+            // console.log(date);
 
             // const month = moment().month('август').format("MM");
             // const date = Date.parse(`2017-${month}-${before}T00:00`);
