@@ -1,6 +1,6 @@
 ## SPA для собирания всех бесплатных мероприятий в одном месте
 
-https://eventsfree.herokuapp.com
+http://eventsfree.by
 
 #### Задачи:
 
