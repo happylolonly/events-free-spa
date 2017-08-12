@@ -1,6 +1,6 @@
 import Event from '../model/event';
 
-import moment from 'moment';
+// import moment from 'moment';
 
 // model Event
 // date: 1502218800000
@@ -85,11 +85,11 @@ export const convertMonths = (text) => {
 
 
 export const formatDate = (year, month, day, hour, minute) => {
-  const date = Date.parse(moment(new Date(year, month - 1, day, hour || 0, minute || 0 )));
-  console.log('--------');
-  console.log('hour', hour);
-  console.log(moment(new Date(year, month - 1, day, hour || 0, minute || 0 )));
-  console.log(new Date(year, month - 1, day, hour || 0, minute || 0 ).toUTCString());
+  // const date = Date.parse(moment(new Date(year, month - 1, day, hour || 0, minute || 0 )));
+  // console.log('--------');
+  // console.log('hour', hour);
+  // console.log(moment(new Date(year, month - 1, day, hour || 0, minute || 0 )));
+  // console.log(new Date(year, month - 1, day, hour || 0, minute || 0 ).toUTCString());
 
 
 

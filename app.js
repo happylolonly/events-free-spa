@@ -3,11 +3,11 @@ import mongoose from 'mongoose';
 
 import Event from './model/event';
 
-import meetupBy from './parse/meetupBy';
-import eventsDevBy from './parse/eventsDevBy';
-import imaguru from './parse/imaguru';
-import vk from './parse/vk';
-import sportMts from './parse/sportMts';
+// import meetupBy from './parse/meetupBy';
+// import eventsDevBy from './parse/eventsDevBy';
+// import imaguru from './parse/imaguru';
+// import vk from './parse/vk';
+// import sportMts from './parse/sportMts';
 
 import cron from 'node-cron';
 
@@ -54,12 +54,12 @@ mongoose.connection
    .once('open', () => {
 
      const run = () => {
-       meetupBy.init();
-       eventsDevBy.init();
-       imaguru.init();
-       sportMts.init();
+      //  meetupBy.init();
+      //  eventsDevBy.init();
+      //  imaguru.init();
+      //  sportMts.init();
 
-       vk.init('minskforfree');
+      //  vk.init('minskforfree');
       //  vk.init('free_fitness_minsk');
 
        setTimeout(() => {
@@ -68,7 +68,7 @@ mongoose.connection
      }
 
      // now
-     run();
+    //  run();
 
     //  setTimeout(() => {
     //    run();
@@ -89,10 +89,11 @@ mongoose.connection
 app.use(morgan('combined'));
 app.use(bodyParser.json({ type: '*/* '}));
 
-// app.use(express.static(__dirname + '/build'));
+app.use(express.static(__dirname + '/build'));
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/build');
+  // res.send('kdfldkfl');
+  res.sendFile(__dirname + '/build/index.html');
 });
 
 app.get('/events', function (req, res) {

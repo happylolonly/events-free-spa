@@ -1,6 +1,6 @@
 import VK from 'vk-io';
 import moment from 'moment';
-import 'moment-timezone';
+// import 'moment-timezone';
 import chrono from 'chrono-node';
 
 import { saveEventItemToDB, convertMonths, formatDate } from './helpers';
