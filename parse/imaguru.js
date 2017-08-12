@@ -5,7 +5,7 @@ import chrono from 'chrono-node';
 import moment from 'moment';
 import axios from 'axios';
 
-import { saveEventItemToDB, convertMonths } from './helpers';
+import { saveEventItemToDB, convertMonths, formatDate } from './helpers';
 
 
 const URL = 'https://imaguru.by/events/';
@@ -48,7 +48,7 @@ const q = tress((url, callback) => {
 
       const { day, month } = parsedDate;
       let year = moment().format('YYYY');
-      const date = Date.parse(moment(new Date(year, month - 1, day, hour || '')).locale('ru'));
+      const date = formatDate(year, month, day, hour);
 
       results.push({
         date: date,

@@ -3,7 +3,7 @@ import moment from 'moment';
 import 'moment-timezone';
 import chrono from 'chrono-node';
 
-import { saveEventItemToDB, convertMonths } from './helpers';
+import { saveEventItemToDB, convertMonths, formatDate } from './helpers';
 
 const vk = new VK({
   app: 6131483,
@@ -56,20 +56,10 @@ const init = (group) => {
             if (!day) return;
             let hour;
             let minute;
-
             let year = moment().format('YYYY');
-            const date = Date.parse(moment.tz(new Date(year, month - 1, day, hour || '', minute || ''), 'Europe/Minsk'));
-            // Europe/Minsk
-            // console.log(moment(1369266934311).tz('America/Phoenix').format('YYYY-MM-DD HH:mm'));
-            // console.log(moment.tz("2013-11-18 11:55", "America/Toronto"));
-            // console.log(moment(new Date(year, month - 1, day, hour || '', minute || '')).locale('ru'));
-            // console.log(new Date(year, month - 1, day, hour || '', minute || ''));
-            console.log(date);
-            // console.log('without', moment(new Date(year, month - 1, day, hour || '', minute || '')));
-            // console.log(date);
 
-            // const month = moment().month('август').format("MM");
-            // const date = Date.parse(`2017-${month}-${before}T00:00`);
+            const date = formatDate(year, month, day, hour, minute);
+
 
             results.push({
               title: item.text.substring(0, 70) + '...',

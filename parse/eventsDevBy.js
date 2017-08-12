@@ -5,7 +5,7 @@ import chrono from 'chrono-node';
 import moment from 'moment';
 import axios from 'axios';
 
-import { saveEventItemToDB, convertMonths } from './helpers';
+import { saveEventItemToDB, convertMonths, formatDate } from './helpers';
 
 
 const URL = 'https://events.dev.by';
@@ -48,8 +48,8 @@ const q = tress((url, callback) => {
       console.log(new Date());
       const { day, month, hour, minute } = parsedDate;
       let year = moment().format('YYYY');
-      const date = Date.parse(moment(new Date(year, month - 1, day, hour ? hour : '', minute || '')).locale('ru'));
-      console.log(new Date(date));
+      const date = formatDate(year, month, day, hour, minute);
+      // console.log(new Date(date));
 
       results.push({
         date: date,

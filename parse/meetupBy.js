@@ -5,7 +5,7 @@ import chrono from 'chrono-node';
 import moment from 'moment';
 import axios from 'axios';
 
-import { saveEventItemToDB, convertMonths } from './helpers';
+import { saveEventItemToDB, convertMonths, formatDate } from './helpers';
 
 
 const URL = 'http://meetup.by';
@@ -56,7 +56,7 @@ const q = tress((url, callback) => {
 
       const { day, month, year, hour, minute } = parsedDate;
       // console.log(parsedDate);
-      const date = Date.parse(moment(new Date(year, month - 1, day, hour, minute)).locale('ru'));
+      const date = formatDate(year, month, day, hour, minute);
 
       results.push({
         date: date,

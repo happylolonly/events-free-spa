@@ -1,5 +1,7 @@
 import Event from '../model/event';
 
+import moment from 'moment';
+
 // model Event
 // date: 1502218800000
 // title: "SOFT SKILLS GYM"
@@ -79,4 +81,56 @@ export const convertMonths = (text) => {
   });
 
   return text;
+}
+
+
+export const formatDate = (year, month, day, hour, minute) => {
+  const date = Date.parse(moment(new Date(year, month - 1, day, hour || 0, minute || 0 )));
+
+  // console.log(moment(new Date(year, month - 1, day, hour || 0, minute || 0 )));
+
+  // console.log(moment(new Date(year, month - 1, day, hour || '')));
+  // console.log('hwew', date);
+  // const date = Date.parse(moment.tz(new Date(year, month - 1, day, hour || '', minute || ''), 'Europe/Minsk'));
+  // const date = Date.UTC(year, month - 1, day, hour || 0, minute || 0);
+
+  // console.log((moment.utc(date).format()));
+  return Date.parse(moment.utc(date).format());
+  // console.log( new Date().getTimezoneOffset());
+
+  // const date = Date.parse(moment(new Date(year, month - 1, day, hour || '')).locale('ru'));
+//
+//   var timestamp = new Date();
+// var inverseOffset = moment(date).utcOffset() * -1;
+// timestamp = moment().utcOffset( inverseOffset  );
+//
+// return timestamp.toISOString(); // This should give you the accurate UTC equivalent.
+// console.log(timestamp.toISOString());
+
+
+// лол
+
+// const date = new Date(year, month - 1, day, hour || '', minute || '');
+
+// console.log(date);
+// console.log(new Date());
+// console.log(moment(date));
+// console.log('kkl',new Date(year, month - 1, day, hour || 0, minute || 0));
+// console.log(year, month - 1, day, hour || 0, minute || 0);
+// console.log(new Date(year, month - 1, day, hour || '', minute || ''));
+// console.log(moment(date));
+// Europe/Minsk
+// console.log(moment(1369266934311).tz('America/Phoenix').format('YYYY-MM-DD HH:mm'));
+// console.log(moment.tz("2013-11-18 11:55", "America/Toronto"));
+// console.log(moment(new Date(year, month - 1, day, hour || '', minute || '')).locale('ru'));
+// console.log(new Date(year, month - 1, day, hour || '', minute || ''));
+// console.log(date);
+// console.log(moment.tz(new Date(year, month - 1, day, hour || '', minute || ''), 'Europe/Minsk'));
+// console.log(moment(new Date(year, month - 1, day, hour || '', minute || '')));
+// console.log('withot timezone', Date.parse(moment(new Date(year, month - 1, day, hour || '', minute || ''))) === date);
+// console.log('without', moment(new Date(year, month - 1, day, hour || '', minute || '')));
+// console.log(date);
+
+// const month = moment().month('август').format("MM");
+// const date = Date.parse(`2017-${month}-${before}T00:00`);
 }
