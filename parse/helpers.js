@@ -86,6 +86,10 @@ export const convertMonths = (text) => {
 
 export const formatDate = (year, month, day, hour, minute) => {
   const date = Date.parse(moment(new Date(year, month - 1, day, hour || 0, minute || 0 )));
+  console.log('--------');
+  console.log('hour', hour);
+  console.log(moment(new Date(year, month - 1, day, hour || 0, minute || 0 )));
+  console.log(new Date(year, month - 1, day, hour || 0, minute || 0 )).toUTCString();
 
 
 
