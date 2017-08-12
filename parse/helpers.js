@@ -89,7 +89,7 @@ export const formatDate = (year, month, day, hour, minute) => {
   console.log('--------');
   console.log('hour', hour);
   console.log(moment(new Date(year, month - 1, day, hour || 0, minute || 0 )));
-  console.log(new Date(year, month - 1, day, hour || 0, minute || 0 )).toUTCString();
+  console.log(new Date(year, month - 1, day, hour || 0, minute || 0 ).toUTCString());
 
 
 
