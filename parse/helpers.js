@@ -102,7 +102,7 @@ export const formatDate = (year, month, day, hour, minute) => {
 
   // console.log((moment.utc(date).format()));
   // return Date.parse(moment.utc(date).format());
-  return Date.parse((new Date(year, month - 1, day, hour || 0, minute || 0 )).toUTCString());
+  return Date.parse((new Date(year, month - 1, day, (hour || 0) - 3, minute || 0 )).toUTCString());
   // console.log( new Date().getTimezoneOffset());
 
   // const date = Date.parse(moment(new Date(year, month - 1, day, hour || '')).locale('ru'));
