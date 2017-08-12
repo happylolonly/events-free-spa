@@ -3,11 +3,11 @@ import mongoose from 'mongoose';
 
 import Event from './model/event';
 
-// import meetupBy from './parse/meetupBy';
-// import eventsDevBy from './parse/eventsDevBy';
-// import imaguru from './parse/imaguru';
-// import vk from './parse/vk';
-// import sportMts from './parse/sportMts';
+import meetupBy from './parse/meetupBy';
+import eventsDevBy from './parse/eventsDevBy';
+import imaguru from './parse/imaguru';
+import vk from './parse/vk';
+import sportMts from './parse/sportMts';
 
 import cron from 'node-cron';
 
@@ -54,13 +54,13 @@ mongoose.connection
    .once('open', () => {
 
      const run = () => {
-      //  meetupBy.init();
-      //  eventsDevBy.init();
-      //  imaguru.init();
-      //  sportMts.init();
+       meetupBy.init();
+       eventsDevBy.init();
+       imaguru.init();
+       sportMts.init();
 
-      //  vk.init('minskforfree');
-      //  vk.init('free_fitness_minsk');
+       vk.init('minskforfree');
+       vk.init('free_fitness_minsk');
 
        setTimeout(() => {
          io.sockets.emit('events-updated');
@@ -68,7 +68,7 @@ mongoose.connection
      }
 
      // now
-    //  run();
+     run();
 
     //  setTimeout(() => {
     //    run();
