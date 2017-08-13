@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import Event from './model/event';
-import Feedback from './model/Feedback';
+import Feedback from './model/feedback';
 
 import meetupBy from './parse/meetupBy';
 import eventsDevBy from './parse/eventsDevBy';
