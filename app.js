@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import Event from './model/event';
+import Feedback from './model/Feedback';
 
 import meetupBy from './parse/meetupBy';
 import eventsDevBy from './parse/eventsDevBy';
@@ -33,6 +34,20 @@ var chrono = require('chrono-node')
 console.log(chrono.parse('12 — 13 august Витебск')[0]);
 const connections = [];
 
+const run = () => {
+  meetupBy.init();
+  eventsDevBy.init();
+  imaguru.init();
+  sportMts.init();
+
+  vk.init('minskforfree');
+  vk.init('free_fitness_minsk');
+
+  setTimeout(() => {
+    io.sockets.emit('events-updated');
+  }, 1000*15);
+}
+
 io.sockets.on('connection', function (socket) {
 
   console.log('------------');
@@ -44,6 +59,12 @@ io.sockets.on('connection', function (socket) {
     console.log('Connected: %s sockets connected.', connections.length);
   });
 
+
+  socket.on('reparse events', function()  {
+    console.log('reparsing starts');
+    run();
+  });
+
   connections.push(socket);
   console.log('Connected: %s sockets connected.', connections.length);
 
@@ -52,20 +73,6 @@ io.sockets.on('connection', function (socket) {
 mongoose.connect(url);
 mongoose.connection
    .once('open', () => {
-
-     const run = () => {
-       meetupBy.init();
-       eventsDevBy.init();
-       imaguru.init();
-       sportMts.init();
-
-       vk.init('minskforfree');
-       vk.init('free_fitness_minsk');
-
-       setTimeout(() => {
-         io.sockets.emit('events-updated');
-       }, 1000*15);
-     }
 
      // now
      run();
@@ -87,13 +94,45 @@ mongoose.connection
 
 
 app.use(morgan('combined'));
-app.use(bodyParser.json({ type: '*/* '}));
+
+// app.use(bodyParser.urlencoded({
+//   extended: true
+// }));
+//
+// app.use(bodyParser.json({ type: '*/* '}));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+
+app.post('/feedback', function(req, res) {
+  console.log(req.body);
+  const { date, message } = req.body;
+  // res.send(req);
+
+  const feedback = new Feedback({ date, message });
+
+  feedback.save()
+    .then((data) => {
+      console.log('feedback saved');
+      res.send('saved');
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(422).send(error);
+    })
+});
+
+// var jsonParser = bodyParser.json()
+//
+// // create application/x-www-form-urlencoded parser
+// var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.use(express.static(__dirname + '/build'));
 
 app.get('/', function(req, res){
   // res.send('kdfldkfl');
-  res.sendFile(__dirname + '/build/index.html');
+  res.sendFile(__dirname + '/build');
 });
 
 app.get('/events', function (req, res) {
@@ -181,6 +220,8 @@ app.get('/event', (req, res) => {
   Event.find({ _id: id })
     .then(item => res.send(item));
 });
+
+
 
 // app.get('*', function(req, res){
 //     console.log('sended');
