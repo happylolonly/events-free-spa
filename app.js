@@ -137,6 +137,34 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/build');
 });
 
+app.get('/feedback', (req, res) => {
+  Feedback.find({})
+    .then((data) => {
+      res.send(data);
+    })
+    .catch(error => {
+      res.status(422).send(error);
+    })
+})
+
+app.delete('/feedback', (req, res) => {
+  console.log(req.body);
+  const { id } = req.query;
+  console.log(id);
+
+  // res.send(id);
+
+  Feedback.findByIdAndRemove(id)
+    .then(data => {
+      console.log(data);
+      res.send('success');
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(422).send(error);
+    })
+})
+
 app.get('/events', function (req, res) {
 
   const { today, past, search, sources, offset } = req.query;
@@ -164,12 +192,14 @@ const obj = {};
 // console.log((start));
 // console.log((start.toUTCString()));
 
+// date master
+
 if (today) {
-  obj.date = {$gte: Date.parse(start), $lt: Date.parse(end)};
+  obj.date = {$gte: Date.parse(start) - 1000*60*60*3 , $lt: Date.parse(end) - 1000*60*60*3};
 } else if (past) {
-  obj.date = {$lt: Date.parse(start ) };
+  obj.date = {$lt: Date.parse(start) - 1000*60*60*3  };
 } else {
-  obj.date = {$gte: Date.parse(start ) };
+  obj.date = {$gte: Date.parse(start) - 1000*60*60*3  };
 }
 
 if (false) {
