@@ -10,6 +10,8 @@ import imaguru from './parse/imaguru';
 import vk from './parse/vk';
 import sportMts from './parse/sportMts';
 
+import moment from 'moment';
+
 import cron from 'node-cron';
 
 const bodyParser = require('body-parser');
@@ -145,21 +147,29 @@ app.get('/events', function (req, res) {
   // console.log(today);
 
 
-  var start = new Date();
-start.setHours(0,0,0,0);
+  var start = moment.utc().format();
 
-var end = new Date();
-end.setHours(23,59,59,999);
+
+  // console.log(start.getTimezoneOffset());
+// start.setHours(0,0,0,0);
+start = moment(start).set({hour:0,minute:0,second:0,millisecond:0});
+
+var end = moment.utc().format();
+end = moment(end).set({hour:23,minute:59,second:59,millisecond:999});
+// end.setHours(23,59,59,999);
 // end.setDate(end.getDate() + 5);
 
 const obj = {};
 
+// console.log((start));
+// console.log((start.toUTCString()));
+
 if (today) {
   obj.date = {$gte: Date.parse(start), $lt: Date.parse(end)};
 } else if (past) {
-  obj.date = {$lt: Date.parse(start) };
+  obj.date = {$lt: Date.parse(start ) };
 } else {
-  obj.date = {$gte: Date.parse(start) };
+  obj.date = {$gte: Date.parse(start ) };
 }
 
 if (false) {
