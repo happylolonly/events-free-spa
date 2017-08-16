@@ -1,6 +1,10 @@
 ## SPA для собирания всех бесплатных мероприятий в одном месте
 
-http://eventsfree.by
+http://eventsfree.by  
+Презентация (тестовая) https://www.canva.com/design/DACeHSZcPkg/view
+
+#
+
 
 #### Задачи:
 
