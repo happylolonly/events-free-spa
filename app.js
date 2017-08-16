@@ -26,6 +26,14 @@ const server = app.listen(port, () => {
 });
 const io = require('socket.io').listen(server);
 
+var compression = require('compression')
+// var express = require('express')
+
+// var app = express()
+
+// compress all responses
+
+
 
 const url = 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes';
 // const url = 'mongodb://localhost/events_app';
@@ -96,6 +104,7 @@ mongoose.connection
 
 
 app.use(morgan('combined'));
+app.use(compression())
 
 // app.use(bodyParser.urlencoded({
 //   extended: true
