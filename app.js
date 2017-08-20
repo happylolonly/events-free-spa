@@ -45,13 +45,13 @@ console.log(chrono.parse('12 — 13 august Витебск')[0]);
 const connections = [];
 
 const run = () => {
-  meetupBy.init();
-  eventsDevBy.init();
-  imaguru.init();
-  sportMts.init();
+  // meetupBy.init();
+  // eventsDevBy.init();
+  // imaguru.init();
+  // sportMts.init();
 
   vk.init('minskforfree');
-  vk.init('free_fitness_minsk');
+  // vk.init('free_fitness_minsk');
 
   setTimeout(() => {
     io.sockets.emit('events-updated');

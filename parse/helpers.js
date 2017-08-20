@@ -95,8 +95,48 @@ export const formatDate = (year, month, day, hour, minute) => {
   // const date = Date.parse(moment.tz(new Date(year, month - 1, day, hour || '', minute || ''), 'Europe/Minsk'));
   // const date = Date.UTC(year, month - 1, day, hour || 0, minute || 0);
 
-  console.log(Date.parse((new Date(year, month - 1, day, (hour || 0) - (new Date().getTimezoneOffset() === 0 ? 3: 0) , minute || 0 )).toUTCString()));
+  // console.log(Date.parse((new Date(year, month - 1, day, (hour || 0) - (new Date().getTimezoneOffset() === 0 ? 3: 0) , minute || 0 )).toUTCString()));
 
 
   return Date.parse((new Date(year, month - 1, day, (hour || 0) - (new Date().getTimezoneOffset() === 0 ? 3: 0) , minute || 0 )).toUTCString());
+}
+
+export const sliceText = (text, wordsNumber) => {
+  const splittedText = text.trim().split(' ');
+  if (text.indexOf(' ') === -1 && text.length > 10) {
+    // console.log(text);
+    return text.substr(0, 10) + '...'
+  }
+
+  let newText = '';
+
+  for (var i = 0; i < wordsNumber; i++) {
+    if (!splittedText[i]) break;
+    newText += ' ' + splittedText[i];
+  }
+
+  if (newText.split(' ').length -1 === wordsNumber) {
+    newText += '...';
+  }
+
+  return newText;
+}
+
+
+export const checkText = (text) => {
+  const words = [
+    'свободный',
+    'бесплатн',
+    'free'
+  ];
+
+  let isFree = false;
+
+  words.forEach(item => {
+    if (text.indexOf(item) !== -1) {
+      isFree = true;
+    }
+  });
+
+  return isFree;
 }

@@ -1,83 +1,84 @@
 import VK from 'vk-io';
 import moment from 'moment';
-// import 'moment-timezone';
 import chrono from 'chrono-node';
 
-import { saveEventItemToDB, convertMonths, formatDate } from './helpers';
+import credentials from '../credentials';
 
+import { saveEventItemToDB, convertMonths, formatDate, sliceText, checkText } from './helpers';
+
+
+const { app, key, token } = credentials.vk;
 const vk = new VK({
-  app: 6131483,
-  key: 'f4vLOjoPyKSOw4qXgb6y',
-  scope: 'all',
-  token: 'b58844e3b58844e3b58844e34eb5d5cbf8bb588b58844e3ecf6456263d1070e24bb2a38',
+  app: app,
+  key: key,
+  token: token,
 });
 
-
 const init = (group) => {
+  vk.api.wall.search({
+    domain: group,
+    query: `${moment().locale('ru').format('MMMM')}`,
+    count: 100,
+  })
+  .then(wall => {
+    // console.log('Wall:', wall);
 
-  vk.auth.server()
-    .then(token => {
-      console.log('Server token:',token);
-      vk.setToken('b58844e3b58844e3b58844e34eb5d5cbf8bb588b58844e3ecf6456263d1070e24bb2a38');
+    const results = [];
+
+    wall.items.forEach(item => {
+      const { from_id, id } = item;
+      let { text, attachments } = item;
+
+      // вложенный пост
+      if (!text) {
+        text = item.copy_history[0].text;
+        attachments = item.copy_history[0].attachments;
+      };
+
+      // const index = text.indexOf(`${moment().locale('ru').format('MMMM')}`);
+      // while (text.indexOf('.') >= 0 ) {
+      //   text = text.replace('.', ':');
+      // }
+      // console.log(text);
+      // console.log(chrono.parse(convertMonths(text))[0]);
+
+      // если нету даты в тексте
+      if (!chrono.parse(convertMonths(text))[0]) return;
+
+      const parsedDate = chrono.parse(convertMonths(text))[0].start.knownValues;
+      // console.log(parsedDate);
+
+      const { day, month } = parsedDate;
+      if (!day) {
+        console.log(chrono.parse(convertMonths(text))[0]);
+        console.log('--------');
+        console.log(item.text);
+        console.log(parsedDate);
+        console.log('------------');
+      };
+      let hour;
+      let minute;
+      let year = moment().format('YYYY');
+
+      const date = formatDate(year, month, day, hour, minute);
 
 
-      vk.api.wall.search({
-          domain: group,
-          query: `${moment().locale('ru').format('MMMM')}`,
-          count: 100,
-          'access_token': 'b58844e3b58844e3b58844e34eb5d5cbf8bb588b58844e3ecf6456263d1070e24bb2a38',
-      })
-      .then(wall => {
-          // console.log('Wall:',wall);
-
-          let results = [];
-
-          wall.items.forEach((item, i) => {
-            // console.log(item);
-
-
-
-            const { from_id, id } = item;
-            let { text } = item;
-            if (!text) return;
-            const index = text.indexOf(`${moment().locale('ru').format('MMMM')}`);
-            // while (text.indexOf('.') >= 0 ) {
-            //   text = text.replace('.', ':');
-            // }
-            // console.log(text);
-            // console.log(chrono.parse(convertMonths(text))[0]);
-
-            if (!chrono.parse(convertMonths(text))[0]) return;
-
-            const parsedDate = chrono.parse(convertMonths(text))[0].start.knownValues;
-            // console.log(parsedDate);
-
-            const { day, month } = parsedDate;
-            if (!day) return;
-            let hour;
-            let minute;
-            let year = moment().format('YYYY');
-
-            const date = formatDate(year, month, day, hour, minute);
-
-
-            results.push({
-              title: item.text.substring(0, 70) + '...',
-              originalLink: `?w=wall${from_id}_${id}`,
-              date: date,
-              text: item.text,
-              source: `vk.com/${group}`,
-              images: [ item.attachments[0].photo && item.attachments[0].photo.photo_604 ],
-            });
-          });
-          saveEventItemToDB(results);
-      })
-      .catch(error => {
-          console.error(error);
+      results.push({
+        date: date,
+        title: sliceText(item.text, 15),
+        text: item.text,
+        images: [ attachments[0].photo && attachments[0].photo.photo_604 ],
+        originalLink: `?w=wall${from_id}_${id}`,
+        source: `vk.com/${group}`,
+        status: checkText(text) ? 'active' : 'noactive',
       });
+    });
+
+    // saveEventItemToDB(results);
+    console.log('here');
   })
   .catch(error => {
-      console.error(error);
+    console.error(error);
   });
 }
 
