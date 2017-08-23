@@ -14,6 +14,8 @@ import moment from 'moment';
 
 import cron from 'node-cron';
 
+import fs from 'fs';
+
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
@@ -38,20 +40,20 @@ var compression = require('compression')
 const url = 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes';
 // const url = 'mongodb://localhost/events_app';
 
-var chrono = require('chrono-node')
+// var chrono = require('chrono-node')
 // console.log(chrono.parse('ллдлд 9 – 22 august')[0].end);
 // console.log('here');
-console.log(chrono.parse('12 — 13 august Витебск')[0]);
+// console.log(chrono.parse('12 — 13 august Витебск')[0]);
 const connections = [];
 
 const run = () => {
-  // meetupBy.init();
-  // eventsDevBy.init();
-  // imaguru.init();
-  // sportMts.init();
+  meetupBy.init();
+  eventsDevBy.init();
+  imaguru.init();
+  sportMts.init();
 
   vk.init('minskforfree');
-  // vk.init('free_fitness_minsk');
+  vk.init('free_fitness_minsk');
 
   setTimeout(() => {
     io.sockets.emit('events-updated');
@@ -80,9 +82,19 @@ io.sockets.on('connection', function (socket) {
 
 });
 
+
+
 mongoose.connect(url);
 mongoose.connection
    .once('open', () => {
+
+    //  Event.find({})
+    //   .then(items => {
+    //     fs.writeFileSync('./data2.json', JSON.stringify(items));
+    //   })
+
+
+    // Event.updateMany({}, {$set: { status: 'active' }} ).then(i => console.log(i));
 
      // now
      run();
@@ -92,11 +104,13 @@ mongoose.connection
     //  }, 1000*60*5);
      // 5 min for dev
 
-
      cron.schedule('* * 1 * * *', () => {
        console.log('running a task every hour');
        run();
      });
+
+
+
    })
    .on('error', (error) => {
      console.warn('Warning', error);
@@ -141,8 +155,7 @@ app.post('/feedback', function(req, res) {
 
 app.use(express.static(__dirname + '/build'));
 
-app.get('/', function(req, res){
-  // res.send('kdfldkfl');
+app.get('/', (req, res) => {
   res.sendFile(__dirname + '/build');
 });
 
@@ -170,6 +183,29 @@ app.delete('/feedback', (req, res) => {
     })
     .catch(error => {
       console.log(error);
+      res.status(422).send(error);
+    })
+});
+
+app.get('/moderate', (req, res) => {
+  Event.find({ status: 'noactive' })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(error => {
+      res.status(422).send(error);
+    })
+});
+
+app.put('/moderate', (req, res) => {
+  const { id, moderate } = req.query;
+  console.log(id, moderate);
+
+  Event.findByIdAndUpdate(id, { status: moderate === 'true' ? 'active' : 'rejected' })
+    .then(() => {
+      res.send(true);
+    })
+    .catch(error => {
       res.status(422).send(error);
     })
 })
@@ -242,7 +278,9 @@ if (sources) {
   obj.source = { $in: sources.split(',').map(item => dict[item]) };
 }
 
-// console.log(obj);
+obj.status = 'active';
+
+console.log(obj);
 
 
   Event.find(obj)

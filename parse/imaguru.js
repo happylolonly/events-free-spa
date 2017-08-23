@@ -5,7 +5,7 @@ import chrono from 'chrono-node';
 import moment from 'moment';
 import axios from 'axios';
 
-import { saveEventItemToDB, convertMonths, formatDate } from './helpers';
+import { saveEventItemToDB, convertMonths, formatDate, checkText } from './helpers';
 
 
 const URL = 'https://imaguru.by/events/';
@@ -56,6 +56,7 @@ const q = tress((url, callback) => {
         text: html,
         originalLink,
         source: 'imaguru.by',
+        status: checkText(html) ? 'active' : 'active',
       });
 
       callback();

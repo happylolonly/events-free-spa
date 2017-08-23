@@ -24,7 +24,7 @@ export const saveEventItemToDB = (results) => {
     }
 
     const updateEvent = (_id, item) => {
-      const { date, title, originalLink, source, text, images} = item;
+      const { date, title, originalLink, source, text, images } = item;
       Event.findByIdAndUpdate(_id, { date, title, originalLink, source, text, images })
         .then(() => {
           console.log('update event');
@@ -133,7 +133,7 @@ export const checkText = (text) => {
   let isFree = false;
 
   words.forEach(item => {
-    if (text.indexOf(item) !== -1) {
+    if (text.toLowerCase().indexOf(item) !== -1) {
       isFree = true;
     }
   });

@@ -61,6 +61,7 @@ const q = tress((url, callback) => {
           text: html,
           originalLink,
           source: 'sport.mts.by',
+          status: 'active',
         });
 
         callback();

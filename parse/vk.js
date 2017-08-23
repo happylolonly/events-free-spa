@@ -15,10 +15,12 @@ const vk = new VK({
 });
 
 const init = (group) => {
-  vk.api.wall.search({
+  vk.api.wall.get({
     domain: group,
-    query: `${moment().locale('ru').format('MMMM')}`,
+    // query: `${moment().locale('ru').format('MMMM')}`,
+    // query: `*`,
     count: 100,
+    filter: 'all'
   })
   .then(wall => {
     // console.log('Wall:', wall);
@@ -26,6 +28,7 @@ const init = (group) => {
     const results = [];
 
     wall.items.forEach(item => {
+      // console.log(item);
       const { from_id, id } = item;
       let { text, attachments } = item;
 
@@ -48,13 +51,15 @@ const init = (group) => {
       const parsedDate = chrono.parse(convertMonths(text))[0].start.knownValues;
       // console.log(parsedDate);
 
-      const { day, month } = parsedDate;
+      const { month } = parsedDate;
+      let { day } = parsedDate;
       if (!day) {
-        console.log(chrono.parse(convertMonths(text))[0]);
-        console.log('--------');
-        console.log(item.text);
-        console.log(parsedDate);
-        console.log('------------');
+        // console.log(chrono.parseDate(convertMonths(text)));
+        // console.log('--------');
+        // console.log(item.text);
+        // console.log(parsedDate);
+        // console.log('------------');
+        day = 1;
       };
       let hour;
       let minute;
@@ -63,10 +68,13 @@ const init = (group) => {
       const date = formatDate(year, month, day, hour, minute);
 
 
+      // if (Number.isNaN(date)) console.log(date, parsedDate, text);
+
+
       results.push({
         date: date,
-        title: sliceText(item.text, 15),
-        text: item.text,
+        title: sliceText(text, 15),
+        text: text,
         images: [ attachments[0].photo && attachments[0].photo.photo_604 ],
         originalLink: `?w=wall${from_id}_${id}`,
         source: `vk.com/${group}`,
@@ -74,8 +82,7 @@ const init = (group) => {
       });
     });
 
-    // saveEventItemToDB(results);
-    console.log('here');
+    saveEventItemToDB(results);
   })
   .catch(error => {
     console.error(error);

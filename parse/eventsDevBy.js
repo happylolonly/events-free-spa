@@ -5,7 +5,7 @@ import chrono from 'chrono-node';
 import moment from 'moment';
 import axios from 'axios';
 
-import { saveEventItemToDB, convertMonths, formatDate } from './helpers';
+import { saveEventItemToDB, convertMonths, formatDate, checkText } from './helpers';
 
 
 const URL = 'https://events.dev.by';
@@ -20,7 +20,9 @@ const q = tress((url, callback) => {
     .then(data => {
       const $ = cheerio.load(data.data);
 
+      // q.push('https://events.dev.by?page=4');
       // if main page
+      // if (url.split('.by')[1][0] !== '/') {
       if (url === 'https://events.dev.by') {
         // console.log('main url', url);
         pagesCount = $('.body-events .item').length;
@@ -57,6 +59,7 @@ const q = tress((url, callback) => {
         text: html,
         originalLink,
         source: 'events.dev.by',
+        status: checkText(html) ? 'active' : 'active',
       });
 
       callback();
