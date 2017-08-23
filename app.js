@@ -35,6 +35,11 @@ var compression = require('compression')
 
 // compress all responses
 
+var http = require("http");
+setInterval(function() {
+    http.get("http://eventsfree.by");
+}, 300000); // every 5 minutes (300000)
+
 
 
 const url = 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes';
