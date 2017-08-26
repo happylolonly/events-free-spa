@@ -10,6 +10,8 @@ import imaguru from './parse/imaguru';
 import vk from './parse/vk';
 import sportMts from './parse/sportMts';
 
+import axios from 'axios';
+
 import moment from 'moment';
 
 import cron from 'node-cron';
@@ -35,11 +37,28 @@ var compression = require('compression')
 
 // compress all responses
 
-var http = require("http");
-setInterval(function() {
-    http.get("http://eventsfree.by");
-}, 300000); // every 5 minutes (300000)
+// var http = require("http");
 
+const wakeUpHeroku = () => {
+  axios.get('http://eventsfree.by')
+    .then(data => {
+      console.log('all ok', data);
+    })
+    .catch(error => {
+      console.log('some error', error);
+    })
+}
+
+setTimeout(() => {
+  console.log('check wake up');
+  wakeUpHeroku();
+
+}, 60*1000);
+
+cron.schedule('* 10 * * * *', () => {
+  console.log('schedule wake up');
+  wakeUpHeroku();
+});
 
 
 const url = 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes';
@@ -65,9 +84,16 @@ const run = () => {
   }, 1000*15);
 }
 
+
 io.sockets.on('connection', function (socket) {
 
   console.log('------------');
+
+  // socket.use((packet, next) => {
+  //   // if (packet.doge === true)
+  //   return next();
+  //   // next(new Error('Not a doge error'));
+  // });
 
   socket.once('disconnect', function()  {
     console.log('disconnect');
