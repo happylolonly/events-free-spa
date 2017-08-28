@@ -10,6 +10,7 @@ import imaguru from './parse/imaguru';
 import vk from './parse/vk';
 import sportMts from './parse/sportMts';
 
+
 import axios from 'axios';
 
 import moment from 'moment';
@@ -20,6 +21,7 @@ import fs from 'fs';
 
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+var path = require('path');
 
 const port = process.env.PORT || 3090;
 
@@ -75,7 +77,7 @@ const run = () => {
   eventsDevBy.init();
   imaguru.init();
   sportMts.init();
-
+  //
   vk.init('minskforfree');
   vk.init('free_fitness_minsk');
 
@@ -353,7 +355,8 @@ app.get('/event', (req, res) => {
 app.use(function(req, res, next) {
     // res.sendFile(__dirname + '/build');
     console.log('here');
-    res.sendFile((__dirname + '/../build/index.html'));
+    console.log(__dirname);
+    res.sendFile(path.join(__dirname, '../build/index.html'));
     // express.static.send(req, res, next ,{
     //     root: __dirname + "/public",
     //     path: req.url,
