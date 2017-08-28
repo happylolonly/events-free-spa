@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import moment from 'moment';
+import 'moment/locale/ru';
 
 import './EventItem.css';
 
@@ -22,8 +23,8 @@ const EventItem = ({ date, title, link, originalLink, source }) => {
       <header>
         <Link to={`/event/${link}`}>{title}</Link>
         <div>
-          <span className="date">{moment(date).lang('ru').format('D MMMM YYYY')}</span>
-          <span className="time">{moment(date).lang('ru').format('HH:mm') !== '00:00' ? moment(date).lang('ru').format('HH:mm') : 'Время не указано'}</span>
+          <span className="date">{moment(date).locale('ru').format('D MMMM YYYY')}</span>
+          <span className="time">{moment(date).locale('ru').format('HH:mm') !== '00:00' ? moment(date).locale('ru').format('HH:mm') : 'Время не указано'}</span>
         </div>
       </header>
       <p className="source">Источник: <a target="_blank" href={`http://${source}${originalLink}`}>{source}</a></p>
