@@ -12,7 +12,7 @@ import routes from './routes';
 
 import './index.css';
 
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 
 const logger = createLogger({ collapsed: true });
 
@@ -25,4 +25,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-registerServiceWorker();
+// registerServiceWorker();

@@ -352,7 +352,8 @@ app.get('/event', (req, res) => {
 
 app.use(function(req, res, next) {
     // res.sendFile(__dirname + '/build');
-    res.sendFile((__dirname + '/../build'));
+    console.log('here');
+    res.sendFile((__dirname + '/../build/index.html'));
     // express.static.send(req, res, next ,{
     //     root: __dirname + "/public",
     //     path: req.url,
