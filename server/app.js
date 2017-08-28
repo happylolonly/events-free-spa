@@ -81,6 +81,7 @@ const run = () => {
 
   setTimeout(() => {
     io.sockets.emit('events-updated');
+    console.log(__dirname);
   }, 1000*15);
 }
 
@@ -184,10 +185,10 @@ app.post('/feedback', function(req, res) {
 // // create application/x-www-form-urlencoded parser
 // var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-app.use(express.static(__dirname + '/../build'));
+app.use(express.static(__dirname + './build'));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/../build');
+  res.sendFile(__dirname + './build');
 });
 
 app.get('/feedback', (req, res) => {
@@ -349,7 +350,7 @@ app.get('/event', (req, res) => {
 
 app.use(function(req, res, next) {
     // res.sendFile(__dirname + '/build');
-    res.sendFile((__dirname + '/../build/index.html'));
+    res.sendFile((__dirname + './build/index.html'));
     // express.static.send(req, res, next ,{
     //     root: __dirname + "/public",
     //     path: req.url,
