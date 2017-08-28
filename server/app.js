@@ -45,7 +45,7 @@ const wakeUpHeroku = () => {
       console.log('all ok');
     })
     .catch(error => {
-      console.log('some error', error);
+      console.log('some error');
     })
 }
 
@@ -188,7 +188,9 @@ app.post('/feedback', function(req, res) {
 app.use(express.static(__dirname + '/../build/index.html'));
 
 app.get('/', (req, res) => {
+  console.log(__dirname);
   res.sendFile(__dirname + '/../build/index.html');
+  // res.sendFile((__dirname + '/../build/index.html'));
 });
 
 app.get('/feedback', (req, res) => {
