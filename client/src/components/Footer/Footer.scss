@@ -1,0 +1,31 @@
+.footer {
+  // position: absolute;
+  // left: 0;
+  // bottom: 0;
+  // right: 0;
+  min-height: 80px;
+  text-align: center;
+  background-color: #27272e;
+  color: #fff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    color: #ff084a;
+    cursor: pointer;
+
+    &:hover {
+      color: #ffa228;
+    }
+  }
+
+
+    // clear: both;
+    // position: relative;
+    // z-index: 10;
+    // height: 3em;
+    // margin-top: -3em;
+
+}

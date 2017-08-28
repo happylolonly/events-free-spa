@@ -1,0 +1,45 @@
+.event-item {
+  background-color: #fff;
+  max-width: 700px;
+  box-shadow: 1px 1px 5px #ccc;
+  margin: 20px auto;
+  padding: 15px 20px; }
+  .event-item header {
+    margin-bottom: 20px; }
+    .event-item header div span {
+      display: block;
+      margin: 10px; }
+    .event-item header .date {
+      padding-left: 25px;
+      background-image: url("http://www.iconsfind.com/wp-content/uploads/2015/10/20151014_561e2d21d1f55.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: 0 -1px;
+      font-size: 13px; }
+    .event-item header .time {
+      padding-left: 25px;
+      background-image: url("http://icons.iconarchive.com/icons/flat-icons.com/flat/512/Clock-icon.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      font-size: 13px; }
+    .event-item header a {
+      max-width: 400px;
+      text-align: center;
+      font-size: 16px;
+      width: 600px;
+      margin: 10px auto;
+      margin-bottom: 20px;
+      display: block; }
+  .event-item .source {
+    font-size: 12px;
+    display: block;
+    text-align: right;
+    width: 200px;
+    margin-left: auto;
+    margin-bottom: 15px;
+    margin-top: -40px; }
+  @media (max-width: 600px) {
+    .event-item {
+      margin: 20px 10px; }
+      .event-item a {
+        width: auto !important; } }

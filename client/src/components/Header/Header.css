@@ -1,0 +1,50 @@
+.header {
+  background-color: #ffc500;
+  display: flex;
+  justify-content: space-between; }
+  .header ul {
+    list-style-type: none; }
+    .header ul li {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      min-width: 170px; }
+      .header ul li a {
+        display: block;
+        height: 100%;
+        color: #fff;
+        padding: 15px 15px;
+        text-align: center; }
+        .header ul li a:hover, .header ul li a:focus {
+          text-decoration: none;
+          box-shadow: 0px 0px 5px gray; }
+      .header ul li:nth-of-type(1) {
+        background-color: #dc0030; }
+      .header ul li:nth-of-type(2) {
+        background-color: #7c378a; }
+      .header ul li:nth-of-type(3) {
+        background-color: #09a29d; }
+  .header ul:nth-of-type(2) li:nth-of-type(1) {
+    background-color: #09a275; }
+  .header ul:nth-of-type(2) li:nth-of-type(2) {
+    background-color: #7cb854; }
+  .header span {
+    font-family: 'MuseoSansBold';
+    font-size: 30px;
+    color: #fff;
+    text-align: center;
+    margin-top: 2px;
+    text-transform: uppercase; }
+  @media (max-width: 800px) {
+    .header {
+      flex-direction: column; }
+      .header span {
+        order: -1; }
+      .header ul:first-of-type {
+        display: block; }
+      .header ul:last-of-type {
+        margin-top: -10px; }
+      .header ul {
+        margin: 10px auto; }
+        .header ul li {
+          min-width: 120px; } }

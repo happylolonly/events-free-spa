@@ -1,0 +1,11 @@
+.today-page-container > div > button {
+  display: block;
+  margin: 20px auto;
+  min-width: 150px; }
+  .today-page-container > div > button:focus, .today-page-container > div > button:active {
+    outline: none !important; }
+
+.today-page-container .test-button {
+  margin: 20px 300px 0 auto;
+  display: block;
+  width: 150px; }

@@ -1,0 +1,38 @@
+.feedback-form {
+
+  h5 {
+    margin-top: 50px !important;
+    // margin-bottom: 0px;
+  }
+
+  form {
+    margin-top: -20px;
+
+    textarea {
+      resize: none;
+      width: 500px;
+      margin: 10px auto;
+      border-radius: 1px;
+      min-height: 200px;
+    }
+
+    input[type="submit"] {
+      border: none;
+      background-color: #582de8;
+      color: #fff;
+      border-radius: 2px;
+      height: 30px;
+      min-width: 150px;
+      margin: 10px 0;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+.error {
+  color: red;
+  margin: 10px 0;
+}

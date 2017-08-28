@@ -1,0 +1,64 @@
+.event-detail {
+  width: 70%;
+  margin: 10px auto;
+  margin-bottom: 40px;
+
+  min-height: 800px;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    a {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      // color: #8144f2;
+
+      span {
+        background-image: url('http://www.rakpetroleum.ae/extension/bytedesign_rak/design/rak/images/arrow_up_orange.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        transform: rotate(-90deg);
+        margin-top: -7px;
+        height: 20px;
+        width: 20px;
+        display: block;
+        // width: 100px;
+        // margin-left: auto;
+        margin-right: 7px;
+        text-align: center;
+      }
+
+
+      &:hover {
+        text-decoration: none;
+
+        span {
+          transform: rotate(-90deg) scale(1.2);
+        }
+      }
+    }
+
+
+
+
+
+  }
+
+  section {
+    background-color: #fff;
+    padding: 40px 50px;
+    box-shadow: 1px 1px 3px gray;
+
+    img {
+      display: block;
+      margin: 40px auto;
+      max-width: 100%;
+
+    }
+  }
+}

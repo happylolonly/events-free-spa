@@ -1,0 +1,16 @@
+.social-buttons {
+  li {
+    display: inline-block;
+    // border: 1px solid red;
+    vertical-align: top;
+    margin: 0 5px;
+
+    div[role="button"] {
+      outline: none;
+    }
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+}
