@@ -185,11 +185,11 @@ app.post('/feedback', function(req, res) {
 // // create application/x-www-form-urlencoded parser
 // var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-app.use(express.static(__dirname + '/../build/index.html'));
+app.use(express.static(__dirname + '/../build'));
 
 app.get('/', (req, res) => {
   console.log(__dirname);
-  res.sendFile(__dirname + '/../build/index.html');
+  res.sendFile(__dirname + '/../build');
   // res.sendFile((__dirname + '/../build/index.html'));
 });
 
@@ -352,7 +352,7 @@ app.get('/event', (req, res) => {
 
 app.use(function(req, res, next) {
     // res.sendFile(__dirname + '/build');
-    res.sendFile((__dirname + '/../build/index.html'));
+    res.sendFile((__dirname + '/../build'));
     // express.static.send(req, res, next ,{
     //     root: __dirname + "/public",
     //     path: req.url,
