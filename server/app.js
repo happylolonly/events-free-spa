@@ -42,7 +42,7 @@ var compression = require('compression')
 const wakeUpHeroku = () => {
   axios.get('http://eventsfree.by')
     .then(data => {
-      console.log('all ok', data);
+      console.log('all ok');
     })
     .catch(error => {
       console.log('some error', error);
@@ -185,10 +185,10 @@ app.post('/feedback', function(req, res) {
 // // create application/x-www-form-urlencoded parser
 // var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-app.use(express.static(__dirname + './build'));
+app.use(express.static(__dirname + '/../build/index.html'));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + './build');
+  res.sendFile(__dirname + '/../build/index.html');
 });
 
 app.get('/feedback', (req, res) => {
@@ -350,7 +350,7 @@ app.get('/event', (req, res) => {
 
 app.use(function(req, res, next) {
     // res.sendFile(__dirname + '/build');
-    res.sendFile((__dirname + './build/index.html'));
+    res.sendFile((__dirname + '/../build/index.html'));
     // express.static.send(req, res, next ,{
     //     root: __dirname + "/public",
     //     path: req.url,
