@@ -89,7 +89,8 @@
     "start-server": "nodemon --inspect-brk=3090 --exec npm run babel-node",
     "babel-node": "babel-node -- ./server/app.js --presets node6",
     "babel-node2": "babel -d ./server/app.js --presets node6 --out-file ./server/app2.js",
-    "prod": "npm run build"
+    "prod": "npm run start-server",
+    "postinstall": "npm run build",
   },
   "jest": {
     "collectCoverageFrom": [
