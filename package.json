@@ -42,10 +42,12 @@
     "moment-timezone": "^0.5.13",
     "mongoose": "^4.11.5",
     "morgan": "^1.8.2",
+    "newrelic": "^2.2.0",
     "node-cron": "^1.2.0",
     "node-sass": "^4.0.0",
     "node-sass-chokidar": "0.0.3",
     "nodemailer": "^4.0.1",
+    "nodemon": "^1.11.0",
     "npm-run-all": "^4.1.1",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
@@ -73,12 +75,9 @@
     "webpack": "3.5.1",
     "webpack-dev-server": "2.7.1",
     "webpack-manifest-plugin": "1.2.1",
-    "whatwg-fetch": "2.0.3",
-	"nodemon": "^1.11.0"
+    "whatwg-fetch": "2.0.3"
   },
-  "devDependencies": {
-
-  },
+  "devDependencies": {},
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./client/src --include-path ./node_modules client/src/ -o client/src/",
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./client/src --include-path ./node_modules client/src/ -o client/src/ --watch --recursive",
