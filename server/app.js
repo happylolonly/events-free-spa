@@ -1,3 +1,5 @@
+import 'newrelic';
+
 import express from 'express';
 import mongoose from 'mongoose';
 
@@ -25,7 +27,7 @@ var path = require('path');
 
 const port = process.env.PORT || 3090;
 
-require('newrelic');
+
 
 const app = express();
 // var server = require('http').Server(app);
