@@ -25,6 +25,8 @@ var path = require('path');
 
 const port = process.env.PORT || 3090;
 
+require('newrelic');
+
 const app = express();
 // var server = require('http').Server(app);
 const server = app.listen(port, () => {
