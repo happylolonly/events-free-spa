@@ -164,7 +164,6 @@ require('./routes/events')(app);
 require('./routes/feedback')(app);
 require('./routes/moderate')(app);
 
-
 // app.get('*', function(req, res){
 //     console.log('sended');
 //
@@ -173,8 +172,6 @@ require('./routes/moderate')(app);
 
 app.use(function(req, res, next) {
     // res.sendFile(__dirname + '/build');
-    console.log('here');
-    console.log(__dirname);
     res.sendFile(path.join(__dirname, '../build/index.html'));
     // express.static.send(req, res, next ,{
     //     root: __dirname + "/public",
