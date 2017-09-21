@@ -3,7 +3,7 @@ import moment from 'moment';
 
 
 module.exports = (app) => {
-  
+
   app.get('/events', (req, res) => {
 
     const { today, past, search, sources, offset } = req.query;
@@ -63,7 +63,8 @@ module.exports = (app) => {
         eventsDevBy: 'events.dev.by',
         minskforfree: 'vk.com/minskforfree',
         freeFitnessMinsk: 'vk.com/free_fitness_minsk',
-        sportMts: 'sport.mts.by'
+        sportMts: 'sport.mts.by',
+        citydog: 'citydog.by'
       }
 
       // console.log(sources.split(','));

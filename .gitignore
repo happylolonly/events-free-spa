@@ -6,6 +6,9 @@
 # testing
 /coverage
 
+newrelic_agent.log
+заметки.txt
+
 # production
 build
 

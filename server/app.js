@@ -9,15 +9,21 @@ import imaguru from './parse/imaguru';
 import vk from './parse/vk';
 import sportMts from './parse/sportMts';
 
+import citydog from './parse/citydog';
+
 import axios from 'axios';
 
 import cron from 'node-cron';
+
+// import ph from './phantom/index';
 
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 var path = require('path');
 
 const port = process.env.PORT || 3090;
+
+// ph();
 
 
 
@@ -38,7 +44,7 @@ var compression = require('compression')
 // var http = require("http");
 
 const wakeUpHeroku = () => {
-  axios.get('http://eventsfree.by')
+  axios.get('https://eventsfree.herokuapp.com')
     .then(data => {
       console.log('all ok');
     })
@@ -58,7 +64,7 @@ cron.schedule('* 10 * * * *', () => {
   wakeUpHeroku();
 });
 
-
+// не лазьте тут плз)
 const url = 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes';
 // const url = 'mongodb://localhost/events_app';
 
@@ -69,6 +75,9 @@ const run = () => {
   eventsDevBy.init();
   imaguru.init();
   sportMts.init();
+
+  citydog.init('https://citydog.by/afisha/');
+  citydog.init('https://citydog.by/vedy/');
 
   vk.init('minskforfree');
   vk.init('free_fitness_minsk');
@@ -129,10 +138,10 @@ mongoose.connection
     //  }, 1000*60*5);
      // 5 min for dev
 
-     cron.schedule('* * 1 * * *', () => {
-       console.log('running a task every hour');
-       run();
-     });
+    //  cron.schedule('* * 1 * * *', () => {
+    //    console.log('running a task every hour');
+    //    run();
+    //  });
    })
    .on('error', (error) => {
      console.warn('Warning', error);
