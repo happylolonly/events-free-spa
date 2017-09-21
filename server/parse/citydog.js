@@ -46,10 +46,10 @@ const q = tress((url, callback) => {
           return;
         }
 
-        const title = $(page).find('h3').text();
+        const title = $(page).find('.afishaPost-Description h3').text();
         const html = $(page).html();
         // const html = $(page).find('.afishaPost-Description-text').html();
-        const originalLink = 'event' + url.split(`/event`)[1];
+        const originalLink = url.split(`.by`)[1];
 
         let dateBlock = $(page).find('.afishaPost-eventInfoHeader h4').text();
         dateBlock = dateBlock.replace('|', '');
