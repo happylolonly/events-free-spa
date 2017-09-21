@@ -64,7 +64,8 @@ module.exports = (app) => {
         minskforfree: 'vk.com/minskforfree',
         freeFitnessMinsk: 'vk.com/free_fitness_minsk',
         sportMts: 'sport.mts.by',
-        citydog: 'citydog.by'
+        citydogVedy: 'citydog.by/vedy',
+        citydogAfisha: 'citydog.by/afisha',
       }
 
       // console.log(sources.split(','));

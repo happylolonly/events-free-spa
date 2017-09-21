@@ -8,23 +8,23 @@ import axios from 'axios';
 import { saveEventItemToDB, convertMonths, formatDate, checkText } from './helpers';
 
 
-// let URL = 'https://citydog.by/afisha/';
+const URL = 'https://citydog.by/afisha/';
 
 const results = [];
-let pagesCount = 0;
+let pagesCount;
 
 
 const q = tress((url, callback) => {
-  setTimeout(() => { // 1 sec for citydog blocks
+  setTimeout(() => { // 1 sec delay for citydog blocks
     axios.get(url)
       .then(data => {
 
         const $ = cheerio.load(data.data);
 
         // if main page
-        if (url === 'https://citydog.by/afisha/' || url === 'https://citydog.by/vedy/') {
+        if (url === URL) {
           // console.log('main url', url);
-          pagesCount += $('.afishaMain-items .afishaMain-item').length;
+          pagesCount = $('.afishaMain-items .afishaMain-item').length;
           console.log(pagesCount);
           $('.afishaMain-items .afishaMain-item').each((item, i) => {
             const link = $(i).find('h3 a').attr('href');
@@ -49,7 +49,7 @@ const q = tress((url, callback) => {
         const title = $(page).find('.afishaPost-Description h3').text();
         const html = $(page).html();
         // const html = $(page).find('.afishaPost-Description-text').html();
-        const originalLink = url.split(`.by`)[1];
+        const originalLink = url.split(`/afisha`)[1];
 
         let dateBlock = $(page).find('.afishaPost-eventInfoHeader h4').text();
         dateBlock = dateBlock.replace('|', '');
@@ -83,7 +83,7 @@ const q = tress((url, callback) => {
           title: title,
           text: html,
           originalLink,
-          source: 'citydog.by',
+          source: 'citydog.by/afisha',
           status: checkText(html) ? 'active' : 'active',
         });
 
@@ -111,11 +111,8 @@ q.drain = () => {
 
 };
 
-const init = (url) => {
-  // URL = url;
-  q.push('https://citydog.by/afisha/');
-  q.push('https://citydog.by/vedy/');
-  // q.push(URL);
+const init = () => {
+  q.push(URL);
 }
 
 export default { init };

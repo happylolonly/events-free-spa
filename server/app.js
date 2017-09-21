@@ -9,7 +9,8 @@ import imaguru from './parse/imaguru';
 import vk from './parse/vk';
 import sportMts from './parse/sportMts';
 
-import citydog from './parse/citydog';
+import citydogVedy from './parse/citydogVedy';
+import citydogAfisha from './parse/citydogAfisha';
 
 import axios from 'axios';
 
@@ -71,16 +72,19 @@ const url = 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes';
 const connections = [];
 
 const run = () => {
-  meetupBy.init();
-  eventsDevBy.init();
-  imaguru.init();
-  sportMts.init();
+  // meetupBy.init();
+  // eventsDevBy.init();
+  // imaguru.init();
+  // sportMts.init();
+  //
+  // citydogAfisha.init();
 
-  citydog.init('https://citydog.by/afisha/');
-  citydog.init('https://citydog.by/vedy/');
+  setTimeout(() => { // citydog blocks
+    citydogVedy.init();
+  }, 1000);
 
-  vk.init('minskforfree');
-  vk.init('free_fitness_minsk');
+  // vk.init('minskforfree');
+  // vk.init('free_fitness_minsk');
 
   setTimeout(() => {
     io.sockets.emit('events-updated');
@@ -138,10 +142,10 @@ mongoose.connection
     //  }, 1000*60*5);
      // 5 min for dev
 
-    //  cron.schedule('* * 1 * * *', () => {
-    //    console.log('running a task every hour');
-    //    run();
-    //  });
+     cron.schedule('* * 1 * * *', () => {
+       console.log('running a task every hour');
+       run();
+     });
    })
    .on('error', (error) => {
      console.warn('Warning', error);

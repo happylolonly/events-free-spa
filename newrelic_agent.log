@@ -155,3 +155,31 @@
 {"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":3196,"time":"2017-09-20T22:42:49.582Z","msg":"Starting New Relic for Node.js connection process."}
 {"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":3196,"time":"2017-09-20T22:43:11.434Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/1733819/applications/79139022","component":"new_relic_response"}
 {"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":3196,"time":"2017-09-20T22:43:11.437Z","msg":"Connected to collector-256.newrelic.com:443 with agent run ID 340626100559745212.","component":"collector_api"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":11216,"time":"2017-09-21T11:58:52.535Z","msg":"Using New Relic for Node.js. Agent version: 2.2.0; Node version: v6.11.2."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":11216,"time":"2017-09-21T12:02:19.911Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":11216,"time":"2017-09-21T12:03:43.708Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/1733819/applications/79139022","component":"new_relic_response"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":11216,"time":"2017-09-21T12:03:43.708Z","msg":"Connected to collector-256.newrelic.com:443 with agent run ID 340626100562626479.","component":"collector_api"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":7332,"time":"2017-09-21T12:06:44.514Z","msg":"Using New Relic for Node.js. Agent version: 2.2.0; Node version: v6.11.2."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":7332,"time":"2017-09-21T12:07:08.356Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":7332,"time":"2017-09-21T12:07:14.225Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/1733819/applications/79139022","component":"new_relic_response"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":7332,"time":"2017-09-21T12:07:14.226Z","msg":"Connected to collector-256.newrelic.com:443 with agent run ID 340626100562640384.","component":"collector_api"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":7836,"time":"2017-09-21T12:10:55.950Z","msg":"Using New Relic for Node.js. Agent version: 2.2.0; Node version: v6.11.2."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":7836,"time":"2017-09-21T12:10:56.502Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":7836,"time":"2017-09-21T12:11:01.356Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/1733819/applications/79139022","component":"new_relic_response"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":7836,"time":"2017-09-21T12:11:01.357Z","msg":"Connected to collector-256.newrelic.com:443 with agent run ID 340626100562655714.","component":"collector_api"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":5128,"time":"2017-09-21T12:17:24.841Z","msg":"Using New Relic for Node.js. Agent version: 2.2.0; Node version: v6.11.2."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":5128,"time":"2017-09-21T12:17:25.537Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":5128,"time":"2017-09-21T12:17:31.524Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/1733819/applications/79139022","component":"new_relic_response"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":5128,"time":"2017-09-21T12:17:31.526Z","msg":"Connected to collector-256.newrelic.com:443 with agent run ID 340626100562679342.","component":"collector_api"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":4756,"time":"2017-09-21T12:23:45.582Z","msg":"Using New Relic for Node.js. Agent version: 2.2.0; Node version: v6.11.2."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":4756,"time":"2017-09-21T12:23:46.197Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":4756,"time":"2017-09-21T12:23:51.096Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/1733819/applications/79139022","component":"new_relic_response"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":4756,"time":"2017-09-21T12:23:51.097Z","msg":"Connected to collector-256.newrelic.com:443 with agent run ID 340626100562701530.","component":"collector_api"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":8544,"time":"2017-09-21T12:24:15.770Z","msg":"Using New Relic for Node.js. Agent version: 2.2.0; Node version: v6.11.2."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":8544,"time":"2017-09-21T12:24:16.322Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":8544,"time":"2017-09-21T12:24:21.389Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/1733819/applications/79139022","component":"new_relic_response"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":8544,"time":"2017-09-21T12:24:21.390Z","msg":"Connected to collector-256.newrelic.com:443 with agent run ID 340626100562703520.","component":"collector_api"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":5756,"time":"2017-09-21T12:45:45.169Z","msg":"Using New Relic for Node.js. Agent version: 2.2.0; Node version: v6.11.2."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":5756,"time":"2017-09-21T12:46:53.599Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":5756,"time":"2017-09-21T12:47:32.066Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/1733819/applications/79139022","component":"new_relic_response"}
+{"v":0,"level":30,"name":"newrelic","hostname":"HappyLoL","pid":5756,"time":"2017-09-21T12:47:32.067Z","msg":"Connected to collector-256.newrelic.com:443 with agent run ID 340626100562793577.","component":"collector_api"}

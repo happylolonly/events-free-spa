@@ -20,7 +20,8 @@ class SettingsPage extends Component {
       minskforfree: true,
       sportMts: false,
       freeFitnessMinsk: false,
-      citydog: false,
+      citydogVedy: false,
+      citydogAfisha: false,
     }
 
     this.handleElementsChange = this.handleElementsChange.bind(this);
@@ -72,10 +73,16 @@ class SettingsPage extends Component {
         text="vk.com/minskforfree"
       />
       <Checkbox
-        name="citydog"
-        value={this.state.citydog}
+        name="citydogAfisha"
+        value={this.state.citydogAfisha}
         onChange={this.handleElementsChange}
-        text="citydog.by"
+        text="citydog.by/afisha"
+      />
+      <Checkbox
+        name="citydogVedy"
+        value={this.state.citydogVedy}
+        onChange={this.handleElementsChange}
+        text="citydog.by/vedy"
       />
 
     <hr />
