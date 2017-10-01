@@ -43,6 +43,7 @@ class EventPageContainer extends Component {
 
   componentDidMount() {
     this.loadEvent(this.props.params.id);
+    window.scrollTo(0, 0);
     console.log(this.props);
   }
 
@@ -56,6 +57,7 @@ class EventPageContainer extends Component {
         // setTimeout(() => {
         const eventData = data.data[0];
           this.setState({event:eventData });
+          window.scrollTo(0, 0);
           document.title = eventData.title;
         // });
       })
