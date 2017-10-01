@@ -138,5 +138,9 @@ export const checkText = (text) => {
     }
   });
 
+  if (text.toLowerCase().indexOf('репост') !== -1) {
+    isFree = false;
+  }
+
   return isFree;
 }
