@@ -89,10 +89,21 @@ module.exports = (app) => {
          let items = events.filter(item => {
            let item2 = item.title.toLowerCase();
            return item2.indexOf(search.toLowerCase()) !=-1;
+         });
+
+         let filteredItems = items.map(item => {
+           const { _id:id, title, source, originalLink, date} = item;
+           return {
+             id,
+             date,
+             title,
+             source,
+             originalLink
+           }
          })
 
 
-        res.json(items);
+        res.json(filteredItems);
       });
   })
 

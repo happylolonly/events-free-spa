@@ -46,11 +46,17 @@ class EventPageContainer extends Component {
     console.log(this.props);
   }
 
+  componentWillUnmount() {
+    document.title = 'Events free';
+  }
+
   loadEvent(id) {
     axios.get(`/event?id=${id}`)
       .then(data => {
         // setTimeout(() => {
-          this.setState({event: data.data[0]});
+        const eventData = data.data[0];
+          this.setState({event:eventData });
+          document.title = eventData.title;
         // });
       })
       .catch(error => {

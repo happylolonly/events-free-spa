@@ -35,3 +35,8 @@
       display: block;
       margin: 40px auto;
       max-width: 100%; }
+  @media (max-width: 650px) {
+    .event-detail {
+      width: 95%; }
+      .event-detail section {
+        padding: 40px 25px; } }

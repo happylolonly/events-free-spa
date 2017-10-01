@@ -25,14 +25,14 @@ const TodayPage = ({ events }) => {
     <div className="today-page">
       {showTitle()}
       {events.map(item => {
-        const { date, title, _id, originalLink, source } = item;
+        const { date, title, id, originalLink, source } = item;
         return (
           <EventItem
-            key={_id}
+            key={id}
 
             date={date}
             title={title}
-            link={_id}
+            link={id}
             originalLink={originalLink}
             source={source}
           />
