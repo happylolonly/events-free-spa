@@ -34,9 +34,16 @@ const init = (group) => {
 
       // вложенный пост
       if (!text) {
+        if (!item.copy_history) {
+          console.log('here', item.copy_history);
+          return;
+        }
+        console.log('??');
+        console.log(item.copy_history[0]);
         text = item.copy_history[0].text;
         attachments = item.copy_history[0].attachments;
       };
+
 
       // const index = text.indexOf(`${moment().locale('ru').format('MMMM')}`);
       // while (text.indexOf('.') >= 0 ) {
@@ -70,17 +77,27 @@ const init = (group) => {
 
       // if (Number.isNaN(date)) console.log(date, parsedDate, text);
 
+      function checkStatus() {
+        if (group === 'free_fitness_minsk') {
+          return 'active';
+        } else {
+          return checkText(text) ? 'active' : 'noactive';
+        }
+      }
+
 
       results.push({
         date: date,
         title: sliceText(text, 15),
         text: text,
-        images: [ attachments[0].photo && attachments[0].photo.photo_604 ],
+        images: [ attachments && attachments[0].photo && attachments[0].photo.photo_604 ],
         originalLink: `?w=wall${from_id}_${id}`,
         source: `vk.com/${group}`,
-        status: checkText(text) ? 'active' : 'noactive',
+        status: checkStatus(group),
       });
     });
+
+    console.log(results);
 
     saveEventItemToDB(results);
   })
