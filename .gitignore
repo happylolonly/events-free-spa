@@ -11,7 +11,7 @@ newrelic_agent.log
 
 # production
 build
-/src/**/*.css
+/client/src/**/*.css
 
 # misc
 .DS_Store
