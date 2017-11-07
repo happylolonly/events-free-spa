@@ -6,7 +6,7 @@ module.exports = (app) => {
 
   app.get('/events', (req, res) => {
 
-    const { today, past, search, sources, offset } = req.query;
+    const { day, search, sources, offset } = req.query;
 
     if (!sources) {
       res.send = [];
@@ -30,15 +30,30 @@ module.exports = (app) => {
     // console.log((start));
     // console.log((start.toUTCString()));
 
-    // date master
+    const dif = 1000*60*60*3;
 
-    if (today) {
-      obj.date = {$gte: Date.parse(start) - 1000*60*60*3 , $lt: Date.parse(end) - 1000*60*60*3};
-    } else if (past) {
-      obj.date = {$lt: Date.parse(start) - 1000*60*60*3  };
-    } else {
-      obj.date = {$gte: Date.parse(start) - 1000*60*60*3  };
+
+    switch (day) {
+      case 'today':
+        obj.date = {$gte: Date.parse(start) - dif , $lt: Date.parse(end) - dif};
+        break;
+
+      case 'tomorrow':
+        obj.date = {$gte: Date.parse(start) - dif + 1000*60*60*24,  $lt: Date.parse(end) - dif + 1000*60*60*24};
+        break;
+
+      case 'all':
+        obj.date = {$gte: Date.parse(start) - dif};
+        break;
+
+      case 'past':
+        obj.date = {$lt: Date.parse(start) - dif  };
+        break;
+      //
+      // default:
+      //   obj.date = {$gte: Date.parse(start) - 1000*60*60*3  };
     }
+
 
     if (false) {
       // obj.title = /^`${search}`/;
@@ -77,34 +92,68 @@ module.exports = (app) => {
 
     console.log(obj);
 
-
-    Event.find(obj)
-      .sort(past ? { date: -1 } : { date: 1 })
-      .limit(+offset)
-      .then((events) => {
-        // console.log(events)
-
-        //  if (this.state.events.length === 0) return this.state.events;
-        // пока костыль
-         let items = events.filter(item => {
-           let item2 = item.title.toLowerCase();
-           return item2.indexOf(search.toLowerCase()) !=-1;
-         });
-
-         let filteredItems = items.map(item => {
-           const { _id:id, title, source, originalLink, date} = item;
-           return {
-             id,
-             date,
-             title,
-             source,
-             originalLink
-           }
-         })
-
-
-        res.json(filteredItems);
+    const getTotalCount = () => {
+      return new Promise((resolve, reject) => {
+        Event.find(obj)
+          .count()
+          .then(count => {
+            console.log(count);
+            resolve(count);
+          })
+          .catch(error => {
+            console.log(error);
+          })
       });
+    }
+
+    const getEvents = () => {
+      return new Promise((resolve, reject) => {
+        Event.find(obj)
+          .sort(day === 'past' ? { date: -1 } : { date: 1 })
+          .skip(+offset)
+          .limit(10)
+          .then(events => {
+            // console.log(events)
+
+            //  if (this.state.events.length === 0) return this.state.events;
+            // пока костыль
+             let items = events.filter(item => {
+               let item2 = item.title.toLowerCase();
+               return item2.indexOf(search.toLowerCase()) !=-1;
+             });
+
+             let filteredItems = items.map(item => {
+               const { _id:id, title, source, originalLink, date} = item;
+               return {
+                 id,
+                 date,
+                 title,
+                 source,
+                 originalLink
+               }
+             })
+
+             resolve(filteredItems);
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      });
+    }
+
+    Promise.all([getTotalCount(), getEvents()])
+      .then(data => {
+        console.log('data lst', data);
+
+        res.json({
+          model: data[1],
+          totalCount: data[0]
+        });
+      })
+      .catch(error => {
+        console.log('promise error', error);
+      })
+
   })
 
   app.get('/event', (req, res) => {

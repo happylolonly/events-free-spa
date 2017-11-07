@@ -1,0 +1,18 @@
+.filters {
+
+
+  display: flex;
+
+  padding: 0 15%;
+
+  justify-content: space-between;
+
+  button {
+    width: 10%;
+  }
+
+
+  .filter-active {
+    background-color: orange;
+  }
+}
