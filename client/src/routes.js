@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Redirect, IndexRedirect } from 'react-router';
 
-import TodayPageContainer from './components/TodayPage/TodayPageContainer';
-import EventPageContainer from './components/EventPage/EventPageContainer';
-import AboutPage from './components/AboutPage/AboutPage';
-import FeedbackPage from './components/FeedbackPage/FeedbackPage';
-import ModerateContainer from './components/ModeratePage/ModerateContainer';
-import SettingsPage from './components/SettingsPage/SettingsPage';
+import TodayPageContainer from './pages/TodayPage/TodayPageContainer';
+import EventPageContainer from './pages/EventPage/EventPageContainer';
+import AboutPage from './pages/AboutPage/AboutPage';
+import FeedbackPage from './pages/FeedbackPage/FeedbackPage';
+import ModerateContainer from './pages/ModeratePage/ModerateContainer';
+import SettingsPage from './pages/SettingsPage/SettingsPage';
 
 /*IndexRoute
 Redirect*/

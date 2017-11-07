@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router';
 
-import SocialButtons from './SocialButtons/SocialButtons';
+import SocialButtons from 'components/SocialButtons/SocialButtons';
 import FeedbackForm from './FeedbackForm/FeedbackForm';
 
 import './AboutPage.css';

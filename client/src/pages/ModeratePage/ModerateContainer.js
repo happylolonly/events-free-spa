@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Loader } from '../common';
+import { Loader } from 'components/common';
 
 import axios from 'axios';
 

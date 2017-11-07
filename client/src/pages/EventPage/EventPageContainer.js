@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import EventDetail from './EventDetail';
-import { Loader } from '../common';
+import { Loader } from 'components/common';
 
 import axios from 'axios';
 // import { API } from '';
