@@ -1,16 +1,28 @@
 .footer {
-  // position: absolute;
+  // position: fixed;
   // left: 0;
   // bottom: 0;
   // right: 0;
-  min-height: 80px;
-  text-align: center;
+
+  min-height: 90px;
   background-color: #27272e;
   color: #fff;
+  padding: 15px 15%;
+  padding-bottom: 5px;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    ul {
+      list-style-type: none;
+    }
+  }
+
+  p {
+    text-align: center;
+  }
 
   span {
     color: #ff084a;
@@ -21,11 +33,9 @@
     }
   }
 
-
     // clear: both;
     // position: relative;
     // z-index: 10;
     // height: 3em;
     // margin-top: -3em;
-
 }
