@@ -1,6 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import EventItem from '../parts/EventItem/EventItem';
+
+import EventItem from 'components/parts/EventItem/EventItem';
 
 
 // import './TodayPage.scss';

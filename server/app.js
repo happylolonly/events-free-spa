@@ -72,19 +72,19 @@ const url = 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes';
 const connections = [];
 
 const run = () => {
-  meetupBy.init();
-  eventsDevBy.init();
-  imaguru.init();
-  sportMts.init();
-
-  citydogAfisha.init();
-
-  setTimeout(() => { // citydog blocks
-    citydogVedy.init();
-  }, 1000);
-
-  vk.init('minskforfree');
-  vk.init('free_fitness_minsk');
+  // meetupBy.init();
+  // eventsDevBy.init();
+  // imaguru.init();
+  // sportMts.init();
+  //
+  // citydogAfisha.init();
+  //
+  // setTimeout(() => { // citydog blocks
+  //   citydogVedy.init();
+  // }, 1000);
+  //
+  // vk.init('minskforfree');
+  // vk.init('free_fitness_minsk');
 
   setTimeout(() => {
     io.sockets.emit('events-updated');

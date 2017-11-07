@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import TodayPage from './TodayPage';
 
-import { Loader } from '../common';
+import { Loader } from 'components/common';
 import axios from 'axios';
 
 import io from 'socket.io-client';
