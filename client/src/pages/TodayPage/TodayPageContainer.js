@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import TodayPage from './TodayPage';
 
+import { Link } from 'react-router';
+
 import { Loader } from 'components/common';
 import axios from 'axios';
 
@@ -10,6 +12,7 @@ import io from 'socket.io-client';
 // import { API } from '../constants/config';
 
 import Search from './Search/Search';
+import Filters from './Filters/Filters';
 
 import './TodayPageContainer.css';
 
@@ -21,25 +24,49 @@ const propTypes = {
 }
 
 class TodayPageContainer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       events: [],
-      // filteredEvents: [],
       search: '',
-      offset: 10,
+      offset: 0,
       isLoading: false,
+      totalCount: null,
+      currentFilter: this.props.location.query.day || 'today',
     }
 
     // this.loadEvent = this.loadEvent.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.loadMore = this.loadMore.bind(this);
 
+    this.handleFilter = this.handleFilter.bind(this);
+
     this.connect = this.connect.bind(this);
     this.disconnect = this.disconnect.bind(this);
     this.eventsUpdated = this.eventsUpdated.bind(this);
     this.handleSecretButtonClick = this.handleSecretButtonClick.bind(this);
+  }
+
+  componentDidMount() {
+    this.socket = io();
+    this.socket.on('connect', this.connect);
+    this.socket.on('disconnect', this.disconnect);
+    this.socket.on('events-updated', this.eventsUpdated);
+
+    this.loadEvents();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // nextProps.route.path === 'today'
+    setTimeout(() => {
+      this.loadEvents();
+    }, 10);
+    // this.loadEvents();
+  }
+
+  componentWillUnmount() {
+    this.socket.close();
   }
 
   connect() {
@@ -59,31 +86,6 @@ class TodayPageContainer extends Component {
   handleSecretButtonClick() {
     console.log('reparse request');
     this.socket.emit('reparse events');
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // nextProps.route.path === 'today'
-    setTimeout(() => {
-      // как обычно костыль потому что роутер не обновлялся
-      // потом посмотрю
-      this.loadEvents();
-    }, 10);
-    // this.loadEvents();
-  }
-
-  componentDidMount() {
-    this.socket = io();
-    this.socket.on('connect', this.connect);
-    this.socket.on('disconnect', this.disconnect);
-    this.socket.on('events-updated', this.eventsUpdated);
-
-    this.loadEvents();
-  }
-
-  componentWillUnmount() {
-    console.log('will un');
-    // this.socket.disconnect();
-    this.socket.close();
   }
 
   handleSearch(search) {
@@ -110,12 +112,15 @@ class TodayPageContainer extends Component {
     let sources = filtered.join(',');
 
 
-    axios.get(`/events?${this.props.route.path === 'today' ? 'today=true&' : ''}${this.props.route.path === 'past' ? 'past=true&' : ''}offset=${this.state.offset}&search=${this.state.search}&sources=${sources}`)
+    axios.get(`/events?day=${this.state.currentFilter}&offset=${this.state.offset}&search=${this.state.search}&sources=${sources}`)
       .then(data => {
-        console.log(data.data);
+        const { model, totalCount } = data.data;
 
-        this.setState({events: data.data, isLoading: false});
-        // this.setState({filteredEvents: data.data});
+        this.setState({
+          events: [...this.state.events, ...model],
+          totalCount: totalCount,
+          isLoading: false
+        });
       })
       .catch(error => {
         this.setState({isLoading: false});
@@ -123,38 +128,39 @@ class TodayPageContainer extends Component {
       })
   }
 
+  handleFilter(filter) {
+    this.setState({
+      currentFilter: filter,
+      events: [],
+      totalCount: null
+    }, () => {
+      window.history.pushState(filter, null, `events?day=${filter}`);
+      this.loadEvents();
+    });
+  }
+
   render() {
-    console.log(this.props);
     return (
       <div className="today-page-container">
         {this.props.location.query.test && <button className="test-button" onClick={this.handleSecretButtonClick}>секретная кнопка</button>}
         <Search handleSearch={this.handleSearch} search={this.state.search} />
+        <Filters handleFilter={this.handleFilter} currentFilter={this.state.currentFilter} />
 
         {this.state.isLoading ? <Loader /> :
           <div>
+            <TodayPage events={this.state.events} />
 
-            <TodayPage events={
-              //   (() => {
-              //   // по быстрому
-              //   if (this.state.events.length === 0) return this.state.events;
-              //   let items = this.state.events.filter(item => {
-              //     let item2 = item.title.toLowerCase();
-              //     return item2.indexOf(this.state.search.toLowerCase()) !=-1;
-              //   })
-              //
-              //   // console.log(items);
-              //   return items;
-              //
-              // })()
-              this.state.events
-            } />
-            <button className="btn btn-link" onClick={this.loadMore}>Показать еще</button>
-
+            {this.state.events.length < this.state.totalCount &&
+              <button className="btn btn-link" onClick={this.loadMore}>Показать еще</button>}
           </div>
+        }
 
-    }
-
-
+        {this.state.totalCount === 0 &&
+          <div>
+            <p>Ничего не найдено:(</p>
+            <p>Попробуй изменить откуда получать мероприятия в <Link to="/settings">настройках</Link></p>
+          </div>
+        }
       </div>
     )
   }

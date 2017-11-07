@@ -23,7 +23,11 @@ const AboutPage = () => {
       <p>Дизайн пока не идеален, потом будет лучше)</p>
       <p>Серверу иногда нужно "проснуться", необходимо подождать 30 секунд.</p>
       <h5>Поделись с друзьями!</h5>
-      <SocialButtons />
+      <SocialButtons
+        link="http://eventsfree.by"
+        title="Все бесплатные мероприятия в одном месте!"
+        isShowCount={true}
+      />
       <FeedbackForm />
     </div>
   )

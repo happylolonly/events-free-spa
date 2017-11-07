@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
-import EventItem from 'components/parts/EventItem/EventItem';
-
+import EventItem from 'components/EventItem/EventItem';
 
 // import './TodayPage.scss';
 

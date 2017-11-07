@@ -53,6 +53,8 @@ const q = tress((url, callback) => {
       const date = formatDate(year, month, day, hour, minute);
       // console.log(new Date(date));
 
+      // if ($(page).find('.adress-events-map'))
+
       results.push({
         date: date,
         title: title,

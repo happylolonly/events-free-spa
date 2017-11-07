@@ -5,6 +5,7 @@ import { ShareButtons, ShareCounts, generateShareIcon } from 'react-share';
 
 import './SocialButtons.css';
 
+
 const { VKShareButton, FacebookShareButton, TwitterShareButton, TelegramShareButton, LinkedinShareButton, GooglePlusShareButton } = ShareButtons;
 const { VKShareCount, FacebookShareCount, LinkedinShareCount, GooglePlusShareCount } = ShareCounts;
 
@@ -15,39 +16,41 @@ const TelegramIcon = generateShareIcon('telegram');
 const LinkedinIcon = generateShareIcon('linkedin');
 const GooglePlusIcon = generateShareIcon('google');
 
-const link = 'http://eventsfree.by';
-const title = 'Все бесплатные мероприятия в одном месте!';
 const description = '';
 const image = 'http://www.eventsfree.by/logo.png';
 const size = 32;
 
 const propTypes = {
-
+  link: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  isShowCount: PropTypes.bool.isRequired,
 }
 
-const SocialButtons = () => {
+const SocialButtons = ({ link, title, isShowCount }) => {
   return (
     <ul className="social-buttons">
 
       <li>
         <VKShareButton url={link} title={title} description={description} image={image}>
           <VKIcon size={size} round={true} />
-          <VKShareCount url={link}>
-            {shareCount => (
-              <span className="myShareCountWrapper">{shareCount}</span>
-            )}
-          </VKShareCount>
+          {isShowCount &&
+            <VKShareCount url={link}>
+              {shareCount => (
+                <span className="myShareCountWrapper">{shareCount}</span>
+              )}
+            </VKShareCount>}
         </VKShareButton>
       </li>
 
       <li>
         <FacebookShareButton url={link} title={title} description={description} picture={image}>
           <FacebookIcon size={size} round={true} />
-          <FacebookShareCount url={link}>
-            {shareCount => (
-              <span className="myShareCountWrapper">{shareCount}</span>
-            )}
-          </FacebookShareCount>
+          {isShowCount &&
+            <FacebookShareCount url={link}>
+              {shareCount => (
+                <span className="myShareCountWrapper">{shareCount}</span>
+              )}
+            </FacebookShareCount>}
         </FacebookShareButton>
       </li>
 
@@ -66,22 +69,24 @@ const SocialButtons = () => {
       <li>
         <LinkedinShareButton url={link} title={title} description={description}>
           <LinkedinIcon size={size} round={true} />
-          <LinkedinShareCount url={link}>
-            {shareCount => (
-              <span className="myShareCountWrapper">{shareCount}</span>
-            )}
-          </LinkedinShareCount>
+          {isShowCount &&
+            <LinkedinShareCount url={link}>
+              {shareCount => (
+                <span className="myShareCountWrapper">{shareCount}</span>
+              )}
+            </LinkedinShareCount>}
         </LinkedinShareButton>
       </li>
 
       <li>
         <GooglePlusShareButton url={link}>
           <GooglePlusIcon size={size} round={true} />
-          <GooglePlusShareCount url={link}>
-            {shareCount => (
-              <span className="myShareCountWrapper">{shareCount}</span>
-            )}
-          </GooglePlusShareCount>
+          {isShowCount &&
+            <GooglePlusShareCount url={link}>
+              {shareCount => (
+                <span className="myShareCountWrapper">{shareCount}</span>
+              )}
+            </GooglePlusShareCount>}
         </GooglePlusShareButton>
       </li>
 
