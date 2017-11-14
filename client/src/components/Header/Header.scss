@@ -71,22 +71,40 @@
   @media (max-width: 800px) {
     flex-direction: column;
 
-    span {
-      order: -1;
-    }
-
-    ul:first-of-type {
-      display: block;
-    }
-
-    ul:last-of-type {
-      margin-top: -10px;
-    }
-
     ul {
-      margin: 10px auto;
+      margin: 10px auto 0;
+    }
+
+    span {
+      margin-left: 0px;
+    }
+
+  //   span {
+  //     order: -1;
+  //   }
+  //
+  //   ul:first-of-type {
+  //     display: block;
+  //   }
+  //
+  //   ul:last-of-type {
+  //     margin-top: -10px;
+  //   }
+  //
+  //   ul {
+  //     margin: 10px auto;
+  //     li {
+  //       min-width: 120px;
+  //     }
+  //   }
+  }
+
+  @media (max-width: 520px) {
+    ul {
+      margin-bottom: 15px;
+
       li {
-        min-width: 120px;
+        display: block;
       }
     }
   }

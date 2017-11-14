@@ -1,18 +1,37 @@
 .filters {
-
-
   display: flex;
-
-  padding: 0 15%;
-
-  justify-content: space-between;
+  justify-content: center;
+  // padding: 0 15%;
+  margin: 30px 0;
 
   button {
-    width: 10%;
-  }
+    border: none;
+    color: #fff;
+    margin: 0;
+    min-width: 150px;
+    height: 40px;
+    background: white;
+    border: 1px solid orange;
+    border-right: none;
+    color: orange;
 
+    &:last-child {
+      border-right: 1px solid orange;
+    }
+  }
 
   .filter-active {
     background-color: orange;
+    color: white;
+    // font-weight: bold;
+  }
+
+  @media (max-width: 650px) {
+    flex-direction: column;
+    align-items: center;
+
+    button {
+      width: 150px;
+    }
   }
 }
