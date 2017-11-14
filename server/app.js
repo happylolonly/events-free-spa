@@ -16,6 +16,9 @@ import axios from 'axios';
 
 import cron from 'node-cron';
 
+// import renderer from './helpers/renderer';
+// import createStore from './helpers/createStore';
+
 // import ph from './phantom/index';
 
 const bodyParser = require('body-parser');
@@ -184,8 +187,14 @@ require('./routes/moderate')(app);
 // });
 
 app.use(function(req, res, next) {
+
+    // const store = createStore(req);
     // res.sendFile(__dirname + '/build');
     res.sendFile(path.join(__dirname, '../build/index.html'));
+
+    // const content = renderer(req, store);
+    // res.send(content);
+
     // express.static.send(req, res, next ,{
     //     root: __dirname + "/public",
     //     path: req.url,
