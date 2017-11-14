@@ -148,7 +148,7 @@ class TodayPageContainer extends Component {
 
         {this.state.isLoading ? <Loader /> :
           <div>
-            <TodayPage events={this.state.events} />
+            <TodayPage events={this.state.events} currentFilter={this.state.currentFilter} />
 
             {this.state.events.length < this.state.totalCount &&
               <button className="btn btn-link" onClick={this.loadMore}>Показать еще</button>}
