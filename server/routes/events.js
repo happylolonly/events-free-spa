@@ -4,7 +4,7 @@ import moment from 'moment';
 
 module.exports = (app) => {
 
-  app.get('/events', (req, res) => {
+  app.get('/api/events', (req, res) => {
 
     const { day, search, sources, offset } = req.query;
 

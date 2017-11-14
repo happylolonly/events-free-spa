@@ -8,6 +8,8 @@ import { Link } from 'react-router';
 import { Loader } from 'components/common';
 import axios from 'axios';
 
+import { API } from '../../constants/config';
+
 import io from 'socket.io-client';
 // import { API } from '../constants/config';
 
@@ -112,7 +114,7 @@ class TodayPageContainer extends Component {
     let sources = filtered.join(',');
 
 
-    axios.get(`/events?day=${this.state.currentFilter}&offset=${this.state.offset}&search=${this.state.search}&sources=${sources}`)
+    axios.get(`${API}/events?day=${this.state.currentFilter}&offset=${this.state.offset}&search=${this.state.search}&sources=${sources}`)
       .then(data => {
         const { model, totalCount } = data.data;
 
