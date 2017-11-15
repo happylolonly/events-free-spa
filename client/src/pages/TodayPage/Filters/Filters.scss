@@ -2,25 +2,29 @@
   display: flex;
   justify-content: center;
   // padding: 0 15%;
-  margin: 30px 0;
+  margin: 50px 0;
 
   button {
     border: none;
-    color: #fff;
+    color: gray;
     margin: 0;
     min-width: 150px;
     height: 40px;
     background: white;
-    border: 1px solid orange;
+    // border: 1px solid #ff662c;
     border-right: none;
-    color: orange;
+    // color: #ff662c;
+    // font-weight: bold;
+
+    box-shadow: 0px 0px 2px gray;
 
     &:last-child {
-      border-right: 1px solid orange;
+      // border-right: 1px solid #ff662c;
     }
   }
 
   .filter-active {
+    // background-color: #ff662c;
     background-color: orange;
     color: white;
     // font-weight: bold;
