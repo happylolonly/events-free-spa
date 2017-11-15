@@ -13,17 +13,23 @@ const URL = 'https://citydog.by/vedy/';
 const results = [];
 let pagesCount;
 
+var instance = axios.create({
+  // baseURL: 'https://some-domain.com/api/',
+  // timeout: 1000,
+  headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'}
+});
+
 
 const q = tress((url, callback) => {
   setTimeout(() => { // 1 sec delay for citydog blocks
-    axios.get(url)
+    instance.get(url)
       .then(data => {
 
         const $ = cheerio.load(data.data);
 
         // if main page
         if (url === URL) {
-          // console.log('main url', url);
+          console.log('main url', url);
           pagesCount = $('.front .vedyMain-item').length;
           console.log(pagesCount);
           $('.front .vedyMain-item').each((item, i) => {
@@ -113,7 +119,7 @@ const q = tress((url, callback) => {
         callback();
         console.log(error);
       })
-  }, 1000)
+  }, 2000)
 }, 1);
 
 q.drain = () => {

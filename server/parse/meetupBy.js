@@ -24,8 +24,8 @@ const q = tress((url, callback) => {
       // if main page
       if (url === 'http://meetup.by') {
         // console.log('main url', url);
-        pagesCount = $('.region-content-inner .views-row').length;
-        $('.region-content-inner .views-row').each((item, i) => {
+        pagesCount = $('.region-content-inner #block-system-main .views-row').length;
+        $('.region-content-inner #block-system-main .views-row').each((item, i) => {
           const link = $(i).find('a').attr('href');
           q.push(`${URL}${link}`);
         });

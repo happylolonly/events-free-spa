@@ -24,7 +24,7 @@ const q = tress((url, callback) => {
       // if main page
       // if (url.split('.by')[1][0] !== '/') {
       if (url === 'https://events.dev.by') {
-        // console.log('main url', url);
+        console.log('main url', url);
         pagesCount = $('.body-events .item').length;
         $('.body-events .item').each((item, i) => {
           const link = $(i).find('a.title').attr('href');
@@ -39,15 +39,15 @@ const q = tress((url, callback) => {
 
       const page = '.show-events';
 
-      const title = $(page).find('h1').text();
+      const title = $(page).find('h1').text().trim();
       const html = $(page).find('.bl').html();
       const originalLink = url.split(`${URL}`)[1];
 
       const dateBlock = $(page).find('.time').text();
 
       const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
-      console.log(parsedDate);
-      console.log(new Date());
+      // console.log(parsedDate);
+      // console.log(new Date());
       const { day, month, hour, minute } = parsedDate;
       let year = moment().format('YYYY');
       const date = formatDate(year, month, day, hour, minute);
