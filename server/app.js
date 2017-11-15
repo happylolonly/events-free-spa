@@ -12,6 +12,7 @@ import sportMts from './parse/sportMts';
 import citydogVedy from './parse/citydogVedy';
 import citydogAfisha from './parse/citydogAfisha';
 
+
 import axios from 'axios';
 
 import cron from 'node-cron';
@@ -88,6 +89,7 @@ const run = () => {
 
   vk.init('minskforfree');
   vk.init('free_fitness_minsk');
+  vk.init('free_languages_minsk');
 
   setTimeout(() => {
     io.sockets.emit('events-updated');

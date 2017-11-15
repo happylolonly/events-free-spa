@@ -78,6 +78,7 @@ module.exports = (app) => {
         eventsDevBy: 'events.dev.by',
         minskforfree: 'vk.com/minskforfree',
         freeFitnessMinsk: 'vk.com/free_fitness_minsk',
+        freeLanguagesMinsk: 'vk.com/free_languages_minsk',
         sportMts: 'sport.mts.by',
         citydogVedy: 'citydog.by/vedy',
         citydogAfisha: 'citydog.by/afisha',
