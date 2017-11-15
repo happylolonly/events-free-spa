@@ -1,5 +1,7 @@
 import Event from '../model/event';
 
+import _ from 'lodash';
+
 // import moment from 'moment';
 
 // model Event
@@ -34,6 +36,15 @@ export const saveEventItemToDB = (results) => {
         })
     }
 
+
+    function checkImages(item1, item2) {
+      if (!Array.isArray(item1) || !Array.isArray(item2)) {
+        return false;
+      }
+      return !(_.isEqual(item1, item2));
+    }
+
+
     // ищем по ссылке вида event/2017-08-01/tensorflow-meetup
     // console.log(item.originalLink);
     Event.find({ originalLink: item.originalLink })
@@ -42,7 +53,14 @@ export const saveEventItemToDB = (results) => {
         if (data.length > 0) {
           // и другой title или date
           // source тут никак не учавствует вроде
-          if (item.title !== data[0].title || item.date !== data[0].date || item.source !== data[0].source || item.text !== data[0].text || item.images !== data[0].images) {
+          if (
+            item.title !== data[0].title ||
+            item.date !== data[0].date ||
+            item.source !== data[0].source ||
+            item.text !== data[0].text ||
+            checkImages(item.images, data[0].images)
+            // если true то обновить, не сравнивает массивы в разном порядке [1,2] [2,1]
+          ) {
             updateEvent(data[0]._id, item);
             return;
           }
