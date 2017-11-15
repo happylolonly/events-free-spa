@@ -134,7 +134,8 @@ class TodayPageContainer extends Component {
     this.setState({
       currentFilter: filter,
       events: [],
-      totalCount: null
+      totalCount: null,
+      offset: 0,
     }, () => {
       window.history.pushState(filter, null, `events?day=${filter}`);
       this.loadEvents();
