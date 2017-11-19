@@ -159,12 +159,12 @@ class TodayPageContainer extends Component {
             <TodayPage events={this.state.events} currentFilter={this.state.currentFilter} />
 
             {this.state.events.length < this.state.totalCount &&
-              <button className="btn btn-link" onClick={this.loadMore}>Показать еще</button>}
+              <button className="btn btn-link show-more" onClick={this.loadMore}>Показать еще</button>}
           </div>
         }
 
         {this.state.totalCount === 0 &&
-          <div>
+          <div className="no-results">
             <p>Ничего не найдено:(</p>
             <p>Попробуй изменить откуда получать мероприятия в <Link to="/settings">настройках</Link></p>
           </div>
