@@ -94,10 +94,10 @@ const run = () => {
   eventsDevBy.init();
   imaguru.init();
   sportMts.init();
-  
-  htp.init();
-  space.init();
-  daonlp.init();
+
+  // htp.init();
+  // space.init();
+  // daonlp.init();
 
   citydogAfisha.init();
 
