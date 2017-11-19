@@ -11,6 +11,46 @@ import _ from 'lodash';
 // source: "imaguru.by"
 // _id: "598740d6ac53c8355c846c0c"
 
+
+const removeInlineStyles = (html) => {
+  let str = html;
+
+  while (str.indexOf(' style="') !== -1) {
+    let start = str.indexOf(' style="');
+    let end = str.indexOf('"', start + ' style="'.length);
+
+    const firstPart = str.substring(0, start);
+    const secondPart = str.substring(end + 1);
+
+    str = firstPart + secondPart;
+    // console.log('inline styles removed');
+  };
+
+  return str;
+};
+
+const removeScripts = (html) => {
+  let str = html;
+
+  while (str.indexOf('<script') !== -1) {
+    let start = str.indexOf('<script');
+    let end = str.indexOf('/script>', start + '<script'.length) + '/script'.length;
+
+    const firstPart = str.substring(0, start);
+    const secondPart = str.substring(end + 1);
+
+    str = firstPart + secondPart;
+    // console.log('scripts was removed');
+  };
+
+  return str;
+};
+
+
+export const formatHTML = (html) => {
+  return removeScripts(removeInlineStyles(html));
+}
+
 export const saveEventItemToDB = (results) => {
   results.forEach(item => {
 
