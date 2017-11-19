@@ -5,7 +5,7 @@ import chrono from 'chrono-node';
 import moment from 'moment';
 import axios from 'axios';
 
-import { saveEventItemToDB, convertMonths, formatDate, checkText, formatHTML } from './helpers';
+import { saveEventItemToDB, convertMonths, formatDate, checkText, formatHTML, detectContact } from './helpers';
 
 
 const URL = 'https://citydog.by/vedy/';
@@ -77,20 +77,7 @@ const q = tress((url, callback) => {
         $('.vedyPage-eventInfoWrapper p').each((item, i) => {
           if ($(i).text().toLowerCase().indexOf('справки:') !== -1) {
             const href = $(i).find('a').attr('href');
-            let contact;
-
-            if (href.indexOf('mailto:') !== -1) {
-              contact = { email: href.replace('mailto:', '')}
-            } else if (href.indexOf('tel:') !== -1) {
-              contact = { phone: href.replace('tel:', '')}
-            } else if (href.indexOf('://') !== -1) {
-              contact = { link: href.split('://')[1] }
-            } else {
-              // check
-              contact = { contact: href }
-            }
-
-            contact2 = contact;
+            contact2 = Object.assign(contact2, detectContact(href));
           }
         });
 

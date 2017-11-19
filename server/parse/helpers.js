@@ -12,6 +12,24 @@ import _ from 'lodash';
 // _id: "598740d6ac53c8355c846c0c"
 
 
+export const detectContact = (href) => {
+  let contact;
+
+  if (href.indexOf('mailto:') !== -1) {
+    contact = { email: href.replace('mailto:', '')}
+  } else if (href.indexOf('tel:') !== -1) {
+    contact = { phone: href.replace('tel:', '')}
+  } else if (href.indexOf('://') !== -1) {
+    contact = { link: href.split('://')[1] }
+  } else {
+    // check
+    contact = { contact: href }
+  }
+
+  return contact;
+}
+
+
 const removeInlineStyles = (html) => {
   let str = html;
 
