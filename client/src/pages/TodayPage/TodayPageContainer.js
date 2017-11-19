@@ -103,11 +103,12 @@ class TodayPageContainer extends Component {
 
   loadMore() {
     this.setState({offset: this.state.offset + 10}, () => {
-      this.loadEvents();
+      this.loadEvents({spread: true});
     })
   }
 
-  loadEvents() {
+  // костыль какой то
+  loadEvents(config={}) {
     this.setState({isLoading: true});
     const events = JSON.parse(localStorage.getItem('events')) || {};
     var keys = Object.keys(events);
@@ -124,7 +125,7 @@ class TodayPageContainer extends Component {
         const { model, totalCount } = data.data;
 
         this.setState({
-          events: [...this.state.events, ...model],
+          events: config.spread ? [...this.state.events, ...model] : [...model],
           totalCount: totalCount,
           isLoading: false
         });
