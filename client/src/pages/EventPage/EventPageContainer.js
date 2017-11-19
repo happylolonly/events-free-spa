@@ -68,7 +68,7 @@ class EventPageContainer extends Component {
   }
 
   render() {
-    const { title, text, date, images } = this.state.event;
+    const { title, text, date, images, contacts, location } = this.state.event;
     return (
       <div className="event-page-container">
         {Object.keys(this.state.event).length === 0  ?
@@ -78,6 +78,8 @@ class EventPageContainer extends Component {
             text={text}
             date={date}
             images={images}
+            contacts={contacts}
+            location={location}
           />
     }
       </div>
