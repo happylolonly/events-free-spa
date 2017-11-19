@@ -1,5 +1,10 @@
 import Event from '../model/event';
 import moment from 'moment';
+//
+// import { removeInlineStyles, saveEventItemToDB } from './parse/helpers';
+//
+//
+// Event.find({}).
 
 
 module.exports = (app) => {
@@ -55,15 +60,29 @@ module.exports = (app) => {
     }
 
 
-    if (false) {
+    if (search) {
+      // мастер поиска
+
       // obj.title = /^`${search}`/;
       // obj.title = {$regex : "^" + search, 'i'};
       // obj.title = { $regex: new RegExp("^" + search.toLowerCase()) };
-      let reg = new RegExp("^" + search.toLowerCase() + "$");
+      // let reg = new RegExp("^" + search.toLowerCase() + "$");
       // console.log(reg, 'req');
       // obj['title_lower'] = /^soft$/i;
 
-      obj['lower-title'] = { $regex: reg, '$options' : 'i' }
+      var string = search;
+      var regex = new RegExp([string].join(""));
+      // Creates a regex of: /^SomeStringToFind$/i
+
+      // db.stuff.find( { foo: regex } );
+
+      obj.title = { $regex: regex, $options: 'i' };
+
+      // obj['lower-title'] = { $regex: reg, '$options' : 'i' }
+      // obj['lower-title'] = { }
+
+      // obj.title = { $text: { $search: search } };
+      // obj['$text'] = { $search: search };
 
       // db.collection.find({name:{'$regex' : '^string$', })
       // username: {$regex : "^" + req.params.username
@@ -82,6 +101,9 @@ module.exports = (app) => {
         sportMts: 'sport.mts.by',
         citydogVedy: 'citydog.by/vedy',
         citydogAfisha: 'citydog.by/afisha',
+        // space: 'citydog.by/afisha',
+        // htp: 'citydog.by/afisha',
+        // citydogAfisha: 'citydog.by/afisha',
       }
 
       // console.log(sources.split(','));
@@ -114,16 +136,19 @@ module.exports = (app) => {
           .skip(+offset)
           .limit(10)
           .then(events => {
-            // console.log(events)
+            console.log(events.length, 'find');
 
             //  if (this.state.events.length === 0) return this.state.events;
             // пока костыль
-             let items = events.filter(item => {
-               let item2 = item.title.toLowerCase();
-               return item2.indexOf(search.toLowerCase()) !=-1;
-             });
+            //  let items = events.filter(item => {
+            //    let item2 = item.title.toLowerCase();
+            //    return item2.indexOf(search.toLowerCase()) !== -1;
+            //  });
 
-             let filteredItems = items.map(item => {
+             console.log(search);
+            //  console.log(items.length);
+
+             let filteredItems = events.map(item => {
                const { _id:id, title, source, originalLink, date} = item;
                return {
                  id,
@@ -144,7 +169,7 @@ module.exports = (app) => {
 
     Promise.all([getTotalCount(), getEvents()])
       .then(data => {
-        console.log('data lst', data);
+        // console.log('data lst', data);
 
         res.json({
           model: data[1],

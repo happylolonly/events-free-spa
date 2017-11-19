@@ -91,7 +91,12 @@ class TodayPageContainer extends Component {
   }
 
   handleSearch(search) {
-    this.setState({search}, () => {
+    this.setState({
+      search,
+      events: [],
+      totalCount: null,
+      offset: 0,
+    }, () => {
       this.loadEvents();
     })
   }
