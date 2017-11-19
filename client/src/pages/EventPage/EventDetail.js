@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+import EventText from './EventText';
+
 import moment from 'moment';
 
 import './EventDetail.css';
@@ -25,7 +27,7 @@ const EventDetail = ({ title, text, date, images, ...rest }) => {
         <span>{moment(date).lang('ru').format('HH:mm') !== '00:00' ? moment(date).lang('ru').format('D MMMM YYYY в HH:mm') : moment(date).lang('ru').format('D MMMM YYYY')}</span>
       </header>
       <section>
-        <p dangerouslySetInnerHTML={ {__html: text} }></p>
+        <EventText text={text} />
 
         {images && images.map(item => {
           // const { src, description } = item;
