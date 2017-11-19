@@ -150,6 +150,11 @@ module.exports = (app) => {
 
              let filteredItems = events.map(item => {
                const { _id:id, title, source, originalLink, date} = item;
+
+              // const obj = {...item};
+              // obj.id = item._id;
+              // delete item._id;
+              // delete item.text;
                return {
                  id,
                  date,
@@ -157,6 +162,7 @@ module.exports = (app) => {
                  source,
                  originalLink
                }
+              // return obj;
              })
 
              resolve(filteredItems);

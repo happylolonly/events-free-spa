@@ -50,6 +50,7 @@ const q = tress((url, callback) => {
 
         if($(page).find('.afishaPost-eventInfoFooter').text().indexOf('бесплатн') === -1) {
           console.log('not free');
+          pagesCount -= 1;
           callback();
           return;
         }
@@ -57,8 +58,9 @@ const q = tress((url, callback) => {
         const htmlTitle = $(page).find('.afishaPost-Description h3').text();
         const title = htmlTitle.substring(0, htmlTitle.indexOf('('));
 
-        const html = $(page).html();
-        // const html = $(page).find('.afishaPost-Description-text').html();
+        const html = $(page).find('.afishaPost-Description-text').html();
+        const image = $(page).find('.afishaPage-gallery img').attr('src');
+
         const originalLink = url.split(`/afisha`)[1];
 
         let dateBlock = $(page).find('.afishaPost-eventInfoHeader h4').text();
@@ -95,6 +97,8 @@ const q = tress((url, callback) => {
           originalLink,
           source: 'citydog.by/afisha',
           status: checkText(html) ? 'active' : 'active',
+          images: [image],
+          // contacts: contact2,
         });
 
         callback();

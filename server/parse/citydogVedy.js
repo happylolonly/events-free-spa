@@ -53,6 +53,7 @@ const q = tress((url, callback) => {
 
         if($(page).find('.vedyPage-eventInfoWrapper').text().indexOf('бесплатн') === -1) {
           console.log('not free');
+          pagesCount -= 1;
           callback();
           return;
         }

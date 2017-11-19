@@ -84,8 +84,8 @@ export const saveEventItemToDB = (results) => {
     }
 
     const updateEvent = (_id, item) => {
-      const { date, title, originalLink, source, text, images } = item;
-      Event.findByIdAndUpdate(_id, { date, title, originalLink, source, text, images })
+      const { date, title, originalLink, source, text, images, location, contacts } = item;
+      Event.findByIdAndUpdate(_id, { date, title, originalLink, source, text, images, location, contacts })
         .then(() => {
           console.log('update event');
         })
@@ -95,12 +95,12 @@ export const saveEventItemToDB = (results) => {
     }
 
 
-    function checkImages(item1, item2) {
-      if (!Array.isArray(item1) || !Array.isArray(item2)) {
-        return false;
-      }
-      return !(_.isEqual(item1, item2));
-    }
+    // function checkImages(item1, item2) {
+    //   if (!Array.isArray(item1) || !Array.isArray(item2)) {
+    //     return false;
+    //   }
+    //   return !(_.isEqual(item1, item2));
+    // }
 
 
     // ищем по ссылке вида event/2017-08-01/tensorflow-meetup
@@ -111,12 +111,27 @@ export const saveEventItemToDB = (results) => {
         if (data.length > 0) {
           // и другой title или date
           // source тут никак не учавствует вроде
+          // console.log(data[0]);
+
+          const obj = Object.assign({}, data[0]);
+
+          delete obj._id;
+          delete obj.__v;
+          delete obj.status;
+
+          const checkItem = Object.assign({}, item);
+          delete checkItem.status;
+
           if (
-            item.title !== data[0].title ||
-            item.date !== data[0].date ||
-            item.source !== data[0].source ||
-            item.text !== data[0].text ||
-            checkImages(item.images, data[0].images)
+            // item.title !== data[0].title ||
+            // item.date !== data[0].date ||
+            // item.source !== data[0].source ||
+            // item.text !== data[0].text ||
+            // item.location !== data[0].location ||
+            // item.text !== data[0].text ||
+            // checkImages(item.images, data[0].images)
+            !(_.isEqual(checkItem, data[0]))
+            // false
             // если true то обновить, не сравнивает массивы в разном порядке [1,2] [2,1]
           ) {
             updateEvent(data[0]._id, item);
