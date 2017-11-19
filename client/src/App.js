@@ -13,7 +13,7 @@ class App extends Component {
     const events = JSON.parse(localStorage.getItem('events')) || {};
     if (Object.keys(events).length === 0) {
       console.log('init');
-      let obj = {"imaguru":true,"eventsDevBy":true,"meetupBy":true,"minskforfree":true,"sportMts":false,"freeFitnessMinsk":false, "citydogAfisha":true, "citydogVedy":true};
+      let obj = {"imaguru":true,"eventsDevBy":true,"meetupBy":true,"minskforfree":true,"sportMts":false,"freeFitnessMinsk":false, "citydogAfisha":true, "citydogVedy":true, "freeLanguagesMinsk": false};
       localStorage.setItem('events', JSON.stringify(obj));
     }
 

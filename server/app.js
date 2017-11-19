@@ -94,11 +94,11 @@ const run = () => {
   eventsDevBy.init();
   imaguru.init();
   sportMts.init();
-
-  // htp.init();
-  // space.init();
-  // daonlp.init();
-
+  //
+  // // htp.init();
+  // // space.init();
+  // // daonlp.init();
+  //
   citydogAfisha.init();
 
   setTimeout(() => { // citydog blocks
@@ -107,7 +107,7 @@ const run = () => {
 
   vk.init('minskforfree');
   vk.init('free_fitness_minsk');
-  // vk.init('free_languages_minsk');
+  vk.init('free_languages_minsk');
 
   setTimeout(() => {
     io.sockets.emit('events-updated');

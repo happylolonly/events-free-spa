@@ -24,6 +24,7 @@ class SettingsPage extends Component {
         freeFitnessMinsk: false,
         citydogVedy: false,
         citydogAfisha: false,
+        freeLanguagesMinsk: false,
       },
       isAllChecked: false,
     }
@@ -117,6 +118,12 @@ class SettingsPage extends Component {
         value={this.state.sources.minskforfree}
         onChange={this.handleElementsChange}
         text="vk.com/minskforfree"
+      />
+      <Checkbox
+        name="freeLanguagesMinsk"
+        value={this.state.sources.freeLanguagesMinsk}
+        onChange={this.handleElementsChange}
+        text="vk.com/free_languages_minsk"
       />
       <Checkbox
         name="citydogAfisha"

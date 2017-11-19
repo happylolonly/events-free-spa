@@ -97,7 +97,7 @@ const init = (group) => {
       });
     });
 
-    console.log(results);
+    console.log(results.length, 'find');
 
     saveEventItemToDB(results);
   })
