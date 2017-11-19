@@ -17,6 +17,10 @@ import imaguru from './parse/imaguru';
 import vk from './parse/vk';
 import sportMts from './parse/sportMts';
 
+import space from './parse/space';
+import htp from './parse/htp';
+import daonlp from './parse/daonlp';
+
 import citydogVedy from './parse/citydogVedy';
 import citydogAfisha from './parse/citydogAfisha';
 
@@ -37,6 +41,8 @@ var path = require('path');
 const port = process.env.PORT || 3090;
 
 // ph();
+
+
 
 
 
@@ -88,6 +94,10 @@ const run = () => {
   eventsDevBy.init();
   imaguru.init();
   sportMts.init();
+  
+  htp.init();
+  space.init();
+  daonlp.init();
 
   citydogAfisha.init();
 
@@ -97,7 +107,7 @@ const run = () => {
 
   vk.init('minskforfree');
   vk.init('free_fitness_minsk');
-  vk.init('free_languages_minsk');
+  // vk.init('free_languages_minsk');
 
   setTimeout(() => {
     io.sockets.emit('events-updated');

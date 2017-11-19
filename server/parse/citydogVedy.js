@@ -5,7 +5,7 @@ import chrono from 'chrono-node';
 import moment from 'moment';
 import axios from 'axios';
 
-import { saveEventItemToDB, convertMonths, formatDate, checkText } from './helpers';
+import { saveEventItemToDB, convertMonths, formatDate, checkText, formatHTML } from './helpers';
 
 
 const URL = 'https://citydog.by/vedy/';
@@ -57,10 +57,44 @@ const q = tress((url, callback) => {
           return;
         }
 
-        const title = $(page).find('.vedyPage-eventInfoWrapper h1').text();
-        const html = $(page).html();
+        const htmlTitle = $(page).find('.vedyPage-eventInfoWrapper h1').text();
+        const title = htmlTitle.substring(0, htmlTitle.indexOf('('));
+
+        // const defaultHTML = $(page);
+        // defaultHTML.find('.vedyPage-blockShare').remove();
+        const html = $(page).find('.vedyPage-Description-text').html();
         // const html = $(page).find('.afishaPost-Description-text').html();
         const originalLink = url.split(`/vedy`)[1];
+
+        const location = $(page).find('.place .address').text();
+        console.log(location);
+
+        const image = $(page).find('.vedyPage-gallery img').attr('src');
+        console.log(image);
+
+        let contact2 = {};
+
+        $('.vedyPage-eventInfoWrapper p').each((item, i) => {
+          if ($(i).text().toLowerCase().indexOf('справки:') !== -1) {
+            const href = $(i).find('a').attr('href');
+            let contact;
+
+            if (href.indexOf('mailto:') !== -1) {
+              contact = { email: href.replace('mailto:', '')}
+            } else if (href.indexOf('tel:') !== -1) {
+              contact = { phone: href.replace('tel:', '')}
+            } else if (href.indexOf('://') !== -1) {
+              contact = { link: href.split('://')[1] }
+            } else {
+              // check
+              contact = { contact: href }
+            }
+
+            contact2 = contact;
+          }
+        });
+
+        console.log(contact2);
 
         let dateBlock = $(page).find('.vedyPage-eventInfoWrapper h3').text();
         dateBlock = dateBlock.replace('|', '');
@@ -106,10 +140,13 @@ const q = tress((url, callback) => {
         results.push({
           date: date,
           title: title,
-          text: html,
+          text: formatHTML(html),
           originalLink,
           source: 'citydog.by/vedy',
           status: checkText(html) ? 'active' : 'active',
+          location: location,
+          contacts: contact2,
+          images: [image]
         });
 
         callback();

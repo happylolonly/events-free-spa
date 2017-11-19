@@ -3,9 +3,10 @@ const Schema = mongoose.Schema;
 
 const EventSchema = new Schema({
   date: { type: Number, required: [true] },
-  title: { type: String, required: [true] },
+  title: { type: String, required: [true], text: true },
   text: { type: String, required: [true] },
   images: { type: Array },
+  contacts: { type: Object },
 
   originalLink: { type: String, required: [true] },
   source: { type: String, required: [true] },

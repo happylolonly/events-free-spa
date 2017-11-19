@@ -5,7 +5,7 @@ import chrono from 'chrono-node';
 import moment from 'moment';
 import axios from 'axios';
 
-import { saveEventItemToDB, convertMonths, formatDate, checkText } from './helpers';
+import { saveEventItemToDB, convertMonths, formatDate, checkText, formatHTML } from './helpers';
 
 
 const URL = 'https://citydog.by/afisha/';
@@ -54,7 +54,9 @@ const q = tress((url, callback) => {
           return;
         }
 
-        const title = $(page).find('.afishaPost-Description h3').text();
+        const htmlTitle = $(page).find('.afishaPost-Description h3').text();
+        const title = htmlTitle.substring(0, htmlTitle.indexOf('('));
+
         const html = $(page).html();
         // const html = $(page).find('.afishaPost-Description-text').html();
         const originalLink = url.split(`/afisha`)[1];
@@ -89,7 +91,7 @@ const q = tress((url, callback) => {
         results.push({
           date: date,
           title: title,
-          text: html,
+          text: formatHTML(html),
           originalLink,
           source: 'citydog.by/afisha',
           status: checkText(html) ? 'active' : 'active',
