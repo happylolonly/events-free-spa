@@ -68,12 +68,13 @@ class EventPageContainer extends Component {
   }
 
   render() {
-    const { title, text, date, images, contacts, location } = this.state.event;
+    const { title, text, date, images, contacts, location, _id:id } = this.state.event;
     return (
       <div className="event-page-container">
         {Object.keys(this.state.event).length === 0  ?
           <Loader /> :
           <EventDetail
+            id={id}
             title={title}
             text={text}
             date={date}

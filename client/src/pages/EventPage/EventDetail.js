@@ -6,6 +6,8 @@ import EventText from './EventText';
 import Location from './Location/Location';
 import Contacts from './Contacts/Contacts';
 
+import SocialButtons from '../../components/SocialButtons/SocialButtons';
+
 import moment from 'moment';
 
 import './EventDetail.css';
@@ -17,10 +19,11 @@ const propTypes = {
   date: PropTypes.number.isRequired,
   images: PropTypes.array,
   // contacts
-  // location
+  // location id
 }
 
-const EventDetail = ({ title, text, date, images, contacts, location, ...rest }) => {
+const EventDetail = ({ title, text, date, images, contacts, location, id, ...rest }) => {
+  console.log(rest);
   console.log(document.referrer);
   console.log(window.location);
   return (
@@ -42,6 +45,11 @@ const EventDetail = ({ title, text, date, images, contacts, location, ...rest })
         <hr/>
 
         <div className="additional-info">
+          <SocialButtons
+            link={`http://www.eventsfree.by/event/${id}`}
+            title={title}
+            isShowCount={false}
+          />
           {contacts && Object.keys(contacts).length > 0 && <Contacts contacts={contacts} />}
           {location && <Location location={location}   />}
         </div>
