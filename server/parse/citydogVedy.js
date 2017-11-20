@@ -59,11 +59,15 @@ const q = tress((url, callback) => {
         }
 
         const htmlTitle = $(page).find('.vedyPage-eventInfoWrapper h1').text();
-        const title = htmlTitle.substring(0, htmlTitle.indexOf('('));
+        let title = htmlTitle;
+        if (htmlTitle.indexOf('(') !== -1) {
+          title = htmlTitle.substring(0, htmlTitle.indexOf('('));
+        }
 
         // const defaultHTML = $(page);
         // defaultHTML.find('.vedyPage-blockShare').remove();
         const html = $(page).find('.vedyPage-Description-text').html();
+        console.log(html.length);
         // const html = $(page).find('.afishaPost-Description-text').html();
         const originalLink = url.split(`/vedy`)[1];
 
