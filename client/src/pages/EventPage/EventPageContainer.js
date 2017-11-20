@@ -5,7 +5,7 @@ import EventDetail from './EventDetail';
 import { Loader } from 'components/common';
 
 import axios from 'axios';
-// import { API } from '';
+import { API } from '../../constants/config';
 
 import './EventPageContainer.css';
 
@@ -53,7 +53,7 @@ class EventPageContainer extends Component {
   }
 
   loadEvent(id) {
-    axios.get(`/event?id=${id}`)
+    axios.get(`${API}/event?id=${id}`)
       .then(data => {
         // setTimeout(() => {
         const eventData = data.data[0];

@@ -188,7 +188,7 @@ module.exports = (app) => {
 
   })
 
-  app.get('/event', (req, res) => {
+  app.get('/api/event', (req, res) => {
     const { id } = req.query;
 
     Event.find({ _id: id })
