@@ -13,6 +13,7 @@ const Location = ({ location }) => {
     <div className="location">
       <h5>Место</h5>
       <p>{location}</p>
+      <a href="#">Показать на карте</a>
     </div>
   )
 }

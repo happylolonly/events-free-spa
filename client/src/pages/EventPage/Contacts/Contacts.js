@@ -21,7 +21,7 @@ const Contacts = ({ contacts }) => {
       <h5>Контакты</h5>
       <ul>
         {Object.keys(contacts).map(item => {
-          return <li key={item}>{`${dict[item]}: ${contacts[item]}`}</li>
+          return <li key={item}>{`${contacts[item]}`}</li>
         })}
       </ul>
     </div>
