@@ -26,11 +26,38 @@
   }
 
   span {
-    color: #ff084a;
-    cursor: pointer;
+    // color: #ff084a;
+    // cursor: pointer;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+
+
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 7px;
+      right: 0px;
+
+      width: 25px;
+      height: 25px;
+      // color: rgba(0, 0, 0, 0);
+      // font-size: 1px;
+      background-image: url('/images/christmas-tree.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
 
     &:hover {
-      color: #ffa228;
+      // color: #ffa228;
+      // display: inline-block;
+      // position: absolute;
+      // top: 0;
+      // left: 0px;
+
+      // background-position: top;
     }
   }
 

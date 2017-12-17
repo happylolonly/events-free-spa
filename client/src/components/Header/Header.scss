@@ -60,16 +60,33 @@
     font-size: 30px;
     color: #fff;
     text-align: center;
-    // margin-right: 100px;
+
+    max-width: 300px;
+
     margin-top: 4px;
     margin-left: 50px;
     text-transform: uppercase;
+
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0px;
+      right: -60px;
+
+      height: 42px;
+      width: 42px;
+
+      background-image: url('/images/santa.png');
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
   }
-
-
 
   @media (max-width: 800px) {
     flex-direction: column;
+    align-items: center;
 
     ul {
       margin: 10px auto 0;
