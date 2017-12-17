@@ -2,7 +2,7 @@ import VK from 'vk-io';
 import moment from 'moment';
 import chrono from 'chrono-node';
 
-import credentials from '../credentials';
+import credentials from '../configs';
 
 import { saveEventItemToDB, convertMonths, formatDate, sliceText, checkText } from './helpers';
 
