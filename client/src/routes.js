@@ -1,5 +1,4 @@
-import React from 'react';
-import { Route, Redirect, IndexRedirect } from 'react-router';
+// import React from 'react';
 
 import App from './App';
 
@@ -11,21 +10,28 @@ import ModerateContainer from './pages/ModeratePage/ModerateContainer';
 import SettingsPage from './pages/SettingsPage/SettingsPage';
 
 
-export default (
-	<Route path="/" component={App}>
-		<IndexRedirect from="/" to="events" />
-		<Route path="events" component={TodayPageContainer} />
+export default [
+	{
+		onEnter: (a,b,c) => console.log(a,b,c),
+		component: App,
+		path: '/',
+		routes: [
+			{ ...TodayPageContainer, path: '/events' },
+			{ ...EventPageContainer, path: '/event/:id' },
+			{ component: AboutPage, path: '/about' },
+			{ component: SettingsPage, path: '/settings' },
+			{ component: FeedbackPage, path: '/feedback1' },
+			{ component: ModerateContainer, path: '/moder' },
+		],
+	}
+];
 
-		<Redirect from="event" to="events" />
-		
-		<Route path="event/:id" component={EventPageContainer} />
-		<Route path="about" component={AboutPage} />
-		<Route path="settings" component={SettingsPage} />
-		<Route path="feedback1" component={FeedbackPage} />
-		<Route path="moder" component={ModerateContainer} />
-
-		<Redirect from="*" to="/" />
-	</Route>
-);
-
-// <Route path=":id" component={Event}/>
+//  const routes = (
+// 	<Route path="/" component={App}>
+// 		<IndexRedirect from="/" to="events" />
+//
+// 		<Redirect from="event" to="events" />
+//
+// 		<Redirect from="*" to="/" />
+// 	</Route>
+// );

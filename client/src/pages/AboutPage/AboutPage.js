@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import SocialButtons from 'components/SocialButtons/SocialButtons';
 import FeedbackForm from './FeedbackForm/FeedbackForm';

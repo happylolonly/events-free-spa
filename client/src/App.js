@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
 
+import { renderRoutes } from 'react-router-config';
+
 import './App.css';
 
 
@@ -20,12 +22,13 @@ class App extends Component {
 
   }
   render() {
+    console.log(this.props.route);
     return (
       <div className="app">
         <Header />
 
         <div className="content">
-          {this.props.children}
+          {renderRoutes(this.props.route.routes)}
         </div>
         <div className="sk-spinner sk-spinner-pulse"></div>
 

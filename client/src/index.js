@@ -2,13 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import { Router, browserHistory } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
+import { renderRoutes } from 'react-router-config';
+
 
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import reducers from './reducers';
-import routes from './routes';
+import Routes from './routes';
 
 import './index.css';
 
@@ -18,9 +20,11 @@ const logger = createLogger({ collapsed: true });
 
 const createStoreWithMiddleware = applyMiddleware(logger, thunk)(createStore);
 
-ReactDOM.render(
+ReactDOM.hydrate(
 	<Provider store={createStoreWithMiddleware(reducers)}>
-		<Router history={browserHistory} routes={routes} />
+		<BrowserRouter>
+			<div>{renderRoutes(Routes)}</div>
+		</BrowserRouter>
 	</Provider>,
   document.getElementById('root')
 );
