@@ -3,6 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3090",
+  "engines": {
+   "node": "8.9.1"
+  },
+  "scripts": {
+    "build-css": "node-sass-chokidar --include-path ./client/src --include-path ./node_modules client/src/ -o client/src/",
+    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./client/src --include-path ./node_modules client/src/ -o client/src/ --watch --recursive",
+    "start-client": "node scripts/start.js",
+    "start": "npm-run-all -p watch-css start-client",
+    "build": "npm run build-css && node scripts/build.js",
+    "test": "node scripts/test.js --env=jsdom",
+    "test-server": "mocha server/test",
+    "start-server": "nodemon --watch ./server --exec npm run babel-node",
+    "babel-node": "set NODE_ENV=test&& babel-node -- ./server/app.js",
+    "babel-node2": "babel -d ./server/app.js --presets node6 --out-file ./server/app2.js",
+    "prod": "npm run start-server",
+    "postinstall": "npm run build",
+    "ss": "npm run start-server"
+  },
   "dependencies": {
     "async": "^2.5.0",
     "autoprefixer": "7.1.2",
@@ -86,21 +104,6 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "mocha": "^3.5.0"
-  },
-  "scripts": {
-    "build-css": "node-sass-chokidar --include-path ./client/src --include-path ./node_modules client/src/ -o client/src/",
-    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./client/src --include-path ./node_modules client/src/ -o client/src/ --watch --recursive",
-    "start-client": "node scripts/start.js",
-    "start": "npm-run-all -p watch-css start-client",
-    "build": "npm run build-css && node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom",
-    "test-server": "mocha server/test",
-    "start-server": "nodemon --exec npm run babel-node",
-    "babel-node": "babel-node -- ./server/app.js --presets node6",
-    "babel-node2": "babel -d ./server/app.js --presets node6 --out-file ./server/app2.js",
-    "prod": "npm run start-server",
-    "postinstall": "npm run build",
-    "ss": "npm run start-server"
   },
   "jest": {
     "collectCoverageFrom": [
