@@ -1,93 +1,69 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import EventDetail from './EventDetail';
 import { Loader } from 'components/common';
 
-import axios from 'axios';
-import { API } from '../../constants/config';
+import { loadEvent } from 'actions/events';
+
+import { isEqual } from 'lodash';
 
 import './EventPageContainer.css';
 
 
 const propTypes = {
-
-}
-
-// const fakeEvent = {
-//   title: 'Cool event',
-//   text: '  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet veritatis ut repellat officiis ipsam aut, totam ratione optio laboriosam deserunt. Ullam consequuntur pariatur facere blanditiis, facilis minus ab? Hic omnis mollitia consequatur dolores voluptatum, labore assumenda quas possimus officiis veritatis quod ab nulla, porro, optio neque fugit cumque id vel?',
-//   date: 38293893483,
-//   images: [
-//     {
-//       src: 'http://www.uniwallpaper.com/static/images/Sunset-Village-Wallpaper_8I7ogbf.jpg',
-//       description: 'top image'
-//     },
-//     {
-//       src: 'http://www.uniwallpaper.com/static/images/EPUlp9X_YqNR99f.jpg',
-//       description: 'top image second'
-//     }
-//   ]
-// }
-
+  event: PropTypes.object.isRequired,
+  loadEvent: PropTypes.func.isRequired,
+};
 
 class EventPageContainer extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      event: {},
-    }
-
-    this.loadEvent = this.loadEvent.bind(this);
+  componentDidMount() {
+    this.props.loadEvent(this.props.match.params.id);
+    window.scrollTo(0, 0);
   }
 
-  componentDidMount() {
-    this.loadEvent(this.props.params.id);
+  componentWillReceiveProps(nextProps) {
+    const eventId = this.props.match.params.id;
+    if (isEqual(nextProps.event.data[eventId], this.props.event.data[eventId])) return;
+
     window.scrollTo(0, 0);
-    console.log(this.props);
+    document.title = nextProps.event.data[eventId].title;
   }
 
   componentWillUnmount() {
     document.title = 'Events free';
   }
 
-  loadEvent(id) {
-    axios.get(`${API}/event?id=${id}`)
-      .then(data => {
-        // setTimeout(() => {
-        const eventData = data.data[0];
-          this.setState({event:eventData });
-          window.scrollTo(0, 0);
-          document.title = eventData.title;
-        // });
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
-
   render() {
-    const { title, text, date, images, contacts, location, _id:id } = this.state.event;
+    if (!Object.keys(this.props.event.data[this.props.match.params.id] || {}).length) {
+      return <Loader />;
+    }
+
+    const { title, text, date, images, contacts, location, _id: id } = this.props.event.data[this.props.match.params.id];
     return (
       <div className="event-page-container">
-        {Object.keys(this.state.event).length === 0  ?
-          <Loader /> :
-          <EventDetail
-            id={id}
-            title={title}
-            text={text}
-            date={date}
-            images={images}
-            contacts={contacts}
-            location={location}
-          />
-    }
+        <EventDetail
+          id={id}
+          title={title}
+          text={text}
+          date={date}
+          images={images}
+          contacts={contacts}
+          location={location}
+        />
       </div>
     )
   }
 }
 
+const mapStateToProps = ({ event }) => {
+  return {event}
+}
+
 EventPageContainer.propTypes = propTypes;
 
-export default EventPageContainer;
+export default {
+  component: connect(mapStateToProps, { loadEvent })(EventPageContainer),
+  loadData: ({ dispatch }) => dispatch(loadEvent())
+};

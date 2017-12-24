@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import TodayPage from './TodayPage';
-
-import { Link } from 'react-router';
-
-import { Loader } from 'components/common';
-import axios from 'axios';
-
-import { API } from '../../constants/config';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import io from 'socket.io-client';
-// import { API } from '../constants/config';
 
 import Search from './Search/Search';
 import Filters from './Filters/Filters';
+import TodayPage from './TodayPage';
+import { Loader } from 'components/common';
+
+import { loadEvents, resetEvents } from 'actions/events';
 
 import './TodayPageContainer.css';
 
-import toastr from 'toastr';
-
 
 const propTypes = {
-
+  events: PropTypes.object.isRequired,
+  loadEvents: PropTypes.func.isRequired,
+  resetEvents: PropTypes.func.isRequired,
 }
 
 class TodayPageContainer extends Component {
@@ -30,58 +26,47 @@ class TodayPageContainer extends Component {
     super(props);
 
     this.state = {
-      events: [],
       search: '',
       offset: 0,
-      isLoading: false,
-      totalCount: null,
-      currentFilter: this.props.location.query.day || 'today',
+      // currentFilter: this.props.location.query.day || 'today',
+      currentFilter: 'today',
     }
 
-    // this.loadEvent = this.loadEvent.bind(this);
+    this.props.resetEvents();
+
     this.handleSearch = this.handleSearch.bind(this);
     this.loadMore = this.loadMore.bind(this);
 
     this.handleFilter = this.handleFilter.bind(this);
 
-    this.connect = this.connect.bind(this);
-    this.disconnect = this.disconnect.bind(this);
     this.eventsUpdated = this.eventsUpdated.bind(this);
     this.handleSecretButtonClick = this.handleSecretButtonClick.bind(this);
   }
 
   componentDidMount() {
-    this.socket = io();
-    this.socket.on('connect', this.connect);
-    this.socket.on('disconnect', this.disconnect);
-    this.socket.on('events-updated', this.eventsUpdated);
-
     this.loadEvents();
+
+    this.socket = io();
+    this.socket.on('connect', () => console.log('connect'));
+    this.socket.on('disconnect', () => console.log('disconnect'));
+    this.socket.on('events-updated', this.eventsUpdated);
   }
 
-  componentWillReceiveProps(nextProps) {
-    // nextProps.route.path === 'today'
-    setTimeout(() => {
-      this.loadEvents();
-    }, 10);
-    // this.loadEvents();
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   // nextProps.route.path === 'today'
+  //   setTimeout(() => {
+  //     this.loadEvents();
+  //   }, 10);
+  //   // this.loadEvents();
+  // }
 
   componentWillUnmount() {
     this.socket.close();
   }
 
-  connect() {
-    console.log('connect');
-  }
-
-  disconnect() {
-    console.log('disconnect');
-  }
-
   eventsUpdated() {
     console.log('events updated');
-    toastr.success('Мероприятия обновлены', 'Успешно!');
+    // toastr.success('Мероприятия обновлены', 'Успешно!');
     this.loadEvents();
   }
 
@@ -91,56 +76,35 @@ class TodayPageContainer extends Component {
   }
 
   handleSearch(search) {
+    this.props.resetEvents();
     this.setState({
       search,
-      events: [],
-      totalCount: null,
       offset: 0,
     }, () => {
       this.loadEvents();
     })
   }
 
-  loadMore() {
-    this.setState({offset: this.state.offset + 10}, () => {
-      this.loadEvents({spread: true});
+  loadEvents() {
+    const { search, offset, currentFilter } = this.state;
+
+    this.props.loadEvents({
+      search,
+      offset,
+      day: currentFilter
     })
   }
 
-  // костыль какой то
-  loadEvents(config={}) {
-    this.setState({isLoading: true});
-    const events = JSON.parse(localStorage.getItem('events')) || {};
-    var keys = Object.keys(events);
-
-    var filtered = keys.filter(function(key) {
-        return events[key]
-    });
-
-    let sources = filtered.join(',');
-
-
-    axios.get(`${API}/events?day=${this.state.currentFilter}&offset=${this.state.offset}&search=${this.state.search}&sources=${sources}`)
-      .then(data => {
-        const { model, totalCount } = data.data;
-
-        this.setState({
-          events: config.spread ? [...this.state.events, ...model] : [...model],
-          totalCount: totalCount,
-          isLoading: false
-        });
-      })
-      .catch(error => {
-        this.setState({isLoading: false});
-        console.log(error);
-      })
+  loadMore() {
+    this.setState({offset: this.state.offset + 10}, () => {
+      this.loadEvents();
+    })
   }
 
   handleFilter(filter) {
+    this.props.resetEvents();
     this.setState({
       currentFilter: filter,
-      events: [],
-      totalCount: null,
       offset: 0,
     }, () => {
       window.history.pushState(filter, null, `events?day=${filter}`);
@@ -151,20 +115,20 @@ class TodayPageContainer extends Component {
   render() {
     return (
       <div className="today-page-container">
-        {this.props.location.query.test && <button className="test-button" onClick={this.handleSecretButtonClick}>секретная кнопка</button>}
+        {this.props.location.query && false && <button className="test-button" onClick={this.handleSecretButtonClick}>секретная кнопка</button>}
         <Search handleSearch={this.handleSearch} search={this.state.search} />
         <Filters handleFilter={this.handleFilter} currentFilter={this.state.currentFilter} />
 
-        {this.state.isLoading ? <Loader /> :
+        {this.props.events.isLoading ? <Loader /> :
           <div>
-            <TodayPage events={this.state.events} currentFilter={this.state.currentFilter} />
+            <TodayPage events={this.props.events.data.model} currentFilter={this.state.currentFilter} />
 
-            {this.state.events.length < this.state.totalCount &&
+            {this.props.events.data.model.length < this.props.events.data.totalCount &&
               <button className="btn btn-link show-more" onClick={this.loadMore}>Показать еще</button>}
           </div>
         }
 
-        {this.state.totalCount === 0 &&
+        {this.props.events.data.totalCount === 0 &&
           <div className="no-results">
             <p>Ничего не найдено:(</p>
             <p>Попробуй изменить откуда получать мероприятия в <Link to="/settings">настройках</Link></p>
@@ -175,6 +139,13 @@ class TodayPageContainer extends Component {
   }
 }
 
+const mapStateToProps = ({ events }) => {
+  return {events}
+};
+
 TodayPageContainer.propTypes = propTypes;
 
-export default TodayPageContainer;
+export default {
+  component: connect(mapStateToProps, { loadEvents, resetEvents })(TodayPageContainer),
+  loadData: ({ dispatch }) => dispatch(loadEvents())
+};
