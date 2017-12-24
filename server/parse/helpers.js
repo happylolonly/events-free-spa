@@ -1,6 +1,6 @@
 import Event from '../model/event';
 
-import _ from 'lodash';
+import { isEqual } from 'lodash';
 
 // import moment from 'moment';
 
@@ -130,7 +130,7 @@ export const saveEventItemToDB = (results) => {
             // item.location !== data[0].location ||
             // item.text !== data[0].text ||
             // checkImages(item.images, data[0].images)
-            !(_.isEqual(checkItem, data[0]))
+            !(isEqual(checkItem, data[0]))
             // false
             // если true то обновить, не сравнивает массивы в разном порядке [1,2] [2,1]
           ) {
