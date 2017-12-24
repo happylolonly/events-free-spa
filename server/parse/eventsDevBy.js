@@ -26,6 +26,7 @@ const q = tress((url, callback) => {
       if (url === 'https://events.dev.by') {
         console.log('main url', url);
         pagesCount = $('.body-events .item').length;
+        console.log('count', pagesCount);
         $('.body-events .item').each((item, i) => {
           const link = $(i).find('a.title').attr('href');
           q.push(`${URL}${link}`);
@@ -47,7 +48,7 @@ const q = tress((url, callback) => {
 
       const domImage = $pageDom.find('.bl img')[0];
       let image = '';
-      if (domImage.name === 'img') {
+      if (domImage && domImage.name === 'img') {
         const src = $(domImage).attr('src');
         $(domImage).remove();
         image = `${URL}${src}`;
@@ -58,8 +59,11 @@ const q = tress((url, callback) => {
 
       const dateBlock = $(page).find('.time').text();
 
+
+      console.log(dateBlock);
+
       const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
-      // console.log(parsedDate);
+      console.log(parsedDate);
       // console.log(new Date());
       const { day, month, hour, minute } = parsedDate;
       let year = moment().format('YYYY');
@@ -106,8 +110,8 @@ const q = tress((url, callback) => {
 q.drain = () => {
   console.log('pages count', pagesCount);
   console.log('results length', results.length);
+  saveEventItemToDB(results);
   if (pagesCount === results.length) {
-    saveEventItemToDB(results);
     // console.log(results);
   } else {
     console.log('some error happened');
