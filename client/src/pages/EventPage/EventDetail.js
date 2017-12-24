@@ -30,7 +30,7 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, ...res
     <div className="event-detail">
       <h3>{title}</h3>
       <header>
-        <Link to="/today"><span></span>Вернутся</Link>
+        <Link to="/events"><span></span>Вернутся</Link>
         <span>{moment(date).lang('ru').format('HH:mm') !== '00:00' ? moment(date).lang('ru').format('D MMMM YYYY в HH:mm') : moment(date).lang('ru').format('D MMMM YYYY')}</span>
       </header>
       <section>

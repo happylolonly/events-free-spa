@@ -26,7 +26,7 @@ const io = require('socket.io').listen(server);
 
 require('./helpers/db').default(mongoose, () => {
 
-  // parse(io);
+  parse(io);
 
   cron.schedule('* * 1 * * *', () => {
     console.log('running a task every hour');
