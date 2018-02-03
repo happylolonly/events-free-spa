@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import axios from 'axios';
-import toastr from 'toastr';
 
 import './FeedbackForm.css';
 
@@ -47,7 +46,7 @@ class FeedbackForm extends Component {
   sendFeedback(message) {
     axios.post('/feedback', {date: Date.now(), message})
       .then(() => {
-        toastr.success('Мы получили твое сообщение!', 'Спасибо!');
+        // toastr.success('Мы получили твое сообщение!', 'Спасибо!');
         this.setState({message: ''});
       })
       .catch(error => {
