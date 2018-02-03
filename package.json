@@ -142,5 +142,10 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+	"config": {
+    "ghooks": {
+      "pre-push": "npm run server-test"
+    }
   }
 }
