@@ -88,7 +88,7 @@ module.exports = {
     // https://github.com/facebookincubator/create-react-app/issues/290
     // `web` extension prefixes have been added for better support
     // for React Native Web.
-    extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
+    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
 
       // Support React Native Web
@@ -114,7 +114,7 @@ module.exports = {
       // First, run the linter.
       // It's important to do this before Babel processes the JS.
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|mjs)$/,
         enforce: 'pre',
         use: [
           {
@@ -145,7 +145,7 @@ module.exports = {
           },
           // Process JS with Babel.
           {
-            test: /\.(js|jsx)$/,
+            test: /\.(js|jsx|mjs)$/,
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
@@ -170,7 +170,12 @@ module.exports = {
             loader: ExtractTextPlugin.extract(
               Object.assign(
                 {
-                  fallback: require.resolve('style-loader'),
+                  fallback: {
+                    loader: require.resolve('style-loader'),
+                    options: {
+                      hmr: false,
+                    },
+                  },
                   use: [
                     {
                       loader: require.resolve('css-loader'),
@@ -209,7 +214,7 @@ module.exports = {
           },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
-          // This loader don't uses a "test" so it will catch all modules
+          // This loader doesn't use a "test" so it will catch all modules
           // that fall through the other loaders.
           {
             loader: require.resolve('file-loader'),
@@ -217,7 +222,7 @@ module.exports = {
             // it's runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.js$/, /\.html$/, /\.json$/],
+            exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
             },
@@ -266,6 +271,9 @@ module.exports = {
         // Pending further investigation:
         // https://github.com/mishoo/UglifyJS2/issues/2011
         comparisons: false,
+      },
+      mangle: {
+        safari10: true,
       },
       output: {
         comments: false,
@@ -329,5 +337,6 @@ module.exports = {
     fs: 'empty',
     net: 'empty',
     tls: 'empty',
+    child_process: 'empty',
   },
 };

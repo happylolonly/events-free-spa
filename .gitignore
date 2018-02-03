@@ -3,15 +3,15 @@
 # dependencies
 /node_modules
 
+newrelic_agent.log
+заметки.txt
+/client/src/**/*.css
+
 # testing
 /coverage
 
-newrelic_agent.log
-заметки.txt
-
 # production
-build
-/client/src/**/*.css
+/build
 
 # misc
 .DS_Store
