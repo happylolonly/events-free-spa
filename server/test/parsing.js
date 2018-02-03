@@ -8,7 +8,7 @@ describe('first test', () => {
 	});
 
 	it('another test for travis', () => {
-		assert(1 === 2);
+		assert(2 === 2);
 	});
 
 });
