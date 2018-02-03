@@ -6,6 +6,7 @@ install:
 - npm install
 script:
 - npm run test-server
+warnings_are_errors: false
 deploy:
   provider: heroku
   api_key:
