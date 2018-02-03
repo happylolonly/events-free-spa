@@ -12,13 +12,12 @@ class App extends Component {
 
   componentWillMount() {
     // еще один костыль
-    const events = JSON.parse(localStorage.getItem('events')) || {};
+    const events = JSON.parse(localStorage.getItem('events') || null) || {};
     if (Object.keys(events).length === 0) {
       console.log('init');
       let obj = {"imaguru":true,"eventsDevBy":true,"meetupBy":true,"minskforfree":true,"sportMts":false,"freeFitnessMinsk":false, "citydogAfisha":true, "citydogVedy":true, "freeLanguagesMinsk": false};
       localStorage.setItem('events', JSON.stringify(obj));
     }
-
 
   }
   render() {
