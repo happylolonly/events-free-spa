@@ -7,8 +7,8 @@ describe('first test', () => {
 		assert(true === true);
 	});
 
-	it('another test for travic', () => {
-		assert(2 === 2);
+	it('another test for travis', () => {
+		assert(1 === 2);
 	});
 
 });
