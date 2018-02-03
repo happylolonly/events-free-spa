@@ -12,7 +12,7 @@ deploy:
   provider: heroku
   api_key:
     secure: M05DPqsd2yfFs7HTd0zJpXlp2jdTJfcOdN4V89Gy5WtcsIsCYsJTkQBLGPOX84mFfO6L/+ujJSuWNcQPXt3y1NeqF71bPmUeGV165UZLL1WXl941DwkoyPgag1czR9QmGKZ6YKC222ZgQUXy+wrl2Fqn2kfJKDMVwYbd63OLw7ijwIUaTD9LOX9Cw2kIjigroCfQKkbRiU6QU99B7l1Kt5scBNcQu6BezmsdzZ0bV1ml61Pl9zl2vQcJeZUvbaSp4qxhqSH7t/xqOAFTHTJqZVfX0UEkIPb1LPrGmWyH1pqCzVtDlQoPb4uQbjUYJraPXpws/EcTRsockVnoAJlyeWBYVWRXgV96Ols3/WzU5jecgSKNHoz4QPzGVmP6kyMsRIiFGIVBS6A+sQd0s1536p6p0FHIMETZ7lFX80gHtrvU6rckKcNQbf/MGtjQh2SxitLfmuTDet/808hpFJN97M+OgXW+OVPfMYU6TqQ93xEw+9YWJu7k4X0t6RGB/+g0Wb09evdSE0MKvaUvAo6dFFBYF89fnazlxkAk2ly4PDWW4UNuzfu4UhJ26/Mn4W8GFMnKJAzc8b730fiE6+V7enTZyd24RTfbL+InB8Ymz4tP9IkI+nCGSPDNiofCvh/xRJSN2VW87m/Ha6K5BL4K3JPf95WVy1UUawCFUhOhF9w=
-  app: events-free-spa
+  app: eventsfree
   on:
     repo: happylolonly/events-free-spa
     branch: dev
