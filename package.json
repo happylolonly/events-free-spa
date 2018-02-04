@@ -13,7 +13,7 @@
 		"start": "npm-run-all -p watch-css start-client",
 		"build": "npm run build-css && node scripts/build.js",
 		"test": "npm run test-client && npm run test-server",
-		"test-client": "node scripts/test.js --env=jsdom --coverage",
+		"test-client": "node scripts/test.js --env=jsdom",
 		"test-server": "mocha server/test",
 		"start-server": "nodemon --watch ./server --exec npm run babel-node",
 		"babel-node": "set NODE_ENV=test&& babel-node -- ./server/app.js",
@@ -131,7 +131,8 @@
 		],
 		"moduleNameMapper": {
 			"^react-native$": "react-native-web",
-			"^components(.*)$": "<rootDir>/client/src/components$1"
+			"^components(.*)$": "<rootDir>/client/src/components$1",
+			"^actions(.*)$": "<rootDir>/client/src/actions$1"
 		},
 		"moduleFileExtensions": [
 			"web.js",
