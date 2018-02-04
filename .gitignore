@@ -3,10 +3,6 @@
 # dependencies
 /node_modules
 
-newrelic_agent.log
-заметки.txt
-/client/src/**/*.css
-
 # testing
 /coverage
 
@@ -20,6 +16,7 @@ newrelic_agent.log
 .env.test.local
 .env.production.local
 
+newrelic_agent.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
