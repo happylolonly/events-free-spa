@@ -7,11 +7,9 @@
 		"node": "8.9.1"
 	},
 	"scripts": {
-		"build-css": "node-sass-chokidar --include-path ./client/src --include-path ./node_modules client/src/ -o client/src/",
-		"watch-css": "npm run build-css && node-sass-chokidar --include-path ./client/src --include-path ./node_modules client/src/ -o client/src/ --watch --recursive",
+		"start": "npm-run-all -p start-client",
 		"start-client": "node scripts/start.js",
-		"start": "npm-run-all -p watch-css start-client",
-		"build": "npm run build-css && node scripts/build.js",
+		"build": "node scripts/build.js",
 		"test": "npm run test-client && npm run test-server",
 		"test-client": "node scripts/test.js --env=jsdom",
 		"test-server": "mocha server/test",
@@ -100,7 +98,7 @@
 		"npm-run-all": "^4.1.1",
 		"postcss-flexbugs-fixes": "3.2.0",
 		"postcss-loader": "2.0.8",
-		"sass-loader": "^4.1.0",
+		"sass-loader": "^6.0.6",
 		"style-loader": "0.19.0",
 		"sw-precache-webpack-plugin": "0.11.4",
 		"webpack": "3.8.1",
