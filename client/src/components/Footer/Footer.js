@@ -26,7 +26,7 @@ const Footer = () => {
         </ul>
       </div>
 
-      <p>© 2017 Events Free. All rights reserved. Making with love <span></span></p>
+      <p>© 2017 - {new Date().getFullYear()} Events Free. All rights reserved. Making with love <span></span></p>
     </footer>
   )
 }
