@@ -10,7 +10,7 @@ import SocialButtons from '../../components/SocialButtons/SocialButtons';
 
 import moment from 'moment';
 
-import './EventDetail.css';
+import './EventDetail.scss';
 
 
 const propTypes = {

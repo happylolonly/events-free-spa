@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { ShareButtons, ShareCounts, generateShareIcon } from 'react-share';
 
-import './SocialButtons.css';
+import './SocialButtons.scss';
 
 
 const { VKShareButton, FacebookShareButton, TwitterShareButton, TelegramShareButton, LinkedinShareButton, GooglePlusShareButton } = ShareButtons;

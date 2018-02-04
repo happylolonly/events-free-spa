@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import moment from 'moment';
 
-import './FeedbackPage.css';
+import './FeedbackPage.scss';
 
 
 const propTypes = {

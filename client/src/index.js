@@ -12,7 +12,7 @@ import thunk from 'redux-thunk';
 import reducers from './reducers';
 import Routes from './routes';
 
-import './index.css';
+import './index.scss';
 
 import registerServiceWorker from './registerServiceWorker';
 

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import SocialButtons from 'components/SocialButtons/SocialButtons';
 import FeedbackForm from './FeedbackForm/FeedbackForm';
 
-import './AboutPage.css';
+import './AboutPage.scss';
 
 
 const propTypes = {

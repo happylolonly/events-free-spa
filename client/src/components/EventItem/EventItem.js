@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/ru';
 
-import './EventItem.css';
+import './EventItem.scss';
 
 
 const propTypes = {

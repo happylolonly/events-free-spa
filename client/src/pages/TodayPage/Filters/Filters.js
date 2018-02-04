@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import cn from 'classnames';
 
-import './Filters.css';
+import './Filters.scss';
 
 
 const propTypes = {

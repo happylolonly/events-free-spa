@@ -9,7 +9,7 @@ import { loadEvent } from 'actions/events';
 
 import { isEqual } from 'lodash';
 
-import './EventPageContainer.css';
+import './EventPageContainer.scss';
 
 
 const propTypes = {

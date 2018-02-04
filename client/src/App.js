@@ -5,7 +5,7 @@ import Footer from 'components/Footer/Footer';
 
 import { renderRoutes } from 'react-router-config';
 
-import './App.css';
+import './App.scss';
 
 
 class App extends Component {

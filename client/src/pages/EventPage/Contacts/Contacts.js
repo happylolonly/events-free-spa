@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './Contacts.css';
+import './Contacts.scss';
 
 
 const propTypes = {

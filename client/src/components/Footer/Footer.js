@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import SocialButtons from 'components/SocialButtons/SocialButtons';
 
-import './Footer.css';
+import './Footer.scss';
 
 
 const propTypes = {

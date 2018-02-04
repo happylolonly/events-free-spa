@@ -7,7 +7,7 @@ import axios from 'axios';
 
 import Moderate from './Moderate';
 
-import './ModerateContainer.css';
+import './ModerateContainer.scss';
 
 
 const propTypes = {

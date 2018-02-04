@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import ModerateList from './ModerateList/ModerateList'
 
-import './Moderate.css';
+import './Moderate.scss';
 
 
 const propTypes = {

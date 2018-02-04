@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './ScrollUpButton.css';
+import './ScrollUpButton.scss';
 
 
 const propTypes = {

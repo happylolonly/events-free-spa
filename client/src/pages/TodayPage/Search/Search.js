@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-import './Search.css';
+import './Search.scss';
 
 
 const propTypes = {

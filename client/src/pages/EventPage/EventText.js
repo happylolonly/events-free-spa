@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import './EventText.css';
+import './EventText.scss';
 
 
 const propTypes = {

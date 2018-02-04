@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Checkbox } from 'components/common';
 
-import './SettingsPage.css';
+import './SettingsPage.scss';
 
 
 const propTypes = {

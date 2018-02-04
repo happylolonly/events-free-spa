@@ -12,7 +12,7 @@ import { Loader } from 'components/common';
 
 import { loadEvents, resetEvents } from 'actions/events';
 
-import './TodayPageContainer.css';
+import './TodayPageContainer.scss';
 
 
 const propTypes = {
