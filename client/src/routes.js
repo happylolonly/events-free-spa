@@ -1,4 +1,5 @@
-// import React from 'react';
+import React from 'react';
+import { Redirect } from 'react-router';
 
 import App from './App';
 
@@ -12,7 +13,6 @@ import SettingsPage from './pages/SettingsPage/SettingsPage';
 
 export default [
 	{
-		onEnter: (a,b,c) => console.log(a,b,c),
 		component: App,
 		path: '/',
 		routes: [
@@ -22,16 +22,11 @@ export default [
 			{ component: SettingsPage, path: '/settings' },
 			{ component: FeedbackPage, path: '/feedback1' },
 			{ component: ModerateContainer, path: '/moder' },
+			{
+			 path: ['/', '/event', '*'],
+			 exact: true,
+			 component: () => <Redirect to="/events" />
+		 	},
 		],
 	}
 ];
-
-//  const routes = (
-// 	<Route path="/" component={App}>
-// 		<IndexRedirect from="/" to="events" />
-//
-// 		<Redirect from="event" to="events" />
-//
-// 		<Redirect from="*" to="/" />
-// 	</Route>
-// );
