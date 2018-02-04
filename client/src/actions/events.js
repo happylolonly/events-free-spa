@@ -8,7 +8,7 @@ export const loadEvents = (config) => {
   return async dispatch => {
     dispatch({ type: types.LOAD_EVENTS_START });
 
-    const events = JSON.parse(localStorage.getItem('events')) || {};
+    const events = JSON.parse(localStorage.getItem('events') || null) || {};
     var keys = Object.keys(events);
 
     var filtered = keys.filter(function(key) {

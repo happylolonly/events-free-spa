@@ -7,17 +7,25 @@ import { renderRoutes } from 'react-router-config';
 import Routes from './routes';
 import App from './App';
 
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import reducers from './reducers';
+
+const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 describe('initial render', () => {
 
-  it('renders without crashing', () => {
+  it('renders full app without crashing', () => {
     const div = document.createElement('div');
     const Component = (
-      <BrowserRouter>
-        <div>{renderRoutes(Routes)}</div>
-      </BrowserRouter>
+    	<Provider store={createStoreWithMiddleware(reducers)}>
+        <BrowserRouter>
+          <div>{renderRoutes(Routes)}</div>
+        </BrowserRouter>
+      </Provider>
     );
-    ReactDOM.render(<Component />, div);
+    ReactDOM.render(Component, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
