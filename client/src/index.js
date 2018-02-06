@@ -30,3 +30,13 @@ ReactDOM.hydrate(
 );
 
 registerServiceWorker();
+
+
+const data = JSON.parse(localStorage.getItem('events') || null);
+
+if (data) {
+	createStoreWithMiddleware.dispatch({
+		type: '',
+		payload: data,
+	})
+}
