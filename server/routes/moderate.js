@@ -17,6 +17,7 @@ module.exports = (app) => {
     console.log(id, moderate);
 
     Event.findByIdAndUpdate(id, { status: moderate === 'true' ? 'active' : 'rejected' })
+      .limit(50)
       .then(() => {
         res.send(true);
       })
