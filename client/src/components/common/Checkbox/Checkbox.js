@@ -6,7 +6,7 @@ import './Checkbox.scss';
 
 const propTypes = {
   title: PropTypes.string,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   value: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   text: PropTypes.string,
@@ -14,7 +14,7 @@ const propTypes = {
 
 const Checkbox = ({ name, value, onChange, text }) => {
   const handleChange = (event) => {
-    onChange(name, event.target.checked);
+    onChange(event.target.checked, name);
   }
   return (
     <div className="checkbox">
