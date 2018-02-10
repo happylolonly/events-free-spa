@@ -10,6 +10,7 @@ import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import reducers from './reducers';
+import types from 'constants/types';
 import Routes from './routes';
 
 import './index.scss';
@@ -19,9 +20,10 @@ import registerServiceWorker from './registerServiceWorker';
 const logger = createLogger({ collapsed: true });
 
 const createStoreWithMiddleware = applyMiddleware(logger, thunk)(createStore);
+const store = createStoreWithMiddleware(reducers);
 
 ReactDOM.hydrate(
-	<Provider store={createStoreWithMiddleware(reducers)}>
+	<Provider store={store}>
 		<BrowserRouter>
 			<div>{renderRoutes(Routes)}</div>
 		</BrowserRouter>
@@ -30,3 +32,13 @@ ReactDOM.hydrate(
 );
 
 registerServiceWorker();
+
+
+const sources = JSON.parse(localStorage.getItem('events') || null);
+
+if (sources) {
+	store.dispatch({
+		type: types.SETUP_SOURCES,
+		payload: sources,
+	})
+}
