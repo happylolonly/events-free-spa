@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 
 import EventText from './EventText';
 import Location from './Location/Location';
+
 import Contacts from './Contacts/Contacts';
 
 import SocialButtons from '../../components/SocialButtons/SocialButtons';
-import { browserHistory } from 'react-router-dom';
+import * as browserHistory   from 'react-router-dom';
 
 import moment from 'moment';
 
@@ -34,7 +35,19 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, ...res
         {/* <Link to="/events"><span></span>Вернуться</Link> */}
         <a href="/events" onClick={(event) => {
           event.preventDefault();
-          window.history.back();
+
+          // console.log(browserHistory);
+          //   debugger;
+
+          if (window.history.length < 2) {
+
+            window.location.pathname = '/events';
+            
+            // browserHistory.push('events');
+          } else {
+
+            window.history.back();
+          }
         }}><span></span>Вернуться</a>
         <span>{moment(date).lang('ru').format('HH:mm') !== '00:00' ? moment(date).lang('ru').format('D MMMM YYYY в HH:mm') : moment(date).lang('ru').format('D MMMM YYYY')}</span>
       </header>
@@ -47,6 +60,7 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, ...res
 
         <EventText text={text} />
 
+
         <hr/>
 
         <div className="additional-info">
@@ -57,6 +71,7 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, ...res
           />
           {contacts && Object.keys(contacts).length > 0 && <Contacts contacts={contacts} />}
           {location && <Location location={location}   />}
+
         </div>
       </section>
 
