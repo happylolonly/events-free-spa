@@ -14,7 +14,9 @@
 		"test-client": "node scripts/test.js --env=jsdom",
 		"test-server": "mocha server/test",
 		"start-server": "nodemon --watch ./server --exec npm run babel-node",
-		"babel-node": "set NODE_ENV=test&& babel-node -- ./server/app.js",
+		"start-server2": "nodemon --watch ./server  --inspect ./server/app.js",
+		"babel-node": "babel-node --inspect ./server/app.js --source-maps",
+		"babel-node3": "set NODE_ENV=test&& babel-node --inspect ./server/app.js --out-file app2.js",
 		"babel-node2": "babel -d ./server/app.js --presets node6 --out-file ./server/app2.js",
 		"postinstall": "npm run build",
 		"ss": "npm run start-server"
