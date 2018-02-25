@@ -5,10 +5,11 @@ import { API } from '../constants/config';
 
 
 export const loadEvents = (config) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch({ type: types.LOAD_EVENTS_START });
 
-    const events = JSON.parse(localStorage.getItem('events') || null) || {};
+    // const events = JSON.parse(localStorage.getItem('events') || null) || {};
+    const events = getState().sources;
     var keys = Object.keys(events);
 
     var filtered = keys.filter(function(key) {
