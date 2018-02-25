@@ -10,6 +10,7 @@ const initialState = {
   citydogVedy: false,
   citydogAfisha: false,
   freeLanguagesMinsk: false,
+  afishaTutBy: true,
 };
 
 const saveToStorage = (data) => {

@@ -55,6 +55,12 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
           text="imaguru.by"
         />
         <Checkbox
+          name="afishaTutBy"
+          value={sources.afishaTutBy}
+          onChange={updateSources}
+          text="afisha.tut.by"
+        />
+        <Checkbox
           name="minskforfree"
           value={sources.minskforfree}
           onChange={updateSources}

@@ -105,6 +105,7 @@ module.exports = (app) => {
         sportMts: 'sport.mts.by',
         citydogVedy: 'citydog.by/vedy',
         citydogAfisha: 'citydog.by/afisha',
+        afishaTutBy: 'afisha.tut.by',
         // space: 'citydog.by/afisha',
         // htp: 'citydog.by/afisha',
         // citydogAfisha: 'citydog.by/afisha',
