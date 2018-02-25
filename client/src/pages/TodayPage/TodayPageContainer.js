@@ -25,11 +25,13 @@ class TodayPageContainer extends Component {
   constructor(props) {
     super(props);
 
+
+    const currentFilter = this.props.location.search && this.props.location.search.split('=')[1] || 'today';
+
     this.state = {
       search: '',
       offset: 0,
-      // currentFilter: this.props.location.query.day || 'today',
-      currentFilter: 'today',
+      currentFilter,
     }
 
     this.props.resetEvents();
