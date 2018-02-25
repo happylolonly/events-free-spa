@@ -25,11 +25,12 @@ const q = tress((url, callback) => {
       // if (url.split('.by')[1][0] !== '/') {
       if (url === URL) {
         console.log('main url', url);
-        const eventItem = '.branding-w .lists__li';
+        const eventItem = 'body .lists__li';
         pagesCount = $(eventItem).length;
         console.log(pagesCount);
         $(eventItem).each((item, i) => {
           const link = $(i).find('a').attr('href');
+          // if (item > 5) return;
           q.push(link);
         });
         callback();
@@ -37,10 +38,11 @@ const q = tress((url, callback) => {
       }
 
 
+
       // if event's page
       console.log('parsing', url);
 
-      const $page = $('.branding');
+      const $page = $('body');
 
       const $html = $page.find('#event-description');
 
@@ -56,19 +58,20 @@ const q = tress((url, callback) => {
       const title = $page.find('.post_wrapper h1').text();
       const originalLink = url.split('afisha.tut.by')[1];
 
-      const dateBlock = $(page).find('.time').text();
+      let date = $page.find('time')[0].attribs.datetime;
+      date = Date.parse(date);
 
-      const image = $page.find('.post_wrapper img').attr('src');
+      const image = $page.find('.post_wrapper .main_image').attr('src');
 
-      const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
+      // const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
       // console.log(parsedDate);
       // console.log(new Date());
-      const { day, month, hour, minute } = parsedDate;
-      let year = moment().format('YYYY');
-      const date = formatDate(year, month, day, hour, minute);
+      // const { day, month, hour, minute } = parsedDate;
+      // let year = moment().format('YYYY');
+      // const date = formatDate(year, month, day, hour, minute);
       // console.log(new Date(date));
 
-      const location = $page.find('.post_wrapper .b-event_where a.b-event_address').attr('href');
+      const location = $page.find('.post_wrapper .b-event_where .b-event_address').text();
 
       // if ($(page).find('.adress-events-map'))
 
@@ -79,7 +82,9 @@ const q = tress((url, callback) => {
         originalLink,
         source: 'afisha.tut.by',
         status: 'active',
-        images: [image]
+        images: [image],
+        location: location,
+        // contacts: contacts,
       });
 
       callback();
@@ -92,8 +97,8 @@ const q = tress((url, callback) => {
 q.drain = () => {
   console.log('pages count', pagesCount);
   console.log('results length', results.length);
+  saveEventItemToDB(results);
   if (pagesCount === results.length) {
-    saveEventItemToDB(results);
     // console.log(results);
   } else {
     console.log('some error happened');
