@@ -14,7 +14,11 @@ module.exports = (app) => {
     const { day, search, sources, offset } = req.query;
 
     if (!sources) {
-      res.send = [];
+      res.send({
+        model: [],
+        totalCount: 0,
+      });
+      return;
     }
 
 
