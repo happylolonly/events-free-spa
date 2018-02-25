@@ -41,6 +41,7 @@ const init = (group) => {
         console.log('??');
         console.log(item.copy_history[0]);
         text = item.copy_history[0].text;
+        if (!text) return;
         attachments = item.copy_history[0].attachments;
       };
 
