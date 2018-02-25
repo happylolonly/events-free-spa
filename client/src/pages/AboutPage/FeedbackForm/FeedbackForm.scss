@@ -14,6 +14,10 @@
       margin: 10px auto;
       border-radius: 1px;
       min-height: 200px;
+
+      @media (max-width: 550px) {
+        width: 90%;
+      }
     }
 
     input[type="submit"] {

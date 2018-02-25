@@ -10,6 +10,9 @@ import './App.scss';
 
 class App extends Component {
 
+  // {/* <div className="sk-spinner sk-spinner-pulse"></div> */}
+
+
   render() {
     return (
       <div className="app">
@@ -18,8 +21,6 @@ class App extends Component {
         <div className="content">
           {renderRoutes(this.props.route.routes)}
         </div>
-        
-        <div className="sk-spinner sk-spinner-pulse"></div>
 
         <Footer />
       </div>
