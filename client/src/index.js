@@ -22,6 +22,15 @@ const logger = createLogger({ collapsed: true });
 const createStoreWithMiddleware = applyMiddleware(logger, thunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
+const sources = JSON.parse(localStorage.getItem('events') || null);
+
+if (sources) {
+	store.dispatch({
+		type: types.SETUP_SOURCES,
+		payload: sources,
+	})
+}
+
 ReactDOM.hydrate(
 	<Provider store={store}>
 		<BrowserRouter>
@@ -32,13 +41,3 @@ ReactDOM.hydrate(
 );
 
 registerServiceWorker();
-
-
-const sources = JSON.parse(localStorage.getItem('events') || null);
-
-if (sources) {
-	store.dispatch({
-		type: types.SETUP_SOURCES,
-		payload: sources,
-	})
-}
