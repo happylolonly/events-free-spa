@@ -7,6 +7,7 @@ import Location from './Location/Location';
 import Contacts from './Contacts/Contacts';
 
 import SocialButtons from '../../components/SocialButtons/SocialButtons';
+import { browserHistory } from 'react-router-dom';
 
 import moment from 'moment';
 
@@ -30,7 +31,11 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, ...res
     <div className="event-detail">
       <h3>{title}</h3>
       <header>
-        <Link to="/events"><span></span>Вернутся</Link>
+        {/* <Link to="/events"><span></span>Вернуться</Link> */}
+        <a href="/events" onClick={(event) => {
+          event.preventDefault();
+          window.history.back();
+        }}><span></span>Вернуться</a>
         <span>{moment(date).lang('ru').format('HH:mm') !== '00:00' ? moment(date).lang('ru').format('D MMMM YYYY в HH:mm') : moment(date).lang('ru').format('D MMMM YYYY')}</span>
       </header>
       <section>
