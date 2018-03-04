@@ -46,7 +46,7 @@ const q = tress((url, callback) => {
 
       const $html = $page.find('#event-description');
 
-      $html.find('ul.b-page-share').remove();
+      $html.find('.b-page-share').remove();
       $html.find('script').remove();
       $html.find('p.note').remove();
       $html.find('div.b-prmplace-media').remove();
