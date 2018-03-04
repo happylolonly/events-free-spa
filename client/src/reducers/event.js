@@ -50,6 +50,14 @@ export default (state=initialState, action) => {
         isLoading: false
       };
 
+      case types.SETUP_EVENTS:
+      // debugger;
+        return { ...state,
+          isLoading: false,
+          data: action.payload
+        };
+
+
     default:
       return state;
   }

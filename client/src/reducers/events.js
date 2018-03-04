@@ -33,6 +33,18 @@ export default (state=initialState, action) => {
     case types.RESET_EVENTS:
       return { ...state, data: initialState.data };
 
+    case types.SETUP_EVENTS_LIST:
+
+    const obj = {
+      ...state,
+      isLoading: false,
+      data: {
+        model: Object.keys(action.payload).map(item => action.payload[item]),
+        day: 'today',
+      }
+    };
+      return obj;
+
     default:
       return state;
   }
