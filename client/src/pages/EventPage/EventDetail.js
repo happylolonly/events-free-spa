@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import EventDetailFooter from './EventDetailFooter/EventDetailFooter';
+
 import EventText from './EventText';
-import Location from './Location/Location';
-
-import Contacts from './Contacts/Contacts';
-
-import SocialButtons from '../../components/SocialButtons/SocialButtons';
 import * as browserHistory   from 'react-router-dom';
 
 import moment from 'moment';
@@ -63,16 +60,13 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, ...res
 
         <hr/>
 
-        <div className="additional-info">
-          <SocialButtons
-            link={`http://www.eventsfree.by/event/${id}`}
-            title={title}
-            isShowCount={false}
-          />
-          {contacts && Object.keys(contacts).length > 0 && <Contacts contacts={contacts} />}
-          {location && <Location location={location}   />}
-
-        </div>
+        <EventDetailFooter
+          location={location}
+          contacts={contacts}
+          id={id}
+          title={title}
+        />
+        
       </section>
 
 

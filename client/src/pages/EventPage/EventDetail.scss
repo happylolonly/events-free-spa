@@ -5,15 +5,7 @@
 
   min-height: 800px;
 
-  .additional-info {
-    display: flex;
-    justify-content: space-between;
-
-    @media (max-width: 900px) {
-      text-align: center;
-      flex-direction: column;
-    }
-  }
+  
 
   header {
     display: flex;

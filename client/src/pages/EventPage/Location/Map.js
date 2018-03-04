@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import './Map.scss';
+
 const key = 'AIzaSyC6b_38Ikznrhtf5ZB8sBXm3Yl7y7zL8j8';
+
 
 
 
@@ -50,7 +53,7 @@ this.setState({lat, lng})
 
         return (
             <GoogleMap
-              defaultZoom={11}
+              defaultZoom={12}
               defaultCenter={{ lat: lat, lng: lng }}
             >
               {this.props.isMarkerShown && <Marker position={{ lat: lat, lng: lng }} />}
@@ -68,7 +71,7 @@ export default ({location}) => {
     isMarkerShown
     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6b_38Ikznrhtf5ZB8sBXm3Yl7y7zL8j8&v=3.exp&libraries=geometry,drawing,places"
     loadingElement={<div style={{ height: `100%` }} />}
-    containerElement={<div style={{ height: `400px` }} />}
+    containerElement={<div className="map" style={{ height: `300px` }} />}
     mapElement={<div style={{ height: `100%` }} />}
     location={location}
   />
