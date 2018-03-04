@@ -33,17 +33,17 @@ const options = {
 
 // debugger;
 
-express.listen(port);
+// express.listen(port);
 
 
 // express.listen(8080);
-const server = https.createServer(options, app).listen(() => {
-    console.log('Server ready on:', port);
-  });
+// const server = https.createServer(options, app).listen(() => {
+//     console.log('Server ready on:', port);
+//   });
 
-// const server = app.listen(port, () => {
-//   console.log('Server ready on:', port);
-// });
+const server = app.listen(port, () => {
+  console.log('Server ready on:', port);
+});
 const io = require('socket.io').listen(server);
 
 require('./helpers/db').default(mongoose, () => {
