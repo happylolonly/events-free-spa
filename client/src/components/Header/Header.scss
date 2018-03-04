@@ -68,20 +68,6 @@
     text-transform: uppercase;
 
     position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0px;
-      right: -60px;
-
-      height: 42px;
-      width: 42px;
-
-      background-image: url('/images/santa.png');
-      background-repeat: no-repeat;
-      background-size: contain;
-    }
   }
 
   @media (max-width: 800px) {
