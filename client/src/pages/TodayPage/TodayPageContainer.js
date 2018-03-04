@@ -34,7 +34,10 @@ class TodayPageContainer extends Component {
       currentFilter,
     }
 
-    this.props.resetEvents();
+    if (currentFilter !== this.props.events.data.day) {
+      this.props.resetEvents();
+      this.loadEvents();
+    }
 
     this.handleSearch = this.handleSearch.bind(this);
     this.loadMore = this.loadMore.bind(this);
@@ -46,7 +49,6 @@ class TodayPageContainer extends Component {
   }
 
   componentDidMount() {
-    this.loadEvents();
 
     this.socket = io();
     this.socket.on('connect', () => console.log('connect'));

@@ -33,7 +33,7 @@ export const loadEvents = (config) => {
       console.log(events);
       const { model, totalCount } = events.data;
 
-      dispatch({ type: types.LOAD_EVENTS_SUCCESS, payload: {model, totalCount} });
+      dispatch({ type: types.LOAD_EVENTS_SUCCESS, payload: {model, totalCount, day} });
     } catch (error) {
       dispatch({ type: types.LOAD_EVENTS_ERROR, payload: error });
     }
