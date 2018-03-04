@@ -41,7 +41,7 @@ const q = tress((url, callback) => {
       const page = '.show-events';
       const $pageDom = $(page);
 
-      const location = $(page).find('.body-events .adress-events-map').text();
+      const location = $(page).find('.body-events .adress-events-map').attr('data-address');
 
       const title = $(page).find('h1').text().trim();
       const originalLink = url.split(`${URL}`)[1];
@@ -95,7 +95,7 @@ const q = tress((url, callback) => {
         originalLink,
         source: 'events.dev.by',
         status: checkText(html) ? 'active' : 'active',
-        location: location,
+        location: location ? location : '',
         images: [image],
         contacts: contacts,
       });
