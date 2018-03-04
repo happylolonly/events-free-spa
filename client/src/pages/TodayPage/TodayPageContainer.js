@@ -125,11 +125,11 @@ class TodayPageContainer extends Component {
         <p className="event-sources">Откуда получать мероприятия можно выбрать <Link to="/settings">тут</Link></p>
 
 
-        {this.props.events.isLoading ? <Loader /> :
+        {this.props.events.isLoading && !this.props.events.data.model.length ? <Loader /> :
           <div>
             <TodayPage events={this.props.events.data.model} currentFilter={this.state.currentFilter} />
 
-            {this.props.events.data.model.length < this.props.events.data.totalCount &&
+            {this.props.events.data.model.length < this.props.events.data.totalCount && !this.props.events.isLoading && 
               <button className="btn btn-link show-more" onClick={this.loadMore}>Показать еще</button>}
           </div>
         }
