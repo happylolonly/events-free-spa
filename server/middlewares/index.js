@@ -12,6 +12,7 @@ export default (app, express) => {
 
     app.use(compression())
 
-    app.use(express.static(__dirname + '/../static'));
+    app.use(express.static(__dirname + '/../static/'));
+    app.use(express.static(__dirname + '/../static/build'));
 
 };

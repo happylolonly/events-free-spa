@@ -50,7 +50,7 @@ app.use((req, res, next) => {
 
     // const store = createStore(req);
     // res.sendFile(__dirname + '/build');
-    res.sendFile(path.join(__dirname, '/../build/index.html'));
+    res.sendFile(path.join(__dirname, '/static/build/index.html'));
 
     // const content = renderer(req, store);
     // res.send(content);
