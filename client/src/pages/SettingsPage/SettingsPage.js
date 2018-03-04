@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Sources from './Sources/Sources';
+import LoadAll from './LoadAll/LoadAll';
 import { updateSources, toggleSources } from 'actions/sources';
+import { loadAllEvents } from 'actions/events';
 
 import './SettingsPage.scss';
 
@@ -14,7 +16,7 @@ const propTypes = {
   toggleSources: PropTypes.func.isRequired,
 };
 
-const SettingsPage = ({ sources, updateSources, toggleSources }) => {
+const SettingsPage = ({ sources, updateSources, toggleSources, loadAllEvents }) => {
   return (
     <div className="settings-page">
       <Sources
@@ -22,6 +24,9 @@ const SettingsPage = ({ sources, updateSources, toggleSources }) => {
         updateSources={updateSources}
         toggleSources={toggleSources}
       />
+
+      <hr />
+      <LoadAll sources={sources} loadAllEvents={loadAllEvents} />
     </div>
   )
 }
@@ -34,4 +39,4 @@ const mapStateToProps = ({ sources }) => {
 
 SettingsPage.propTypes = propTypes;
 
-export default connect(mapStateToProps, { updateSources, toggleSources })(SettingsPage);
+export default connect(mapStateToProps, { updateSources, toggleSources, loadAllEvents })(SettingsPage);

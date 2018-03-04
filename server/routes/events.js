@@ -9,9 +9,80 @@ import moment from 'moment';
 
 module.exports = (app) => {
 
+  app.get('/api/events-count', (req, res) => {
+    const { day, sources } = req.query;
+
+    var start = moment.utc().format();
+
+
+    // console.log(start.getTimezoneOffset());
+    // start.setHours(0,0,0,0);
+    start = moment(start).set({hour:0,minute:0,second:0,millisecond:0});
+
+    var end = moment.utc().format();
+    end = moment(end).set({hour:23,minute:59,second:59,millisecond:999});
+    // end.setHours(23,59,59,999);
+    // end.setDate(end.getDate() + 5);
+
+    const obj = {};
+
+    // console.log((start));
+    // console.log((start.toUTCString()));
+
+    const dif = 1000*60*60*3;
+
+
+    switch (day) {
+      case 'today':
+        obj.date = {$gte: Date.parse(start) - dif , $lt: Date.parse(end) - dif};
+        break;
+    }
+
+
+    if (sources) {
+      // console.log('here', sources);
+
+      const dict = {
+        meetupBy: 'meetup.by',
+        imaguru: 'imaguru.by',
+        eventsDevBy: 'events.dev.by',
+        minskforfree: 'vk.com/minskforfree',
+        freeFitnessMinsk: 'vk.com/free_fitness_minsk',
+        freeLanguagesMinsk: 'vk.com/free_languages_minsk',
+        sportMts: 'sport.mts.by',
+        citydogVedy: 'citydog.by/vedy',
+        citydogAfisha: 'citydog.by/afisha',
+        afishaTutBy: 'afisha.tut.by',
+        // space: 'citydog.by/afisha',
+        // htp: 'citydog.by/afisha',
+        // citydogAfisha: 'citydog.by/afisha',
+      }
+
+      // console.log(sources.split(','));
+
+      obj.source = { $in: sources.split(',').map(item => dict[item]) };
+    }
+
+    obj.status = 'active';
+
+
+
+      Event.find(obj)
+        .count()
+        .then(count => {
+          console.log(count);
+          res.send({totalCount: count});
+        })
+        .catch(error => {
+          console.log(error);
+        })
+   
+
+  });
+
   app.get('/api/events', (req, res) => {
 
-    const { day, search, sources, offset } = req.query;
+    const { day, search, sources, offset, limit, full } = req.query;
 
     if (!sources) {
       res.send({
@@ -154,12 +225,13 @@ module.exports = (app) => {
             //  console.log(items.length);
 
              let filteredItems = events.map(item => {
-               const { _id:id, title, source, originalLink, date} = item;
 
-              // const obj = {...item};
-              // obj.id = item._id;
-              // delete item._id;
-              // delete item.text;
+              if (!full) { //cтрока
+
+                const { _id:id, title, source, originalLink, date} = item;
+
+              
+              
                return {
                  id,
                  date,
@@ -168,6 +240,15 @@ module.exports = (app) => {
                  originalLink
                }
               // return obj;
+
+              } else {
+                //   const obj = Object.create(item);
+                // obj.id = item._id;
+                // delete obj._id;
+                // delete item.text;
+                return item;
+              }
+               
              })
 
              resolve(filteredItems);
@@ -181,7 +262,7 @@ module.exports = (app) => {
     Promise.all([getTotalCount(), getEvents()])
       .then(data => {
         // console.log('data lst', data);
-
+        // debugger;
         res.json({
           model: data[1],
           totalCount: data[0]
