@@ -7,7 +7,7 @@ export default (app) => {
 
   app.get('/.well-known/acme-challenge/*', (req, res, next) => {
     // if (req.originalUrl.slice(-1) != '/') return next();
-    res.send(200);
+    res.send('xQdTA59CaQG_x9AHRq-dvlrAAjOL-YY3Mt5NCecMVZU.tKO74Kllpv1GZuYljudpZVhj20FvA6m05c86Ik4tUF0');
     // res.sendFile(__dirname + '/../static/build/index.html');
   });
 
