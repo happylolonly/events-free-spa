@@ -210,7 +210,7 @@ module.exports = (app) => {
         Event.find(obj)
           .sort(day === 'past' ? { date: -1 } : { date: 1 })
           .skip(+offset)
-          .limit(10)
+          .limit(+limit || 150)
           .then(events => {
             console.log(events.length, 'find');
 

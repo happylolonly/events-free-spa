@@ -26,7 +26,8 @@ export const loadEvents = (config) => {
           day,
           offset,
           search,
-          sources
+          sources,
+          limit: 10,
         }
       });
       console.log(events);
