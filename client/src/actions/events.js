@@ -63,6 +63,42 @@ export const loadEvent = (id) => {
 
 };
 
+export const loadAllEvents = () => {
+
+  return async (dispatch, getState) => {
+
+    // const events = JSON.parse(localStorage.getItem('events') || null) || {};
+    const events = getState().sources;
+    var keys = Object.keys(events);
+
+    var filtered = keys.filter(function(key) {
+        return events[key]
+    });
+
+    let sources = filtered.join(',');
+
+    dispatch({ type: types.LOAD_EVENT_START });
+
+    try {
+      const event = await axios.get(`${API}/events`, {
+        params: {
+          sources,
+          day: 'today',
+          full: true,
+        }
+      });
+
+      // debugger;
+
+      dispatch({ type: types.LOAD_ALL_EVENTS_SUCCESS, payload: event.data.model });
+    } catch (error) {
+      dispatch({ type: types.LOAD_EVENT_ERROR, payload: error });
+    }
+
+  }
+
+};
+
 
 export const resetEvents = () => {
   return {
