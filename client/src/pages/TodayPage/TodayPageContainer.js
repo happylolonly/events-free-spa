@@ -8,7 +8,8 @@ import io from 'socket.io-client';
 import Search from './Search/Search';
 import Filters from './Filters/Filters';
 import TodayPage from './TodayPage';
-import { Loader } from 'components/common';
+import { Loader, Calendar } from 'components/common';
+import moment from 'moment';
 
 import { loadEvents, resetEvents } from 'actions/events';
 
@@ -25,15 +26,29 @@ class TodayPageContainer extends Component {
   constructor(props) {
     super(props);
 
+    const params = this.props.location.search && this.props.location.search.split('=')[1];
 
-    const currentFilter = this.props.location.search && this.props.location.search.split('=')[1] || 'today';
+    let currentFilter = 'today';
+    let formattedCalendarDate = null;
+
+    if (params) {
+      if (params.split('_').length === 3) {
+        currentFilter = 'certain';
+        formattedCalendarDate = params;
+      } else {
+        currentFilter = params;
+      }
+    }
 
     this.state = {
       search: '',
       offset: 0,
       currentFilter,
+      isShowCalendar: false,
+      formattedCalendarDate
     }
 
+      // debugger;
     if (currentFilter !== this.props.events.data.day) {
       this.props.resetEvents();
       this.loadEvents();
@@ -46,6 +61,8 @@ class TodayPageContainer extends Component {
 
     this.eventsUpdated = this.eventsUpdated.bind(this);
     this.handleSecretButtonClick = this.handleSecretButtonClick.bind(this);
+    this.toggleCalendar = this.toggleCalendar.bind(this);
+    this.handleCalendarChange = this.handleCalendarChange.bind(this);
   }
 
   componentDidMount() {
@@ -92,10 +109,12 @@ class TodayPageContainer extends Component {
   loadEvents() {
     const { search, offset, currentFilter } = this.state;
 
+    // debugger;
+
     this.props.loadEvents({
       search,
       offset,
-      day: currentFilter
+      day: currentFilter === 'certain' ? this.state.formattedCalendarDate : currentFilter
     })
   }
 
@@ -109,9 +128,30 @@ class TodayPageContainer extends Component {
     this.props.resetEvents();
     this.setState({
       currentFilter: filter,
+      isShowCalendar: filter === 'certain',
       offset: 0,
     }, () => {
-      window.history.pushState(filter, null, `events?day=${filter}`);
+      if (filter === 'certain') {
+        window.history.pushState(filter, null, `events?day=`);
+
+
+      } else {
+        window.history.pushState(filter, null, `events?day=${filter}`);
+        this.loadEvents();
+      }
+        
+    });
+  }
+
+  toggleCalendar() {
+    this.setState({ isShowCalendar: !this.state.isShowCalendar });
+  }
+
+  handleCalendarChange(date) {
+    this.props.resetEvents();
+    const formattedDate = moment(date).format('DD_MM_YYYY');
+    this.setState({ calendarDate: date, isShowCalendar: false,       offset: 0, formattedCalendarDate: formattedDate }, () => {
+      window.history.pushState(formattedDate, null, `events?day=${formattedDate}`);
       this.loadEvents();
     });
   }
@@ -123,6 +163,14 @@ class TodayPageContainer extends Component {
         <Search handleSearch={this.handleSearch} search={this.state.search} />
         <Filters handleFilter={this.handleFilter} currentFilter={this.state.currentFilter} />
         <p className="event-sources">Откуда получать мероприятия можно выбрать <Link to="/settings">тут</Link></p>
+
+        <div className="calendar-wrapper">
+
+          {this.state.currentFilter === 'certain' && <button className="btn btn-link" onClick={this.toggleCalendar}>{!this.state.isShowCalendar ? 'Показать' : 'Cкрыть'} календарь</button>}
+          {this.state.isShowCalendar && <Calendar value={this.state.calendarDate} onChange={this.handleCalendarChange} />}
+
+        </div>
+
 
 
         {this.props.events.isLoading && !this.props.events.data.model.length ? <Loader /> :

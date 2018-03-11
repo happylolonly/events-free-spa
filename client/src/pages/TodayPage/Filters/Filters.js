@@ -17,6 +17,7 @@ const Filters = ({ currentFilter, handleFilter }) => {
 
       <button className={cn({'filter-active': currentFilter === 'today'})} onClick={() => handleFilter('today')}>На сегодня</button>
       <button className={cn({'filter-active': currentFilter === 'tomorrow'})} onClick={() => handleFilter('tomorrow')}>На завтра</button>
+      <button className={cn({'filter-active': currentFilter === 'certain'})} onClick={() => handleFilter('certain')}>На определенный день</button>
       <button className={cn({'filter-active': currentFilter === 'all'})} onClick={() => handleFilter('all')}>Все</button>
       <button className={cn({'filter-active': currentFilter === 'past'})} onClick={() => handleFilter('past')}>Прошедшие</button>
 

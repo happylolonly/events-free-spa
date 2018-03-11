@@ -41,4 +41,37 @@
     bottom: 100px;
     left: 100px;
   }
+
+  .calendar-wrapper {
+    width: 50%;
+    margin: 10px auto;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+
+    
+    > div {
+      margin: 15px auto;
+
+      // .react-calendar {
+      //   animation: appear 0.34s 0s ease-out;
+
+
+      //   @keyframes appear {
+      //     from {
+      //         height: 0;
+      //     }
+  
+      //     to {
+      //         height: 300px;
+      //     }
+      // }
+
+      // }
+
+
+    
+    }
+  }
 }

@@ -82,7 +82,8 @@ module.exports = (app) => {
 
   app.get('/api/events', (req, res) => {
 
-    const { day, search, sources, offset, limit, full } = req.query;
+    const { search, sources, offset, limit, full } = req.query;
+    let { day } = req.query;
 
     if (!sources) {
       res.send({
@@ -94,6 +95,31 @@ module.exports = (app) => {
 
 
     var start = moment.utc().format();
+
+    let certainDate = '';
+    let certainStart = '';
+    let certainEnd = '';
+    if (day.split('_').length === 3) {
+      debugger;
+      const [ certainDay, certainMonth, certainYear ] = day.split('_');
+      certainDate = day;
+
+      certainStart = moment.utc().format();
+      certainStart = moment(certainStart).set({date: +certainDay, month: +certainMonth - 1, year: +certainYear ,hour:0,minute:0,second:0,millisecond:0});
+      certainStart = Date.parse(certainStart);
+
+      certainEnd = moment(certainStart).set({hour:23,minute:59,second:59,millisecond:999});
+
+      certainEnd = Date.parse(certainEnd);
+
+
+      // certainStart.setDate(certainDay);
+      // certainStart.setMonth(certainMonth);
+      // certainStart.setFullYear(certainYear);
+
+
+      day = 'certain';
+    }
 
 
     // console.log(start.getTimezoneOffset());
@@ -128,6 +154,13 @@ module.exports = (app) => {
 
       case 'past':
         obj.date = {$lt: Date.parse(start) - dif  };
+        break;
+
+      case 'certain':
+        obj.date = {
+          $gte: certainStart,
+          $lt: certainEnd
+        }
         break;
       //
       // default:
