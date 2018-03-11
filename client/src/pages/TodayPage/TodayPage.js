@@ -20,6 +20,11 @@ const TodayPage = ({ events, currentFilter }) => {
         return <h3>Мероприятия на завтра</h3>
       case 'certain':
         const [ day, month ] = window.location.search.split('=')[1].split('_');
+
+        if (!month) { // перерендер до колбека setState
+          return <h3>Все мероприятия</h3>
+        } 
+
         const monthRU = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
         return <h3>Мероприятия на {`${+day} ${monthRU[+month - 1].toLowerCase()}`}</h3>
