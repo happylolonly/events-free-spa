@@ -4,6 +4,7 @@ import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
 
 import { renderRoutes } from 'react-router-config';
+import ErrorBondary from 'components/error-bondary';
 
 import './App.scss';
 
@@ -15,15 +16,17 @@ class App extends Component {
 
   render() {
     return (
-      <div className="app">
-        <Header />
+      <ErrorBondary>
+        <div className="app">
+          <Header />
 
-        <div className="content">
-          {renderRoutes(this.props.route.routes)}
+          <div className="content">
+            {renderRoutes(this.props.route.routes)}
+          </div>
+
+          <Footer />
         </div>
-
-        <Footer />
-      </div>
+      </ErrorBondary>
     );
   }
 }
