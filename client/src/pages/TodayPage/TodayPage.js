@@ -19,6 +19,10 @@ const TodayPage = ({ events, currentFilter }) => {
       case 'tomorrow':
         return <h3>Мероприятия на завтра</h3>
       case 'certain':
+
+      if (!window.location.search) { // /events => certain
+        return <h3>Все мероприятия</h3>
+      } 
         const [ day, month ] = window.location.search.split('=')[1].split('_');
 
         if (!month) { // перерендер до колбека setState
