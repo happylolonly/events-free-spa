@@ -23,6 +23,7 @@ const Calendar = ({ onChange, value, name }) => {
         <ReactCalendar
         onChange={handleChange}
         value={value}
+        locale="ru-RU"
         />
   </div>
     );
