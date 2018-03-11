@@ -158,8 +158,8 @@ module.exports = (app) => {
 
       case 'certain':
         obj.date = {
-          $gte: certainStart,
-          $lt: certainEnd
+          $gte: certainStart - dif,
+          $lt: certainEnd - dif
         }
         break;
       //
