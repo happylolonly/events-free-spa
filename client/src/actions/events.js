@@ -89,7 +89,7 @@ export const loadAllEvents = () => {
         }
       });
 
-      // debugger;
+      dispatch({ type: types.SETUP_EVENTS_LIST, payload: event.data.model }); // возможно костыль, потом посмотреть
 
       dispatch({ type: types.LOAD_ALL_EVENTS_SUCCESS, payload: event.data.model });
     } catch (error) {
