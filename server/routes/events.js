@@ -259,6 +259,8 @@ module.exports = (app) => {
 
              let filteredItems = events.map(item => {
 
+
+              // debugger;
               if (!full) { //cтрока
 
                 const { _id:id, title, source, originalLink, date} = item;
@@ -275,11 +277,13 @@ module.exports = (app) => {
               // return obj;
 
               } else {
-                //   const obj = Object.create(item);
-                // obj.id = item._id;
+                  // const obj = Object.create(item);
+                // item.id = item._id;
+
+                const t = item.toObject({ getters: true });
                 // delete obj._id;
                 // delete item.text;
-                return item;
+                return t;
               }
                
              })
