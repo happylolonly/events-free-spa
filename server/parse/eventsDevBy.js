@@ -125,7 +125,7 @@ q.drain = () => {
       console.log(error);
 
       // тупо но вдруг
-      const log2 = new Log({ date: moment().format('DD/MM/YYYY'), data: {
+      const log2 = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
         error
       } });
 
