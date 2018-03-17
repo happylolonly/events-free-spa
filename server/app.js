@@ -45,22 +45,22 @@ const options = {
 //     console.log('Server ready on:', port);
 //   });
 
-// const server = app.listen(port, () => {
-//   console.log('Server ready on:', port);
-// });
+const server = app.listen(port, () => {
+  console.log('Server ready on:', port);
+});
 
 // var app = express();
 
 // your express configuration here
 
-var httpsServer = https.createServer({}, app);
+// var httpsServer = https.createServer({}, app);
 
 // httpServer.listen(8080);
-httpsServer.listen(port, () => {
-    console.log('Server ready on:', port);
-  });
+// app.listen(port, () => {
+//     console.log('Server ready on:', port);
+//   });
 
-const io = require('socket.io').listen(httpsServer);
+const io = require('socket.io').listen(server);
 
 require('./helpers/db').default(mongoose, () => {
 

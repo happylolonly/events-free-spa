@@ -1,9 +1,5 @@
 language: node_js
 sudo: false
-node_js:
-- '8'
-env:
-  - CI=false
 deploy:
   provider: heroku
   api_key:
