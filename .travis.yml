@@ -4,10 +4,6 @@ node_js:
 - '8'
 env:
   - CI=false
-install:
-- npm install
-script:
-- npm test
 deploy:
   provider: heroku
   api_key:
