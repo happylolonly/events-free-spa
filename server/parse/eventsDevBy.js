@@ -112,7 +112,7 @@ q.drain = () => {
   console.log('pages count', pagesCount);
   console.log('results length', results.length);
 
-  const log = new Log({ date: moment().format('DD/MM/YYYY'), data: {
+  const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
     pagesCount,
     resultsLength: results.length,
   } });
