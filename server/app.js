@@ -67,8 +67,8 @@ require('./helpers/db').default(mongoose, () => {
 
   parse(io);
 
-  cron.schedule('* * 1 * * *', () => {
-    console.log('running a task every hour');
+  cron.schedule(' * 2 * * *', () => {
+    console.log('running a task every 2 hour');
     parse(io);
   });
 
