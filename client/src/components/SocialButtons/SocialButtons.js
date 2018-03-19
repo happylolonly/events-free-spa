@@ -17,7 +17,7 @@ const LinkedinIcon = generateShareIcon('linkedin');
 const GooglePlusIcon = generateShareIcon('google');
 
 const description = '';
-const image = 'http://www.eventsfree.by/logo.png';
+const defaultImage = 'http://www.eventsfree.by/logo.png';
 const size = 32;
 
 const propTypes = {
@@ -26,12 +26,12 @@ const propTypes = {
   isShowCount: PropTypes.bool.isRequired,
 }
 
-const SocialButtons = ({ link, title, isShowCount }) => {
+const SocialButtons = ({ link, title, isShowCount, image }) => {
   return (
     <ul className="social-buttons">
 
       <li>
-        <VKShareButton url={link} title={title} description={description} image={image}>
+        <VKShareButton url={link} title={title} description={description} image={image || defaultImage}>
           <VKIcon size={size} round={true} />
           {isShowCount &&
             <VKShareCount url={link}>
@@ -43,7 +43,7 @@ const SocialButtons = ({ link, title, isShowCount }) => {
       </li>
 
       <li>
-        <FacebookShareButton url={link} title={title} description={description} picture={image}>
+        <FacebookShareButton url={link} title={title} description={description} picture={image || defaultImage}>
           <FacebookIcon size={size} round={true} />
           {isShowCount &&
             <FacebookShareCount url={link}>

@@ -36,7 +36,7 @@ class EventDetailFooter extends Component {
 
 
   render() {
-      const { title, location, id, contacts } = this.props;
+      const { title, location, id, contacts, image } = this.props;
     return (
 
         <div className="additional-info">
@@ -45,6 +45,7 @@ class EventDetailFooter extends Component {
                 link={`http://www.eventsfree.by/event/${id}`}
                 title={title}
                 isShowCount={false}
+                image={image}
             />
             {contacts && Object.keys(contacts).length > 0 && <Contacts contacts={contacts} />}
             {location && 

@@ -77,6 +77,7 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, ...res
           contacts={contacts}
           id={id}
           title={title}
+          image={(images && images[0]) || ''}
         />
         
       </section>
