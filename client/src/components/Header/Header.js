@@ -12,7 +12,10 @@ const propTypes = {
 const Header = () => {
   return (
     <div className="header">
-      <span>Events Free</span>
+      <div className="title">
+        <span>Events Free</span>
+        <p>Все бесплатные мероприятия в одном месте</p>
+      </div>
       <ul>
         <li><Link to='/events'>Мероприятия</Link></li>
         <li><Link to='/about'>О приложении</Link></li>
