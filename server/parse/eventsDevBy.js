@@ -115,6 +115,7 @@ q.drain = () => {
   const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
     pagesCount,
     resultsLength: results.length,
+    results: results,
   } });
 
   log.save()
