@@ -13,13 +13,16 @@ const URL = 'https://events.dev.by';
 
 const results = []
 let pagesCount;
+let requestsCount = 0;
 
 
 const q = tress((url, callback) => {
 
   axios.get(url)
     .then(data => {
+      requestsCount += 1;
       const $ = cheerio.load(data.data);
+
 
       // q.push('https://events.dev.by?page=4');
       // if main page
@@ -113,9 +116,11 @@ q.drain = () => {
   console.log('results length', results.length);
 
   const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
+    source: 'eventsDevBy',
     pagesCount,
     resultsLength: results.length,
-    results: results,
+    results: results.map((item) => item.title),
+    requestsCount,
   } });
 
   log.save()

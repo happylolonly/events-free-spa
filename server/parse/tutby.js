@@ -6,19 +6,24 @@ import moment from 'moment';
 import axios from 'axios';
 
 import { saveEventItemToDB, convertMonths, formatDate, checkText } from './helpers';
+import Log from '../model/log';
+
 
 
 const URL = 'https://afisha.tut.by/free-events';
 
 const results = []
 let pagesCount;
+let requestsCount = 0;
 
 
 const q = tress((url, callback) => {
 
   axios.get(url)
     .then(data => {
+      requestsCount += 1;
       const $ = cheerio.load(data.data);
+
 
       // q.push('https://events.dev.by?page=4');
       // if main page
@@ -97,6 +102,31 @@ const q = tress((url, callback) => {
 q.drain = () => {
   console.log('pages count', pagesCount);
   console.log('results length', results.length);
+
+  const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
+    source: 'tutby',
+    pagesCount,
+    resultsLength: results.length,
+    results: results.map((item) => item.title),
+    requestsCount,
+  } });
+
+  log.save()
+    .then(() => {
+      console.log('log saved');
+    })
+    .catch(error => {
+      console.log(error);
+
+      // тупо но вдруг
+      const log2 = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
+        error
+      } });
+
+      log2.save();
+
+    })
+
   saveEventItemToDB(results);
   if (pagesCount === results.length) {
     // console.log(results);
