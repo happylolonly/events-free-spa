@@ -9,7 +9,7 @@ import moment from 'moment';
 import config from './configs';
 
 import parse from './helpers/parse';
-import Log from '../model/log';
+import Log from './model/log';
 
 
 import fs from 'fs';
