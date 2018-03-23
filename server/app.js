@@ -3,10 +3,14 @@ import './modules/newrelic';
 import express from 'express';
 import mongoose from 'mongoose';
 import cron from 'node-cron';
+import moment from 'moment';
+
 
 import config from './configs';
 
 import parse from './helpers/parse';
+import Log from '../model/log';
+
 
 import fs from 'fs';
 const https = require('https');
@@ -63,13 +67,41 @@ const server = app.listen(port, () => {
 
 const io = require('socket.io').listen(server);
 
+let times = 0;
+
 require('./helpers/db').default(mongoose, () => {
 
   parse(io);
 
-  cron.schedule('* 15 * * *', () => {
-    console.log('running a task every 2 hour');
+  cron.schedule('* */6 * * *', () => {
+    console.log('running a task every 6 hour');
+
+    times = times + 1;
+
+    const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
+      schedule: 'test',
+      times,
+    } });
+
+
+    log.save()
+    .then(() => {
+      console.log('log saved');
+    })
+    .catch(error => {
+      console.log(error);
+
+      // тупо но вдруг
+      const log2 = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
+        error
+      } });
+
+      log2.save();
+
+  });
+
     parse(io);
+
   });
 
 });
