@@ -73,41 +73,44 @@ require('./helpers/db').default(mongoose, () => {
 
   parse(io);
 
-  cron.schedule('* */6 * * *', () => {
+  cron.schedule('0 */6 * * *', () => {
     console.log('running a task every 6 hour');
-
+  
     times = times + 1;
-
+  
     const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
       schedule: 'test',
       times,
     } });
-
-
+  
+  
     log.save()
     .then(() => {
       console.log('log saved');
     })
     .catch(error => {
       console.log(error);
-
+  
       // тупо но вдруг
       const log2 = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
         error
       } });
-
+  
       log2.save();
-
+  
   });
-
+  
     parse(io);
-
+  
   });
+
+  
 
 });
 require('./helpers/sockets').default(io);
 require('./middlewares').default(app, express);
 require('./routes').default(app);
+
 
 
 
