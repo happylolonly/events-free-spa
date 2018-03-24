@@ -244,6 +244,7 @@ module.exports = (app) => {
           .sort(day === 'past' ? { date: -1 } : { date: 1 })
           .skip(+offset)
           .limit(+limit || 150)
+          // .cache({ })
           .then(events => {
             console.log(events.length, 'find');
 
@@ -311,10 +312,11 @@ module.exports = (app) => {
 
   })
 
-  app.get('/api/event', (req, res) => {
+  app.get('/api/event', async (req, res) => {
     const { id } = req.query;
 
-    Event.find({ _id: id })
-      .then(item => res.send(item));
+    const item = await Event.find({ _id: id })
+      .cache({ key: id })
+    res.send(item);
   });
 }
