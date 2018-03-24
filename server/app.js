@@ -12,6 +12,8 @@ import parse from './helpers/parse';
 import Log from './model/log';
 
 
+
+
 import fs from 'fs';
 const https = require('https');
 // import renderer from './helpers/renderer';
@@ -107,11 +109,12 @@ require('./helpers/db').default(mongoose, () => {
   
 
 });
+
+require('./services/cache');
+
 require('./helpers/sockets').default(io);
 require('./middlewares').default(app, express);
 require('./routes').default(app);
-
-
 
 
 // app.get('*', function(req, res){
