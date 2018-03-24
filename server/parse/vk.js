@@ -75,6 +75,10 @@ const init = (group) => {
 
       const date = formatDate(year, month, day, hour, minute);
 
+      if (isNaN(date)) {
+        return;
+      }
+
 
       // if (Number.isNaN(date)) console.log(date, parsedDate, text);
 
