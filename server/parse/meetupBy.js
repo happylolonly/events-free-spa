@@ -69,6 +69,7 @@ const q = tress((url, callback) => {
         title: title,
         text: html,
         originalLink,
+        images: [],
         source: 'meetup.by',
         status: checkText(html) ? 'active' : 'active',
       });

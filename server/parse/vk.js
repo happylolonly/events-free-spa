@@ -86,12 +86,14 @@ const init = (group) => {
         }
       }
 
+      const photo = attachments && attachments[0].photo && attachments[0].photo.photo_604;
+
 
       results.push({
         date: date,
         title: sliceText(text, 15),
         text: text,
-        images: [ attachments && attachments[0].photo && attachments[0].photo.photo_604 ],
+        images: photo ? [photo] : [], // при сохранении в бд
         originalLink: `?w=wall${from_id}_${id}`,
         source: `vk.com/${group}`,
         status: checkStatus(group),
