@@ -9,5 +9,6 @@ export default {
   },
   db: {
     url: 'mongodb://HappyLoL:12345678@ds061246.mlab.com:61246/cubes',
-  }
+  },
+  redis: 'redis-15117.c12.us-east-1-4.ec2.cloud.redislabs.com'
 };

@@ -60,6 +60,7 @@
 		"react-router-config": "1.0.0-beta.4",
 		"react-router-dom": "4.2.2",
 		"react-share": "^1.15.0",
+		"redis": "^2.8.0",
 		"redux": "^3.6.0",
 		"redux-logger": "^2.7.4",
 		"redux-thunk": "^2.1.0",
