@@ -76,7 +76,7 @@ export const saveEventItemToDB = (results) => {
       const event = new Event(item);
       event.save()
         .then(() => {
-          console.log('saved new');
+          console.log('saved new', item.source, item.originalLink);
         })
         .catch(error => {
           console.log(error);
@@ -84,10 +84,12 @@ export const saveEventItemToDB = (results) => {
     }
 
     const updateEvent = (_id, item) => {
-      const { date, title, originalLink, source, text, images, location, contacts } = item;
-      Event.findByIdAndUpdate(_id, { date, title, originalLink, source, text, images, location, contacts })
-        .then(() => {
-          console.log('update event');
+      // const { date, title, originalLink, source, text, images, location, contacts } = item;
+      const obj = Object.assign({}, item);
+      Event.update({_id}, obj, {overwrite: true})
+      .then(() => {
+        debugger;
+          console.log('update event', item.source);
         })
         .catch(error => {
           console.log('update error', error);
@@ -122,6 +124,12 @@ export const saveEventItemToDB = (results) => {
           const checkItem = Object.assign({}, item);
           delete checkItem.status;
 
+          const dat = data[0].toObject();
+          
+          delete dat.status;
+          delete dat._id;
+          delete dat.__v;
+
           if (
             // item.title !== data[0].title ||
             // item.date !== data[0].date ||
@@ -130,10 +138,11 @@ export const saveEventItemToDB = (results) => {
             // item.location !== data[0].location ||
             // item.text !== data[0].text ||
             // checkImages(item.images, data[0].images)
-            !(isEqual(checkItem, data[0]))
+            !(isEqual(checkItem, dat))
             // false
             // если true то обновить, не сравнивает массивы в разном порядке [1,2] [2,1]
           ) {
+            item.status = data[0].status;
             updateEvent(data[0]._id, item);
             return;
           }
