@@ -28,9 +28,9 @@ const q = tress((url, callback) => {
       // if main page
       // if (url.split('.by')[1][0] !== '/') {
       if (url === 'https://events.dev.by') {
-        console.log('main url', url);
+        // console.log('main url', url);
         pagesCount = $('.body-events .item').length;
-        console.log('count', pagesCount);
+        // console.log('count', pagesCount);
         $('.body-events .item').each((item, i) => {
           const link = $(i).find('a.title').attr('href');
           q.push(`${URL}${link}`);
@@ -40,7 +40,7 @@ const q = tress((url, callback) => {
       }
 
       // if event's page
-      console.log('parsing', url);
+      // console.log('parsing', url);
 
       const page = '.show-events';
       const $pageDom = $(page);
@@ -57,17 +57,17 @@ const q = tress((url, callback) => {
         $(domImage).remove();
         image = `${URL}${src}`;
       }
-      console.log('image', image);
+      // console.log('image', image);
 
       const html = $pageDom.find('.bl').html();
 
       const dateBlock = $(page).find('.time').text();
 
 
-      console.log(dateBlock);
+      // console.log(dateBlock);
 
       const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
-      console.log(parsedDate);
+      // console.log(parsedDate);
       // console.log(new Date());
       const { day, month, hour, minute } = parsedDate;
       let year = moment().format('YYYY');
@@ -86,7 +86,7 @@ const q = tress((url, callback) => {
       if (indexPhone !== -1) {
         const end = $(page).find('.info').html().length;
         const phone = $(page).find('.info').html().substring(indexPhone, end).trim();
-        console.log(end, '---', phone);
+        // console.log(end, '---', phone);
         contacts = Object.assign(contacts, { phone: phone });
       }
 
@@ -107,13 +107,13 @@ const q = tress((url, callback) => {
       callback();
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
     })
 }, 5);
 
 q.drain = () => {
-  console.log('pages count', pagesCount);
-  console.log('results length', results.length);
+  // console.log('pages count', pagesCount);
+  // console.log('results length', results.length);
 
   const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
     source: 'eventsDevBy',
@@ -125,10 +125,10 @@ q.drain = () => {
 
   log.save()
     .then(() => {
-      console.log('log saved');
+      // console.log('log saved');
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
 
       // тупо но вдруг
       const log2 = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
@@ -144,7 +144,7 @@ q.drain = () => {
   if (pagesCount === results.length) {
     // console.log(results);
   } else {
-    console.log('some error happened');
+    // console.log('some error happened');
   }
 }
 

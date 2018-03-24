@@ -31,9 +31,9 @@ const q = tress((url, callback) => {
 
         // if main page
         if (url === URL) {
-          console.log('main url', url);
+          // console.log('main url', url);
           pagesCount = $('.afishaMain-items .afishaMain-item').length;
-          console.log(pagesCount);
+          // console.log(pagesCount);
           $('.afishaMain-items .afishaMain-item').each((item, i) => {
             const link = $(i).find('h3 a').attr('href');
             q.push(`${link}`);
@@ -43,13 +43,13 @@ const q = tress((url, callback) => {
         }
 
         // if event's page
-        console.log('parsing', url);
-        console.log(q.length());
+        // console.log('parsing', url);
+        // console.log(q.length());
 
         const page = 'div.afishaPage-container';
 
         if($(page).find('.afishaPost-eventInfoFooter').text().indexOf('бесплатн') === -1) {
-          console.log('not free');
+          // console.log('not free');
           pagesCount -= 1;
           callback();
           return;
@@ -76,13 +76,13 @@ const q = tress((url, callback) => {
 
 
           date = formatDate(year, month, day);
-          console.log(date);
+          // console.log(date);
         } else {
 
           const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
           // const hour = chrono.parse($(page).find('.event-data__wrapper:nth-of-type(2) > div:first-child').text())[0].start.knownValues.hour;
 
-          console.log(parsedDate);
+          // console.log(parsedDate);
           const { day, month, hour } = parsedDate;
 
           date = formatDate(year, month, day, hour);
@@ -104,8 +104,8 @@ const q = tress((url, callback) => {
         callback();
       })
       .catch(error => {
-        console.log('url failed', url);
-        console.log(error);
+        // console.log('url failed', url);
+        // console.log(error);
         callback();
         // console.log(error);
       })
@@ -113,8 +113,8 @@ const q = tress((url, callback) => {
 }, 1);
 
 q.drain = () => {
-  console.log('pages count', pagesCount);
-  console.log('results length', results.length);
+  // console.log('pages count', pagesCount);
+  // console.log('results length', results.length);
   // console.log(results);
   saveEventItemToDB(results);
   if (pagesCount === results.length) {

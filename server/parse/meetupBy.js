@@ -76,13 +76,13 @@ const q = tress((url, callback) => {
       callback();
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
     })
 }, 5)
 
 q.drain = () => {
-  console.log('pages count', pagesCount);
-  console.log('results length', results.length);
+  // console.log('pages count', pagesCount);
+  // console.log('results length', results.length);
 
   const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
     source: 'meetupBy',
@@ -94,10 +94,10 @@ q.drain = () => {
 
   log.save()
     .then(() => {
-      console.log('log saved');
+      // console.log('log saved');
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
 
       // тупо но вдруг
       const log2 = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
@@ -113,7 +113,7 @@ q.drain = () => {
     saveEventItemToDB(results);
     // console.log(results);
   } else {
-    console.log('some error happened');
+    // console.log('some error happened');
   }
 }
 

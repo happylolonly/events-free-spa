@@ -24,7 +24,7 @@ const q = tress((url, callback) => {
 
       // if main page
       if (url === 'https://imaguru.by/events/') {
-        console.log('main url', url);
+        // console.log('main url', url);
         pagesCount = $('.events-timetable__list li').length;
         $('.events-timetable__list li').each((item, i) => {
           const link = $(i).find('a.events-timetable__title').attr('href');
@@ -35,7 +35,7 @@ const q = tress((url, callback) => {
       }
 
       // if event's page
-      console.log('parsing', url);
+      // console.log('parsing', url);
 
       const page = 'main.wrapper';
 
@@ -64,18 +64,18 @@ const q = tress((url, callback) => {
       callback();
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
     })
 }, 5);
 
 q.drain = () => {
-  console.log('pages count', pagesCount);
-  console.log('results length', results.length);
+  // console.log('pages count', pagesCount);
+  // console.log('results length', results.length);
   if (pagesCount === results.length) {
     saveEventItemToDB(results);
     // console.log(results);
   } else {
-    console.log('some error happened');
+    // console.log('some error happened');
   }
 };
 

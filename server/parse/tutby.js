@@ -29,10 +29,10 @@ const q = tress((url, callback) => {
       // if main page
       // if (url.split('.by')[1][0] !== '/') {
       if (url === URL) {
-        console.log('main url', url);
+        // console.log('main url', url);
         const eventItem = 'body .lists__li';
         pagesCount = $(eventItem).length;
-        console.log(pagesCount);
+        // console.log(pagesCount);
         $(eventItem).each((item, i) => {
           const link = $(i).find('a').attr('href');
           // if (item > 5) return;
@@ -45,7 +45,7 @@ const q = tress((url, callback) => {
 
 
       // if event's page
-      console.log('parsing', url);
+      // console.log('parsing', url);
 
       const $page = $('body');
 
@@ -95,13 +95,13 @@ const q = tress((url, callback) => {
       callback();
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
     })
 }, 1);
 
 q.drain = () => {
-  console.log('pages count', pagesCount);
-  console.log('results length', results.length);
+  // console.log('pages count', pagesCount);
+  // console.log('results length', results.length);
 
   const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
     source: 'tutby',
@@ -113,10 +113,10 @@ q.drain = () => {
 
   log.save()
     .then(() => {
-      console.log('log saved');
+      // console.log('log saved');
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
 
       // тупо но вдруг
       const log2 = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
@@ -131,7 +131,7 @@ q.drain = () => {
   if (pagesCount === results.length) {
     // console.log(results);
   } else {
-    console.log('some error happened');
+    // console.log('some error happened');
   }
 }
 

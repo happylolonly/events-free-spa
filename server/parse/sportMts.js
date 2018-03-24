@@ -67,18 +67,18 @@ const q = tress((url, callback) => {
         callback();
     })
     .catch(error => {
-      console.log(error.data);
+      // console.log(error.data);
     })
 }, 5);
 
 q.drain = () => {
-  console.log('pages count', pagesCount);
-  console.log('results length', results.length);
+  // console.log('pages count', pagesCount);
+  // console.log('results length', results.length);
   if (pagesCount === results.length) {
     saveEventItemToDB(results);
     // console.log(results);
   } else {
-    console.log('some error happened');
+    // console.log('some error happened');
   }
 }
 

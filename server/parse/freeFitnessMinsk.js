@@ -72,14 +72,14 @@ var q = tress(function(url, callback){
               let month = $(i).find('.events-timetable__time p:nth-child(2)').text();
               let time = $(i).find('.events-timetable__time p:nth-child(1)').text();
 
-              console.log($(i).find('.events-timetable__time p:nth-child(1)').text());
+              // console.log($(i).find('.events-timetable__time p:nth-child(1)').text());
 
               let l = moment().month(month.split(' ')[1]).format("MM");
               // let l = moment().month(month.split(' ')[1]).format("HH:MM");
 
               let full = moment()
 
-              console.log(Date.parse(`2017-${l}-${month.split(' ')[0]}T${time}:00`));
+              // console.log(Date.parse(`2017-${l}-${month.split(' ')[0]}T${time}:00`));
 
               results.push({
                 title: $(i).find('a.events-timetable__title').text(),
@@ -94,7 +94,7 @@ var q = tress(function(url, callback){
         callback(); //вызываем callback в конце
       })
       .catch(error => {
-        console.log(error.data);
+        // console.log(error.data);
       })
         // }
 
@@ -121,7 +121,7 @@ const init = () => {
 
   vk.auth.server()
   .then((token) => {
-      console.log('Server token:',token);
+      // console.log('Server token:',token);
       vk.setToken('b58844e3b58844e3b58844e34eb5d5cbf8bb588b58844e3ecf6456263d1070e24bb2a38');
 
 
@@ -140,18 +140,18 @@ const init = () => {
 
             const { from_id, id, text } = item;
             const index = text.indexOf(`${moment().locale('ru').format('MMMM')}`);
-            console.log('moment', `${moment().locale('ru').format('MMMM')}`);
+            // console.log('moment', `${moment().locale('ru').format('MMMM')}`);
             // console.log(index);
             // console.log(moment().locale('ru').format('DD MMMM'));
             // console.log(text);
             if (index >= 0) {
-              console.log('index',index);
+              // console.log('index',index);
               let before = text.substr(index - 2, index - 1);
               if (text.substr(index - 3, index - 2) !== '' && index !== 2) {
                 before = text.substr(index - 3, index);
               }
-              console.log('-------');
-              console.log(before);
+              // console.log('-------');
+              // console.log(before);
 
               if (before.length > 5) {
                 return;
@@ -165,8 +165,8 @@ const init = () => {
 
               if (Number.isNaN(date)) return;
 
-              console.log(date);
-              console.log(moment(date));
+              // console.log(date);
+              // console.log(moment(date));
 
               results.push({
                 title: item.text.substring(0, 70) + '...',
@@ -189,12 +189,12 @@ const init = () => {
           saveEventItemToDB(results);
       })
       .catch((error) => {
-          console.error(error);
+          // console.error(error);
       });
 
   })
   .catch((error) => {
-      console.error(error);
+      // console.error(error);
   });
 
 
@@ -210,16 +210,16 @@ const parseEvent = (data, item) => {
   // console.log(data.data);
 
   return new Promise((resolve) => {
-    console.log(item);
+    // console.log(item);
 
-    console.log(`-${item[0].originalLink.split('-')[1]}`);
+    // console.log(`-${item[0].originalLink.split('-')[1]}`);
 
     vk.api.wall.getById({
         posts: `-${item[0].originalLink.split('-')[1]}`,
         'access_token': 'b58844e3b58844e3b58844e34eb5d5cbf8bb588b58844e3ecf6456263d1070e24bb2a38',
     })
     .then((wall) => {
-      console.log(wall)
+      // console.log(wall)
 
       const obj = {
         title: item.title,

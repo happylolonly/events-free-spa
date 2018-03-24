@@ -35,11 +35,11 @@ const init = (group) => {
       // вложенный пост
       if (!text) {
         if (!item.copy_history) {
-          console.log('here', item.copy_history);
+          // console.log('here', item.copy_history);
           return;
         }
-        console.log('??');
-        console.log(item.copy_history[0]);
+        // console.log('??');
+        // console.log(item.copy_history[0]);
         text = item.copy_history[0].text;
         if (!text) return;
         attachments = item.copy_history[0].attachments;
@@ -98,12 +98,12 @@ const init = (group) => {
       });
     });
 
-    console.log(results.length, 'find');
+    // console.log(results.length, 'find');
 
     saveEventItemToDB(results);
   })
   .catch(error => {
-    console.error(error);
+    // console.error(error);
   });
 }
 

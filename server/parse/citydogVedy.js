@@ -29,14 +29,14 @@ const q = tress((url, callback) => {
 
         // if main page
         if (url === URL) {
-          console.log('main url', url);
+          // console.log('main url', url);
           pagesCount = $('.front .vedyMain-item').length;
-          console.log(pagesCount);
+          // console.log(pagesCount);
           $('.front .vedyMain-item').each((item, i) => {
             const link = $(i).find('.vedyMain-itemImg a').attr('href');
             if (link.indexOf('/post/') !== -1) {
               pagesCount -= 1;
-              console.log('post');
+              // console.log('post');
               return;
             }
             q.push(`${link}`);
@@ -46,13 +46,13 @@ const q = tress((url, callback) => {
         }
 
         // if event's page
-        console.log('parsing', url);
-        console.log(q.length());
+        // console.log('parsing', url);
+        // console.log(q.length());
 
         const page = 'div.vedyPage-container';
 
         if($(page).find('.vedyPage-eventInfoWrapper').text().indexOf('бесплатн') === -1) {
-          console.log('not free');
+          // console.log('not free');
           pagesCount -= 1;
           callback();
           return;
@@ -67,15 +67,15 @@ const q = tress((url, callback) => {
         // const defaultHTML = $(page);
         // defaultHTML.find('.vedyPage-blockShare').remove();
         const html = $(page).find('.vedyPage-Description-text').html();
-        console.log(html.length);
+        // console.log(html.length);
         // const html = $(page).find('.afishaPost-Description-text').html();
         const originalLink = url.split(`/vedy`)[1];
 
         const location = $(page).find('.place .address').text();
-        console.log(location);
+        // console.log(location);
 
         const image = $(page).find('.vedyPage-gallery img').attr('src');
-        console.log(image);
+        // console.log(image);
 
         let contact2 = {};
 
@@ -86,7 +86,7 @@ const q = tress((url, callback) => {
           }
         });
 
-        console.log(contact2);
+        // console.log(contact2);
 
         let dateBlock = $(page).find('.vedyPage-eventInfoWrapper h3').text();
         dateBlock = dateBlock.replace('|', '');
@@ -102,7 +102,7 @@ const q = tress((url, callback) => {
 
 
         date = formatDate(year, month, day);
-        console.log(date);
+        // console.log(date);
 
         // if (dateBlock.indexOf('-') !== -1) {
         //
@@ -144,16 +144,16 @@ const q = tress((url, callback) => {
         callback();
       })
       .catch(error => {
-        console.log('url failed', url);
+        // console.log('url failed', url);
         callback();
-        console.log(error);
+        // console.log(error);
       })
   }, 2000)
 }, 1);
 
 q.drain = () => {
-  console.log('pages count', pagesCount);
-  console.log('results length', results.length);
+  // console.log('pages count', pagesCount);
+  // console.log('results length', results.length);
   // console.log(results);
   saveEventItemToDB(results);
   if (pagesCount === results.length) {
