@@ -39,6 +39,6 @@ export default (io) => {
 
   setTimeout(() => {
     io.sockets.emit('events-updated');
-  }, 1000*15);
+  }, 1000*30);
 
 };
