@@ -25,6 +25,8 @@ Deploy:
 - Heroku
 - Travis CI
 
+![new mockup 1](https://user-images.githubusercontent.com/18665326/37930931-d368319e-314c-11e8-95e9-a119c628295b.png)
+
 ##
 
 Нравится идея и хочешь помочь?  
