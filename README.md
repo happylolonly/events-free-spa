@@ -1,31 +1,28 @@
+# Events Free
 ## SPA для собирания всех бесплатных мероприятий в одном месте
 
-http://eventsfree.by  
-Презентация (тестовая) https://www.canva.com/design/DACeHSZcPkg/view
+https://eventsfree.by
 
-#
+Приложение автоматически собирает бесплатные мероприятия с различных сайтов, показывая все в одном месте.
 
+Технологии:
 
-#### Задачи:
+Frontend:
 
-1. Создание сервера на Node.js, Express с использованием ES6
-2. Парсинг мероприятий с сайтов (на данный момент таких):
-  - http://meetup.by
-  - https://imaguru.by/events
-  - https://events.dev.by
-  - https://vk.com/minskforfree
-3. Парсинг определенного мероприятия
-4. Отправка всего этого на frontend
-5. Сам frontend https://github.com/HappyCodeHere/events-spa-client
-6. Добавление MongoDB
+- React/Redux
+- Scss
+- PWA
 
+Backend:
 
-#
+- Node.js
+- Express
+- MongoDB
+- Redis
 
+##
 
-7. Возможно добавление кеширования на сервере и вебсокеты
-8. Создание изоморфного приложения
-9. Server side rendering
-10. PWA
-11. Защита от изменения структуры сайтов при парсинге
-12. тесты (возможно раньше)
+Нравится идея и хочешь помочь?
+Учишь JavaScript и хочешь потренироваться?
+
+Дай знать;)
