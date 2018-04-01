@@ -10,7 +10,7 @@ import { saveEventItemToDB, convertMonths, formatDate, checkText, formatHTML, de
 
 const URL = 'https://citydog.by/vedy/';
 
-const results = [];
+let results = [];
 let pagesCount;
 
 var instance = axios.create({
@@ -156,6 +156,7 @@ q.drain = () => {
   // console.log('results length', results.length);
   // console.log(results);
   saveEventItemToDB(results);
+  results = [];
   if (pagesCount === results.length) {
     // console.log(results);
   } else {

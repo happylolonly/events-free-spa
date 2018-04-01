@@ -12,7 +12,7 @@ import logger from '../helpers/logger';
 
 const URL = 'https://afisha.tut.by/free-events';
 
-const results = []
+let results = []
 let pagesCount;
 let requestsCount = 0;
 
@@ -111,6 +111,7 @@ q.drain = () => {
   });
 
   saveEventItemToDB(results);
+  results = [];
   if (pagesCount === results.length) {
     // console.log(results);
   } else {

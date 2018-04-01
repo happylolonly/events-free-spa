@@ -9,7 +9,7 @@ import { saveEventItemToDB, convertMonths, formatDate } from './helpers';
 
 const URL = 'http://sport.mts.by/master-klassy/minsk';
 
-const results = [];
+let results = [];
 let pagesCount;
 
 
@@ -74,8 +74,9 @@ const q = tress((url, callback) => {
 q.drain = () => {
   // console.log('pages count', pagesCount);
   // console.log('results length', results.length);
+  saveEventItemToDB(results);
+  results = [];
   if (pagesCount === results.length) {
-    saveEventItemToDB(results);
     // console.log(results);
   } else {
     // console.log('some error happened');

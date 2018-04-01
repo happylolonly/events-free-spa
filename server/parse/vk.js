@@ -25,7 +25,7 @@ const init = (group) => {
   .then(wall => {
     // console.log('Wall:', wall);
 
-    const results = [];
+    let results = [];
 
     wall.items.forEach(item => {
       // console.log(item);
@@ -107,6 +107,7 @@ const init = (group) => {
     // console.log(results.length, 'find');
 
     saveEventItemToDB(results);
+    results = [];
   })
   .catch(error => {
     // console.error(error);

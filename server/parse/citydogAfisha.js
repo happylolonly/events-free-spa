@@ -10,7 +10,7 @@ import { saveEventItemToDB, convertMonths, formatDate, checkText, formatHTML } f
 
 const URL = 'https://citydog.by/afisha/';
 
-const results = [];
+let results = [];
 let pagesCount;
 
 
@@ -117,6 +117,7 @@ q.drain = () => {
   // console.log('results length', results.length);
   // console.log(results);
   saveEventItemToDB(results);
+  results = [];
   if (pagesCount === results.length) {
     // console.log(results);
   } else {

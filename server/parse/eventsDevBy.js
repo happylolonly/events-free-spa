@@ -11,7 +11,7 @@ import logger from '../helpers/logger';
 
 const URL = 'https://events.dev.by';
 
-const results = []
+let results = []
 let pagesCount;
 let requestsCount = 0;
 
@@ -125,6 +125,7 @@ q.drain = () => {
   logger.save(data);
 
   saveEventItemToDB(results);
+  results = [];
   if (pagesCount === results.length) {
     // console.log(results);
   } else {

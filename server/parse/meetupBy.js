@@ -10,7 +10,7 @@ import logger from '../helpers/logger';
 
 const URL = 'http://meetup.by';
 
-const results = [];
+let results = [];
 let pagesCount;
 let requestsCount = 0;
 
@@ -91,8 +91,9 @@ q.drain = () => {
     requestsCount,
   });
 
+  saveEventItemToDB(results);
+  results = [];
   if (pagesCount === results.length) {
-    saveEventItemToDB(results);
     // console.log(results);
   } else {
     // console.log('some error happened');
