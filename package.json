@@ -5,8 +5,7 @@
 	"proxy": "http://localhost:3090",
 	"engines": {
 		"node": "8.9.1",
-		"node": "9.8.0",
-		"node": "8.5.0"
+		"node": "9.8.0"
 	},
 	"scripts": {
 		"start": "npm-run-all -p start-client",
