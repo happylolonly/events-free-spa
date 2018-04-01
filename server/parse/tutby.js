@@ -6,7 +6,7 @@ import moment from 'moment';
 import axios from 'axios';
 
 import { saveEventItemToDB, convertMonths, formatDate, checkText } from './helpers';
-import Log from '../model/log';
+import logger from '../helpers/logger';
 
 
 
@@ -103,29 +103,12 @@ q.drain = () => {
   // console.log('pages count', pagesCount);
   // console.log('results length', results.length);
 
-  const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
+  logger.save({
     source: 'tutby',
     pagesCount,
     resultsLength: results.length,
-    results: results.map((item) => item.title),
     requestsCount,
-  } });
-
-  log.save()
-    .then(() => {
-      // console.log('log saved');
-    })
-    .catch(error => {
-      // console.log(error);
-
-      // тупо но вдруг
-      const log2 = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
-        error
-      } });
-
-      log2.save();
-
-    })
+  });
 
   saveEventItemToDB(results);
   if (pagesCount === results.length) {

@@ -10,6 +10,8 @@ import config from './configs';
 import parse from './helpers/parse';
 import Log from './model/log';
 
+import logger from './helpers/logger';
+
 // import renderer from './helpers/renderer';
 // import createStore from './helpers/createStore';
 // // import Routes from '../client/src/routes';
@@ -66,6 +68,8 @@ require('./helpers/db').default(mongoose, () => {
   
 
 });
+
+logger.init();
 
 require('./services/cache');
 
