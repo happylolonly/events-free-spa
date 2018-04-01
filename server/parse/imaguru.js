@@ -17,7 +17,6 @@ let pagesCount;
 
 
 const q = tress((url, callback) => {
-  // console.log('er', url)
 
   axios.get(url)
     .then(data => {
@@ -26,9 +25,10 @@ const q = tress((url, callback) => {
       const $ = cheerio.load(data.data);
 
       // if main page
-      if (url === 'https://imaguru.by/events/') {
+      if (url === URL) {
         // console.log('main url', url);
         pagesCount = $('.events-timetable__list li').length;
+        // console.log('pages', pagesCount);
         $('.events-timetable__list li').each((item, i) => {
           const link = $(i).find('a.events-timetable__title').attr('href');
           q.push(`${link}`);
@@ -62,6 +62,7 @@ const q = tress((url, callback) => {
         originalLink,
         source: 'imaguru.by',
         status: checkText(html) ? 'active' : 'active',
+        images: [],
       });
 
       callback();
