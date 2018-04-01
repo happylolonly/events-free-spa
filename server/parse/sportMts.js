@@ -67,6 +67,7 @@ const q = tress((url, callback) => {
         callback();
     })
     .catch(error => {
+      callback();
       // console.log(error.data);
     })
 }, 5);
