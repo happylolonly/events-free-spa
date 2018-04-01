@@ -88,7 +88,6 @@ export const saveEventItemToDB = (results) => {
       const obj = Object.assign({}, item);
       Event.update({_id}, obj, {overwrite: true})
       .then(() => {
-        debugger;
           console.log('update event', item.source);
         })
         .catch(error => {
