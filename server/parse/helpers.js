@@ -11,6 +11,8 @@ import { isEqual } from 'lodash';
 // source: "imaguru.by"
 // _id: "598740d6ac53c8355c846c0c"
 
+import { clearHash } from '../services/cache';
+
 
 export const detectContact = (href) => {
   let contact;
@@ -88,6 +90,7 @@ export const saveEventItemToDB = (results) => {
       const obj = Object.assign({}, item);
       Event.update({_id}, obj, {overwrite: true})
       .then(() => {
+          clearHash(_id);
           console.log('update event', item.source);
         })
         .catch(error => {
