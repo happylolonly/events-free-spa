@@ -38,7 +38,6 @@ mongoose.Query.prototype.exec = async function() {
     }));
     
     const cacheValue = await client.hget(this.hashKey, key);
-    // debugger;
 
     if (cacheValue) {
         const doc = JSON.parse(cacheValue);
@@ -49,9 +48,9 @@ mongoose.Query.prototype.exec = async function() {
     }
 
     const result = await exec.apply(this, arguments);
-    // debugger;
 
     client.hset(this.hashKey, key, JSON.stringify(result));
+    client.expire(this.hashKey, 1000*60*60); // 1 hour
 
     return result;
 }
