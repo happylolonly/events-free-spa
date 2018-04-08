@@ -48,10 +48,11 @@ class TodayPageContainer extends Component {
       formattedCalendarDate
     }
 
-      // debugger;
     if (currentFilter !== this.props.events.data.day) {
       this.props.resetEvents();
       this.loadEvents();
+    } else {
+      this.state.offset = this.props.events.data.model.length;
     }
 
     this.handleSearch = this.handleSearch.bind(this);
