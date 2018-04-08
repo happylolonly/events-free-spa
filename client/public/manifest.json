@@ -5,11 +5,11 @@
 		{
       "src": "logo.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png"
     }
   ],
   "start_url": "./index.html?pwa",
-  "display": "standalone",
-  "theme_color": "#fffb00",
-  "background_color": "#000000"
+  "display": "fullscreen",
+  "theme_color": "#ffe600",
+  "background_color": "#ffe600"
 }
