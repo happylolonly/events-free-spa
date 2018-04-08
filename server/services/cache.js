@@ -4,17 +4,24 @@ import redis from 'redis';
 import util from 'util';
 import config from '../configs';
 
-// const client = redis.createClient(config.redis);
 
-var client = redis.createClient('15117', config.redis, {no_ready_check: true});
-client.auth('SsuWlN1ScMpgFDt5QKQHU2vUHY1VoTP8', function (err) {
+const client = redis.createClient('15117', config.redis, { no_ready_check: true });
+
+client.auth('SsuWlN1ScMpgFDt5QKQHU2vUHY1VoTP8', (err) => {
     if (err) throw err;
 });
 
-client.on('connect', function() {
+client.on('connect', () => {
     console.log('Connected to Redis');
-});
 
+    // client.FLUSHDB(() => {
+    //     console.log('cleared');
+    // });
+
+    client.keys('*', (err, keys) => {
+        console.log('Redis cache: ', keys);
+    });
+});
 
 client.hget = util.promisify(client.hget);
 
