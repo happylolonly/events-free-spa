@@ -163,11 +163,11 @@ export const saveEventItemToDB = (results) => {
 
 export const convertMonths = (text) => {
 
-  const monthRU = ['Январ', 'Феврал', 'Март', 'Апрел', 'Май', 'Июн', 'Июл', 'Август', 'Сентябр', 'Октябр', 'Ноябр', 'Декабр'];
+  const monthRU = ['Январ', 'Феврал', 'Март', 'Апрел', ['Май', 'Мая', 'Мае'], 'Июн', 'Июл', 'Август', 'Сентябр', 'Октябр', 'Ноябр', 'Декабр'];
   const monthEN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 
-  monthRU.forEach((item, i) => {
+  function covert(item, i) {
     let startIndex = text.toLowerCase().indexOf(item.toLowerCase());
 
     while (startIndex >= 0) {
@@ -179,6 +179,16 @@ export const convertMonths = (text) => {
 
       text = text.replace(russianMonth, monthEN[i]);
       startIndex = text.toLowerCase().indexOf(item.toLowerCase());
+    }
+  }
+
+  monthRU.forEach((item, i) => {
+    if (Array.isArray(item)) {
+      item.forEach(item2 => {
+        covert(item2, i);
+      });
+    } else {
+      covert(item, i);
     }
   });
 
