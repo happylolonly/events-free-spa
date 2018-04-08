@@ -74,7 +74,9 @@ class LoadAll extends Component {
   render() {
     return (
       <div className="load-all">
-        <button onClick={this.handleClick}>Загрузить на весь день</button>
+        <button
+            disabled={!this.state.count}
+            onClick={this.handleClick}>Загрузить на весь день</button>
         {this.state.count ? <p className="events-count">{this.state.count} мероприятий ≈ {(this.state.count * 1.3).toFixed(2)} кб</p> : <p className="events-count">Мероприятий нет</p>}
         <p>(можно просматривать без интернета)</p>
       </div>
