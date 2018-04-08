@@ -90,7 +90,7 @@ export const saveEventItemToDB = (results) => {
       const obj = Object.assign({}, item);
       Event.update({_id}, obj, {overwrite: true})
       .then(() => {
-          clearHash(_id);
+          clearHash(_id.toString());
           console.log('update event', item.source);
         })
         .catch(error => {
