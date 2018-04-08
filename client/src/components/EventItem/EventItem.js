@@ -17,10 +17,11 @@ const propTypes = {
   source: PropTypes.string.isRequired,
 }
 
-const EventItem = ({ date, title, link, originalLink, source }) => {
+const EventItem = ({ date, title, link, originalLink, source, mouseOver }) => {
+
   // console.log(link);
   return (
-    <div className="event-item">
+    <div className="event-item" onMouseOver={mouseOver}>
       <header>
         <Link to={`/event/${link}`}>{title}</Link>
         <div>

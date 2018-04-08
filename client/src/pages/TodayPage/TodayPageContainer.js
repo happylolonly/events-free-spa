@@ -11,7 +11,7 @@ import TodayPage from './TodayPage';
 import { Loader, Calendar } from 'components/common';
 import moment from 'moment';
 
-import { loadEvents, resetEvents } from 'actions/events';
+import { loadEvents, resetEvents, loadEvent } from 'actions/events';
 
 import './TodayPageContainer.scss';
 
@@ -45,7 +45,9 @@ class TodayPageContainer extends Component {
       offset: 0,
       currentFilter,
       isShowCalendar: false,
-      formattedCalendarDate
+      formattedCalendarDate,
+
+      preload: []
     }
 
     if (currentFilter !== this.props.events.data.day) {
@@ -64,6 +66,7 @@ class TodayPageContainer extends Component {
     this.handleSecretButtonClick = this.handleSecretButtonClick.bind(this);
     this.toggleCalendar = this.toggleCalendar.bind(this);
     this.handleCalendarChange = this.handleCalendarChange.bind(this);
+    this.handleMouseOver = this.handleMouseOver.bind(this);
   }
 
   componentDidMount() {
@@ -157,6 +160,19 @@ class TodayPageContainer extends Component {
     });
   }
 
+  handleMouseOver(id) {
+    if (this.state.preload.includes(id) || this.props.eventInfo.data[id]) {
+      return;
+    }
+    
+    const state = [...this.state.preload];
+    state.push(id);
+
+    this.setState({ preload: state }, () => {
+      this.props.loadEvent(id);
+    });
+  }
+
   render() {
     return (
       <div className="today-page-container">
@@ -176,7 +192,7 @@ class TodayPageContainer extends Component {
 
         {this.props.events.isLoading && !this.props.events.data.model.length ? <Loader /> :
           <div>
-            <TodayPage events={this.props.events.data.model} currentFilter={this.state.currentFilter} />
+            <TodayPage events={this.props.events.data.model} currentFilter={this.state.currentFilter} handleMouseOver={this.handleMouseOver} />
 
             {this.props.events.data.model.length < this.props.events.data.totalCount && !this.props.events.isLoading && 
               <button className="btn btn-link show-more" onClick={this.loadMore}>Показать еще</button>}
@@ -194,13 +210,13 @@ class TodayPageContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ events }) => {
-  return {events}
+const mapStateToProps = ({ events, event }) => {
+  return {events, eventInfo: event }
 };
 
 TodayPageContainer.propTypes = propTypes;
 
 export default {
-  component: connect(mapStateToProps, { loadEvents, resetEvents })(TodayPageContainer),
+  component: connect(mapStateToProps, { loadEvents, resetEvents, loadEvent })(TodayPageContainer),
   loadData: ({ dispatch }) => dispatch(loadEvents())
 };

@@ -11,7 +11,7 @@ const propTypes = {
   currentFilter: PropTypes.string.isRequired,
 }
 
-const TodayPage = ({ events, currentFilter }) => {
+const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
   const showTitle = () => {
     switch (currentFilter) {
       case 'today':
@@ -52,6 +52,8 @@ const TodayPage = ({ events, currentFilter }) => {
             link={id}
             originalLink={originalLink}
             source={source}
+
+            mouseOver={() => handleMouseOver(id) }
           />
         )
       })}
