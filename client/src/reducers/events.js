@@ -15,14 +15,15 @@ export default (state=initialState, action) => {
       return { ...state, isLoading: true };
 
     case types.LOAD_EVENTS_SUCCESS:
-      const { model, totalCount } = action.payload;
+      const { model, totalCount, day } = action.payload;
 
       return {
         ...state,
           data: {
           ...state.data,
           model: [ ...state.data.model, ...model ],
-          totalCount: totalCount
+          totalCount: totalCount,
+          day,
         },
         isLoading: false
       };
