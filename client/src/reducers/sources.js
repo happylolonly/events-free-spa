@@ -15,6 +15,7 @@ const initialState = {
 
 const saveToStorage = (data) => {
   localStorage.setItem('events', JSON.stringify(data));
+  localStorage.removeItem('savedEvents');
 }
 
 export default (state=initialState, action) => {
