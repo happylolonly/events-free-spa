@@ -12,6 +12,13 @@ module.exports = (app) => {
   app.get('/api/events-count', (req, res) => {
     const { day, sources } = req.query;
 
+    if (!sources) {
+      res.send({
+        totalCount: 0,
+      });
+      return;
+    }
+
     var start = moment.utc().format();
 
 
@@ -100,7 +107,6 @@ module.exports = (app) => {
     let certainStart = '';
     let certainEnd = '';
     if (day.split('_').length === 3) {
-      debugger;
       const [ certainDay, certainMonth, certainYear ] = day.split('_');
       certainDate = day;
 
