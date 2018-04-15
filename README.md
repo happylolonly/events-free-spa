@@ -1,4 +1,10 @@
+[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) 
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com)
+
 [![Build Status](https://travis-ci.org/happylolonly/events-free-spa.svg?branch=dev)](https://travis-ci.org/happylolonly/events-free-spa)
+[![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://github.com/happylolonly)
+
 
 # Events Free
 ## SPA для собирания всех бесплатных мероприятий в одном месте
