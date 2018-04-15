@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/happylolonly/events-free-spa.svg?branch=dev)](https://travis-ci.org/happylolonly/events-free-spa)
+
 # Events Free
 ## SPA для собирания всех бесплатных мероприятий в одном месте
 
