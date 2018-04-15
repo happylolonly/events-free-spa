@@ -49,11 +49,11 @@ const q = tress((url, callback) => {
       const dateBlock = $(page).find('.event-data__dayOutputWrapper').text();
 
       const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
-      const hour = chrono.parse($(page).find('.event-data__wrapper:nth-of-type(2) > div:first-child').text())[0].start.knownValues.hour;
+      const { hour, minute } = chrono.parse($(page).find('.event-data__wrapper:nth-of-type(2) > div:first-child span').text().split('-')[0])[0].start.knownValues;
 
       const { day, month } = parsedDate;
       let year = moment().format('YYYY');
-      const date = formatDate(year, month, day, hour);
+      const date = formatDate(year, month, day, hour, minute);
 
       results.push({
         date: date,
