@@ -18,7 +18,6 @@ const URL = 'https://imaguru.by/events/';
 let results = [];
 let pagesCount;
 
-let stats = {};
 
 const initialStats = {
   source: 'imaguru',
@@ -30,6 +29,9 @@ const initialStats = {
   skip: 0,
   errors: {},
 };
+
+let stats = { ...initialStats };
+
 
 const q = tress((url, callback) => {
 
