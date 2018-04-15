@@ -7,6 +7,9 @@ import moment from 'moment';
 
 import axios from 'axios';
 
+import logger from '../helpers/logger';
+
+
 import { saveEventItemToDB, convertMonths, formatDate, checkText } from './helpers';
 
 
@@ -15,8 +18,22 @@ const URL = 'https://imaguru.by/events/';
 let results = [];
 let pagesCount;
 
+let stats = {};
+
+const initialStats = {
+  source: 'imaguru',
+  results: 0,
+  pages: 0,
+  requests: 0,
+  success: 0,
+  fail: 0,
+  skip: 0,
+  errors: {},
+};
 
 const q = tress((url, callback) => {
+
+  stats.requests++
 
   axios.get(url)
     .then(data => {
@@ -28,6 +45,7 @@ const q = tress((url, callback) => {
       if (url === URL) {
         // console.log('main url', url);
         pagesCount = $('.events-timetable__list li').length;
+        stats.pages = pagesCount;
         // console.log('pages', pagesCount);
         $('.events-timetable__list li').each((item, i) => {
           const link = $(i).find('a.events-timetable__title').attr('href');
@@ -65,9 +83,16 @@ const q = tress((url, callback) => {
         images: [],
       });
 
+      stats.success++
+
       callback();
     })
     .catch(error => {
+
+      stats.fail++
+      stats.errors.push({
+        [url]: error
+      });
       // console.log(error);
       callback();
     })
@@ -76,13 +101,18 @@ const q = tress((url, callback) => {
 q.drain = () => {
   // console.log('pages count', pagesCount);
   // console.log('results length', results.length);
+  // console.log('done');
+  stats.results = results.length;
+  logger.save(stats);
+
   saveEventItemToDB(results);
   results = [];
-  if (pagesCount === results.length) {
-    // console.log(results);
-  } else {
-    // console.log('some error happened');
-  }
+  stats = { ...initialStats };
+  // if (pagesCount === results.length) {
+  //   // console.log(results);
+  // } else {
+  //   // console.log('some error happened');
+  // }
 };
 
 const init = () => {
