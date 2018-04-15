@@ -19,7 +19,7 @@ client.on('connect', () => {
     // });
 
     client.keys('*', (err, keys) => {
-        console.log('Redis cache: ', keys);
+        console.log('Redis cache length: ', keys.length);
     });
 });
 
@@ -45,7 +45,7 @@ mongoose.Query.prototype.exec = async function() {
     }));
     
     const cacheValue = await client.hget(this.hashKey, key);
-
+    
     if (cacheValue) {
         const doc = JSON.parse(cacheValue);
 
