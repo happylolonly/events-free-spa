@@ -15,6 +15,7 @@ import { loadEvents, resetEvents, loadEvent } from 'actions/events';
 
 import './TodayPageContainer.scss';
 
+const OFFSET_LENGTH = 10;
 
 const propTypes = {
   events: PropTypes.object.isRequired,
@@ -54,7 +55,7 @@ class TodayPageContainer extends Component {
       this.props.resetEvents();
       this.loadEvents();
     } else {
-      this.state.offset = this.props.events.data.model.length;
+      this.state.offset = this.props.events.data.model.length - OFFSET_LENGTH;
     }
 
     this.handleSearch = this.handleSearch.bind(this);
@@ -123,7 +124,7 @@ class TodayPageContainer extends Component {
   }
 
   loadMore() {
-    this.setState({offset: this.state.offset + 10}, () => {
+    this.setState({ offset: this.state.offset + OFFSET_LENGTH }, () => {
       this.loadEvents();
     })
   }
