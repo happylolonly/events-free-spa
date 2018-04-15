@@ -43,35 +43,15 @@
   }
 
   .calendar-wrapper {
-    width: 50%;
-    margin: 10px auto;
-    text-align: center;
-
     display: flex;
     flex-direction: column;
 
-    
+    > button {
+      margin: 10px 0;
+    }
+
     > div {
-      margin: 15px auto;
-
-      // .react-calendar {
-      //   animation: appear 0.34s 0s ease-out;
-
-
-      //   @keyframes appear {
-      //     from {
-      //         height: 0;
-      //     }
-  
-      //     to {
-      //         height: 300px;
-      //     }
-      // }
-
-      // }
-
-
-    
+      margin: 15px auto;  
     }
   }
 }
