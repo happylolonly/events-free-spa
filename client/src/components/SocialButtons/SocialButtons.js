@@ -17,7 +17,7 @@ const LinkedinIcon = generateShareIcon('linkedin');
 const GooglePlusIcon = generateShareIcon('google');
 
 const description = '';
-const defaultImage = 'http://www.eventsfree.by/logo.png';
+const defaultImage = 'https://www.eventsfree.by/logo.png';
 const size = 32;
 
 const propTypes = {

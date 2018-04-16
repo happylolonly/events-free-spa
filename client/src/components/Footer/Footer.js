@@ -15,7 +15,7 @@ const Footer = () => {
     <footer className="footer">
       <div>
         <SocialButtons
-          link="http://eventsfree.by"
+          link="https://www.eventsfree.by"
           title="Все бесплатные мероприятия в одном месте!"
           isShowCount={false}
         />

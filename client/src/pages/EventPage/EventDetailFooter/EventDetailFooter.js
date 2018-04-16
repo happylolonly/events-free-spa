@@ -42,7 +42,7 @@ class EventDetailFooter extends Component {
         <div className="additional-info">
             <div className="first-row">
                 <SocialButtons
-                link={`http://www.eventsfree.by/event/${id}`}
+                link={`https://www.eventsfree.by/event/${id}`}
                 title={title}
                 isShowCount={false}
                 image={image}
