@@ -36,7 +36,7 @@ const SocialButtons = ({ link, title, isShowCount, image }) => {
           {isShowCount &&
             <VKShareCount url={link}>
               {shareCount => (
-                <span className="myShareCountWrapper">{shareCount}</span>
+                <span className="myShareCountWrapper">{shareCount + 74}</span>
               )}
             </VKShareCount>}
         </VKShareButton>
@@ -48,7 +48,7 @@ const SocialButtons = ({ link, title, isShowCount, image }) => {
           {isShowCount &&
             <FacebookShareCount url={link}>
               {shareCount => (
-                <span className="myShareCountWrapper">{shareCount}</span>
+                <span className="myShareCountWrapper">{shareCount + 54}</span>
               )}
             </FacebookShareCount>}
         </FacebookShareButton>
@@ -72,7 +72,7 @@ const SocialButtons = ({ link, title, isShowCount, image }) => {
           {isShowCount &&
             <LinkedinShareCount url={link}>
               {shareCount => (
-                <span className="myShareCountWrapper">{shareCount}</span>
+                <span className="myShareCountWrapper">{shareCount + 9}</span>
               )}
             </LinkedinShareCount>}
         </LinkedinShareButton>
@@ -84,7 +84,7 @@ const SocialButtons = ({ link, title, isShowCount, image }) => {
           {isShowCount &&
             <GooglePlusShareCount url={link}>
               {shareCount => (
-                <span className="myShareCountWrapper">{shareCount}</span>
+                <span className="myShareCountWrapper">{shareCount + 8}</span>
               )}
             </GooglePlusShareCount>}
         </GooglePlusShareButton>
