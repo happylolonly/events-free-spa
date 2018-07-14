@@ -4,8 +4,7 @@
 	"private": true,
 	"proxy": "http://localhost:3090",
 	"engines": {
-		"node": "8.9.1",
-		"node": "9.8.0"
+		"node": "10.6.0"
 	},
 	"scripts": {
 		"start": "npm-run-all -p start-client",
@@ -100,7 +99,7 @@
 		"html-webpack-plugin": "2.29.0",
 		"jest": "20.0.4",
 		"mocha": "^3.5.0",
-		"node-sass": "^4.0.0",
+		"node-sass": "^4.9.0",
 		"node-sass-chokidar": "0.0.3",
 		"npm-run-all": "^4.1.1",
 		"postcss-flexbugs-fixes": "3.2.0",
