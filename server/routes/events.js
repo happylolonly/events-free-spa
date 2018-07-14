@@ -325,4 +325,26 @@ module.exports = (app) => {
       .cache({ key: id })
     res.send(item);
   });
+
+  app.get('/api/week-events', async (req, res) => {
+    const { week, words, sources } = req.query;
+
+    res.send([
+      {
+        id: '5b48e8a342ae600037a44c6d',
+        title: 'test',
+        date: 1531515600000
+      },
+      {
+        id: '5b43e87e103d1a003746f54e',
+        title: 'test 2',
+        date: 1531512600000
+      },
+      {
+        id: '5a931a5630323042a2b83969',
+        title: 'test 3',
+        date: 1531515600000
+      }
+    ])
+  });
 }
