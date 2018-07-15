@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import WeekEvents from './WeekEvents';
-import axios from 'axios';
-import moment from 'moment';
-import { API } from 'constants/config';
 
+import axios from 'axios';
+import { API } from 'constants/config';
 
 import './WeekEventsContainer';
 

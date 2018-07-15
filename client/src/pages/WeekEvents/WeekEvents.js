@@ -15,7 +15,7 @@ const propTypes = {
     handleSearchButtonClick: PropTypes.func.isRequired,
 };
 
-const WeekEvents = ({ events ,week, words, handleSeachChange, handleSearchButtonClick }) => {
+const WeekEvents = ({ events, week, words, handleSeachChange, handleSearchButtonClick }) => {
   return (
     <div className="week-events">
         

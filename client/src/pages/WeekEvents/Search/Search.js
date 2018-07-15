@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Textarea, Select, Button } from 'components/common';
+
+import { Select, Textarea, Button } from 'components/common';
 
 import './Search.scss';
 
@@ -35,7 +36,6 @@ const Search = ({ week, words, handleData, handleClick }) => {
         />
 
         <Button text="Поиск" onClick={handleClick} />
-      
     </div>
   );
 };
