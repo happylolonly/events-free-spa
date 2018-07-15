@@ -17,6 +17,8 @@ const EventSchema = new Schema({
 
 const Event = mongoose.model('event', EventSchema);
 
+EventSchema.index({ text: 'text' });
+
 module.exports = Event;
 
 // EventSchema.virtual('eventsCount').get(function() {
