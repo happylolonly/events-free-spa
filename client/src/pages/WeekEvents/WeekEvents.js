@@ -18,8 +18,6 @@ const propTypes = {
 const WeekEvents = ({ events ,week, words, handleSeachChange, handleSearchButtonClick }) => {
   return (
     <div className="week-events">
-
-        <h2>Пока не работает еще(</h2>
         
         <Search
             week={week}

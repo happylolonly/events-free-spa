@@ -56,7 +56,7 @@ const EventList = ({ events }) => {
 
 
         {events.map(item => {
-          const { id, title, date } = item;
+          const { _id: id, title, date } = item;
           return (
             <div>
               <span>{moment(date).format('DD MMMM')}</span>
