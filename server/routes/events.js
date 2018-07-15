@@ -6,6 +6,26 @@ import moment from 'moment';
 //
 // Event.find({}).
 
+function convertSources(sources) {
+
+  const dict = {
+    meetupBy: 'meetup.by',
+    imaguru: 'imaguru.by',
+    eventsDevBy: 'events.dev.by',
+    minskforfree: 'vk.com/minskforfree',
+    freeFitnessMinsk: 'vk.com/free_fitness_minsk',
+    freeLanguagesMinsk: 'vk.com/free_languages_minsk',
+    sportMts: 'sport.mts.by',
+    citydogVedy: 'citydog.by/vedy',
+    citydogAfisha: 'citydog.by/afisha',
+    afishaTutBy: 'afisha.tut.by',
+    // space: 'citydog.by/afisha',
+    // htp: 'citydog.by/afisha',
+    // citydogAfisha: 'citydog.by/afisha',
+  }
+
+  return sources.split(',').map(item => dict[item]);
+}
 
 module.exports = (app) => {
 
@@ -47,27 +67,7 @@ module.exports = (app) => {
 
 
     if (sources) {
-      // console.log('here', sources);
-
-      const dict = {
-        meetupBy: 'meetup.by',
-        imaguru: 'imaguru.by',
-        eventsDevBy: 'events.dev.by',
-        minskforfree: 'vk.com/minskforfree',
-        freeFitnessMinsk: 'vk.com/free_fitness_minsk',
-        freeLanguagesMinsk: 'vk.com/free_languages_minsk',
-        sportMts: 'sport.mts.by',
-        citydogVedy: 'citydog.by/vedy',
-        citydogAfisha: 'citydog.by/afisha',
-        afishaTutBy: 'afisha.tut.by',
-        // space: 'citydog.by/afisha',
-        // htp: 'citydog.by/afisha',
-        // citydogAfisha: 'citydog.by/afisha',
-      }
-
-      // console.log(sources.split(','));
-
-      obj.source = { $in: sources.split(',').map(item => dict[item]) };
+      obj.source = { $in: convertSources(sources) };
     }
 
     obj.status = 'active';
@@ -203,27 +203,7 @@ module.exports = (app) => {
     }
 
     if (sources) {
-      // console.log('here', sources);
-
-      const dict = {
-        meetupBy: 'meetup.by',
-        imaguru: 'imaguru.by',
-        eventsDevBy: 'events.dev.by',
-        minskforfree: 'vk.com/minskforfree',
-        freeFitnessMinsk: 'vk.com/free_fitness_minsk',
-        freeLanguagesMinsk: 'vk.com/free_languages_minsk',
-        sportMts: 'sport.mts.by',
-        citydogVedy: 'citydog.by/vedy',
-        citydogAfisha: 'citydog.by/afisha',
-        afishaTutBy: 'afisha.tut.by',
-        // space: 'citydog.by/afisha',
-        // htp: 'citydog.by/afisha',
-        // citydogAfisha: 'citydog.by/afisha',
-      }
-
-      // console.log(sources.split(','));
-
-      obj.source = { $in: sources.split(',').map(item => dict[item]) };
+      obj.source = { $in: convertSources(sources) };
     }
 
     obj.status = 'active';
@@ -250,7 +230,6 @@ module.exports = (app) => {
           .sort(day === 'past' ? { date: -1 } : { date: 1 })
           .skip(+offset)
           .limit(+limit || 150)
-          // .cache({ })
           .then(events => {
             console.log(events.length, 'find');
 
