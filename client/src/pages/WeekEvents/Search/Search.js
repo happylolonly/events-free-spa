@@ -11,9 +11,12 @@ const propTypes = {
     words: PropTypes.string.isRequired,
     handleData: PropTypes.func.isRequired,
     handleClick: PropTypes.func.isRequired,
+
+    weekError: PropTypes.string,
+    wordsError: PropTypes.string,
 };
 
-const Search = ({ week, words, handleData, handleClick }) => {
+const Search = ({ week, words, handleData, handleClick, weekError, wordsError }) => {
   return (
     <div className="search">
 
@@ -26,6 +29,7 @@ const Search = ({ week, words, handleData, handleClick }) => {
                 current: "Текущая",
                 next: "Следующая"
             }}
+            error={weekError}
         />
 
         <Textarea
@@ -33,9 +37,10 @@ const Search = ({ week, words, handleData, handleClick }) => {
             title="Слова в ивенте (через запятую)"
             value={words}
             onChange={handleData}
+            error={wordsError}
         />
 
-        <Button text="Поиск" onClick={handleClick} />
+        <Button type="success" text="Поиск" onClick={handleClick} />
     </div>
   );
 };
