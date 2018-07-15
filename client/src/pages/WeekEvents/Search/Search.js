@@ -29,7 +29,7 @@ const Search = ({ week, words, handleData, handleClick }) => {
 
         <Textarea
             name="words"
-            title="Слова в ивенте"
+            title="Слова в ивенте (через запятую)"
             value={words}
             onChange={handleData}
         />
