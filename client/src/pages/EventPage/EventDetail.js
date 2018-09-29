@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import EventDetailFooter from './EventDetailFooter/EventDetailFooter';
 
 import EventText from './EventText';
-import * as browserHistory   from 'react-router-dom';
 
 import moment from 'moment';
 
@@ -21,31 +20,21 @@ const propTypes = {
   // location id
 }
 
-const EventDetail = ({ title, text, date, images, contacts, location, id, ...rest }) => {
-  console.log(rest);
-  console.log(document.referrer);
-  console.log(window.location);
+const EventDetail = ({ title, text, date, images, contacts, location, id, routerHistory, ...rest }) => {
   return (
     <div className="event-detail">
       <h3>{title}</h3>
       <header>
-        {/* <Link to="/events"><span></span>Вернуться</Link> */}
-        <a href="/events" onClick={(event) => {
+        <a href="/events" onClick={(event) => { // не Link чтобы учитывался скрол браузером
           event.preventDefault();
 
-          // console.log(browserHistory);
-          //   debugger;
-
-          if (window.history.length < 2) {
-
-            window.location.pathname = '/events';
-            
-            // browserHistory.push('events');
+          if (routerHistory.length < 2) {
+            routerHistory.push('/events');
           } else {
-
-            window.history.back();
+            routerHistory.goBack();
           }
         }}><span></span>Вернуться</a>
+
         <span>{moment(date).lang('ru').format('HH:mm') !== '00:00' ? moment(date).lang('ru').format('D MMMM YYYY в HH:mm') : moment(date).lang('ru').format('D MMMM YYYY')}</span>
       </header>
       <section>
@@ -56,14 +45,14 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, ...res
           function is_cached(src) {
             var image = new Image();
             image.src = src;
-        
+
             return image.complete;
         }
 
 
         if (!navigator.onLine && !is_cached(item)) return null;
 
-       
+
           return <img key={item} src={item} alt={item} />
         })}
 
@@ -79,7 +68,7 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, ...res
           title={title}
           image={(images && images[0]) || ''}
         />
-        
+
       </section>
 
 

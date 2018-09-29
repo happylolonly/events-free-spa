@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import EventDetail from './EventDetail';
 import { Loader } from 'components/common';
+import { withRouter } from 'react-router-dom';
 
 import { loadEvent } from 'actions/events';
 
@@ -15,6 +16,9 @@ import './EventPageContainer.scss';
 const propTypes = {
   event: PropTypes.object.isRequired,
   loadEvent: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 class EventPageContainer extends Component {
@@ -51,6 +55,7 @@ class EventPageContainer extends Component {
           images={images}
           contacts={contacts}
           location={location}
+          routerHistory={this.props.history}
         />
       </div>
     )
@@ -64,6 +69,6 @@ const mapStateToProps = ({ event }) => {
 EventPageContainer.propTypes = propTypes;
 
 export default {
-  component: connect(mapStateToProps, { loadEvent })(EventPageContainer),
+  component: connect(mapStateToProps, { loadEvent })(withRouter(EventPageContainer)),
   loadData: ({ dispatch }) => dispatch(loadEvent())
 };
