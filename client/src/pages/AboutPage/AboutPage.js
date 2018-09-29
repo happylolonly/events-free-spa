@@ -21,7 +21,7 @@ const AboutPage = () => {
       <p>Мероприятия собираются автоматически, так что ты точно ничего не пропустишь.</p>
       <p>Откуда получать мероприятия можно выбрать в <Link to="/settings">настройках</Link></p>
       <p>Знаешь JavaScript и хочешь помочь/поучиться?) Дай знать)</p>
-      <p>Открытый код <a href="https://github.com/happylolonly/events-free-spa">https://github.com/happylolonly/events-free-spa</a></p>
+      <p>Открытый код <a href="https://github.com/happylolonly/events-free-spa" target="_blank">https://github.com/happylolonly/events-free-spa</a></p>
       <h5>Поделись с друзьями!</h5>
       <SocialButtons
         link="https://www.eventsfree.by"
