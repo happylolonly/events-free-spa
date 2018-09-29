@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
+import { Helmet } from 'react-helmet';
 
 import { renderRoutes } from 'react-router-config';
 import ErrorBondary from 'components/error-bondary';
@@ -18,6 +19,10 @@ class App extends Component {
   render() {
     return (
       <ErrorBondary>
+        <Helmet>
+          <title>Events Free</title>
+        </Helmet>
+
         <div className="app">
           <Header />
           <OfflineBar />

@@ -54,6 +54,7 @@
 		"react-dom": "^16.2.0",
 		"react-error-overlay": "^1.0.10",
 		"react-google-maps": "^9.4.5",
+		"react-helmet": "^5.2.0",
 		"react-redux": "^5.0.1",
 		"react-router-config": "1.0.0-beta.4",
 		"react-router-dom": "^4.3.1",

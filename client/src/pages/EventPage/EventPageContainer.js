@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import EventDetail from './EventDetail';
 import { Loader } from 'components/common';
 import { withRouter } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 
 import { loadEvent } from 'actions/events';
 
@@ -32,11 +33,6 @@ class EventPageContainer extends Component {
     if (isEqual(nextProps.event.data[eventId], this.props.event.data[eventId])) return;
 
     window.scrollTo(0, 0);
-    document.title = nextProps.event.data[eventId].title;
-  }
-
-  componentWillUnmount() {
-    document.title = 'Events free';
   }
 
   render() {
@@ -47,6 +43,9 @@ class EventPageContainer extends Component {
     const { title, text, date, images, contacts, location, _id: id } = this.props.event.data[this.props.match.params.id];
     return (
       <div className="event-page-container">
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         <EventDetail
           id={id}
           title={title}
