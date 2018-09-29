@@ -20,10 +20,10 @@ const propTypes = {
 
 const WeekEvents = ({ events, week, words, handleSeachChange, handleSearchButtonClick, weekError, wordsError }) => {
   return (
-    <div className="week-events">
+    <div className="week-events-page">
 
         <h3>Мероприятия на неделю</h3>
-        
+
         <Search
             week={week}
             words={words}
@@ -36,7 +36,7 @@ const WeekEvents = ({ events, week, words, handleSeachChange, handleSearchButton
 
         {events.length ?
             <EventList events={events} /> :
-            <div>Ничего не найдено :(</div> 
+            <p>Ничего не найдено :(</p>
         }
 
     </div>
