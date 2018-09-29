@@ -9,7 +9,7 @@ import { Helmet } from "react-helmet";
 
 import { loadEvent } from 'actions/events';
 
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 import './EventPageContainer.scss';
 
