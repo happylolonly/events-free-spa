@@ -45,6 +45,9 @@ class EventPageContainer extends Component {
       <div className="event-page-container">
         <Helmet>
           <title>{title}</title>
+          <meta property="og:title" content={title}/>
+          <meta property="og:url" content={`https://www.eventsfree.by/event/${id}`} />
+          {images.length && <meta property="og:image" content={images[0]} />}
         </Helmet>
         <EventDetail
           id={id}
