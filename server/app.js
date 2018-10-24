@@ -11,6 +11,7 @@ import parse from './helpers/parse';
 import Log from './model/log';
 
 import logger from './helpers/logger';
+import ssr from './routes/ssr';
 
 // import renderer from './helpers/renderer';
 // import createStore from './helpers/createStore';
@@ -84,11 +85,28 @@ require('./routes').default(app);
 //   res.sendFile(__dirname + '/build');
 // });
 
-app.use((req, res, next) => {
+app.use( async(req, res, next) => {
+  console.log('in last');
+  console.log(req.url);
+  const normal = req.params.normal;
+
+  if (normal) {
+    res.sendFile(__dirname + './static/build/index.html');
+    return;
+  }
+  
+  try {
+    const {html, ttRenderMs} = await ssr(`${req.protocol}://${req.get('host')}/index.html`, req.url);
+    
+    res.set('Server-Timing', `Prerender;dur=${ttRenderMs};desc="Headless render time (ms)"`);
+    res.status(200).send(html);
+  } catch (e) {
+    console.log(e);
+    res.sendFile(path.join(__dirname, '/static/build/index.html'));
+  }
 
     // const store = createStore(req);
     // res.sendFile(__dirname + '/build');
-    res.sendFile(path.join(__dirname, '/static/build/index.html'));
 
     // const content = renderer(req, store);
     // res.send(content);

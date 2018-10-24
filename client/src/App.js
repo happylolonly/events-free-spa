@@ -12,6 +12,11 @@ import './App.scss';
 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    window.browserHistory = this.props.history;
+  }
 
   // {/* <div className="sk-spinner sk-spinner-pulse"></div> */}
 

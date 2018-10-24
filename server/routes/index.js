@@ -1,6 +1,8 @@
 export default (app) => {
 
   app.get('/', (req, res, next) => {
+    console.log('in /');
+
     // if (req.originalUrl.slice(-1) != '/') return next();
     res.sendFile(__dirname + '/../static/build/index.html');
   });
