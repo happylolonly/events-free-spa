@@ -16,7 +16,8 @@ function delay(time) {
 export default async () => {
 
   const browser = await puppeteer.launch({
-    headless: true
+    headless: true,
+    args: ['--no-sandbox, --disable-setuid-sandbox'],
   });
 
   const page = await browser.newPage();
