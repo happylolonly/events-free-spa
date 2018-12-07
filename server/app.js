@@ -12,6 +12,8 @@ import Log from './model/log';
 
 import logger from './helpers/logger';
 
+import onliner from './puppeteer';
+
 // import renderer from './helpers/renderer';
 // import createStore from './helpers/createStore';
 // // import Routes from '../client/src/routes';
@@ -31,41 +33,48 @@ const io = require('socket.io').listen(server);
 
 let times = 0;
 
+
+onliner();
+cron.schedule('0 */8 * * *', () => {
+  onliner();
+  console.log('running a task every 8 hour');
+});
+
 require('./helpers/db').default(mongoose, () => {
 
   parse(io);
 
   cron.schedule('0 */6 * * *', () => {
     console.log('running a task every 6 hour');
-  
+
     times = times + 1;
-  
+
     const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
       schedule: 'test',
       times,
     } });
-  
+
     log.save()
     .then(() => {
       console.log('log saved');
     })
     .catch(error => {
       console.log(error);
-  
+
       // тупо но вдруг
       const log2 = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
         error
       } });
-  
+
       log2.save();
-  
-  });
-  
-    parse(io);
-  
+
   });
 
-  
+    parse(io);
+
+  });
+
+
 
 });
 
@@ -121,3 +130,5 @@ app.use((req, res, next) => {
 //     res.send(content);
 //   });
 });
+
+
