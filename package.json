@@ -46,7 +46,6 @@
 		"nodemailer": "^4.0.1",
 		"nodemon": "^1.12.1",
 		"object-assign": "4.1.1",
-		"phantomjs-prebuilt": "^2.1.15",
 		"promise": "8.0.1",
 		"puppeteer": "^1.11.0",
 		"raf": "3.4.0",
