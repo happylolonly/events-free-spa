@@ -8,16 +8,16 @@ const password = process.env.ONLINER_PASSWORD;
 
 
 function delay(time) {
-  return new Promise(function (resolve) {
+  return new Promise(resolve => {
     setTimeout(resolve, time)
   });
 }
 
 export default async () => {
+  console.log('Onliner started');
 
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
   const page = await browser.newPage();
@@ -31,7 +31,6 @@ export default async () => {
 
   await page.type('.auth-input.auth-form__input[type=text]', login);
   await page.type('.auth-input.auth-form__input[type=password]', password);
-
 
   await page.evaluate(() => {
     document.querySelector('.auth-form__control > button').click();
