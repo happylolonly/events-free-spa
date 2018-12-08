@@ -91,10 +91,15 @@ export async function preload() {
 
   const promises = [];
 
-  promises.push(ssr(url, '/events'));
-  promises.push(ssr(url, '/settings'));
-  promises.push(ssr(url, '/about'));
-  promises.push(ssr(url, '/weekevents'));
+
+  setTimeout(() => {
+    promises.push(ssr(url, '/events'));
+    promises.push(ssr(url, '/settings'));
+    promises.push(ssr(url, '/about'));
+    promises.push(ssr(url, '/weekevents'));
+
+  }, 1000*40)
+
 
   for (const event of events) {
     try {
