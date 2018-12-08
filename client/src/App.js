@@ -7,14 +7,28 @@ import { Helmet } from 'react-helmet';
 import { renderRoutes } from 'react-router-config';
 import ErrorBondary from 'components/error-bondary';
 import OfflineBar from 'components/offline-bar';
+import { isChristmasHolidays } from 'utils/helpers';
 
 import './App.scss';
 
 
 class App extends Component {
 
-  // {/* <div className="sk-spinner sk-spinner-pulse"></div> */}
+  componentDidMount () {
 
+    if (isChristmasHolidays()) { // add cool snow
+      const script = document.createElement('script');
+
+      script.src = './libs/snowstorm-min.js';
+      script.onload = () => {
+        window.snowStorm.flakesMaxActive = 156;
+        window.snowStorm.followMouse = false;
+      }
+
+      document.body.appendChild(script);
+    }
+
+  }
 
   render() {
     return (
