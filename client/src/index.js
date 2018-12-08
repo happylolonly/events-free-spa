@@ -5,7 +5,6 @@ import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 
-
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 
@@ -15,8 +14,9 @@ import Routes from './routes';
 
 import './index.scss';
 
-import registerServiceWorker from './registerServiceWorker';
+import registerServiceWorker, { unregister } from './registerServiceWorker';
 
+window.BrowserRouter = BrowserRouter;
 const logger = createLogger({ collapsed: true });
 
 const createStoreWithMiddleware = applyMiddleware(logger, thunk)(createStore);
@@ -67,4 +67,5 @@ ReactDOM.hydrate(
   document.getElementById('root')
 );
 
-registerServiceWorker();
+// registerServiceWorker();
+unregister();

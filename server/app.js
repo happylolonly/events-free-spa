@@ -11,6 +11,7 @@ import parse from './helpers/parse';
 import Log from './model/log';
 
 import logger from './helpers/logger';
+import {ssr, preload} from './routes/ssr';
 
 import onliner from './puppeteer';
 
@@ -93,11 +94,36 @@ require('./routes').default(app);
 //   res.sendFile(__dirname + '/build');
 // });
 
-app.use((req, res, next) => {
+app.use( async(req, res, next) => {
+  console.log('in last');
+  console.log(req.url);
+  // debugger;
+  const shouldSSR = ['settings', 'about', 'weekevents', 'events', 'event'].some(item => req.url.includes(item));
+
+  // const normal = req.params.normal;
+
+  // if (normal) {
+  //   res.sendFile(__dirname + './static/build/index.html');
+  //   return;
+  // }
+
+  if (!shouldSSR) {
+    res.send(404);
+    return;
+  }
+
+  try {
+    const { html, ttRenderMs } = await ssr(`${req.protocol}://${req.get('host')}/index.html`, req.url);
+
+    res.set('Server-Timing', `Prerender;dur=${ttRenderMs};desc="Headless render time (ms)"`);
+    res.status(200).send(html);
+  } catch (e) {
+    // console.log(e);
+    // res.sendFile(path.join(__dirname, '/static/build/index.html'));
+  }
 
     // const store = createStore(req);
     // res.sendFile(__dirname + '/build');
-    res.sendFile(path.join(__dirname, '/static/build/index.html'));
 
     // const content = renderer(req, store);
     // res.send(content);
@@ -132,3 +158,4 @@ app.use((req, res, next) => {
 });
 
 
+preload();

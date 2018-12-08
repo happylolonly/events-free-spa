@@ -83,7 +83,7 @@ module.exports = (app) => {
         .catch(error => {
           console.log(error);
         })
-   
+
 
   });
 
@@ -208,7 +208,7 @@ module.exports = (app) => {
 
     obj.status = 'active';
 
-    console.log(obj);
+    // console.log(obj);
 
     const getTotalCount = () => {
       return new Promise((resolve, reject) => {
@@ -231,7 +231,7 @@ module.exports = (app) => {
           .skip(+offset)
           .limit(+limit || 150)
           .then(events => {
-            console.log(events.length, 'find');
+            // console.log(events.length, 'find');
 
             //  if (this.state.events.length === 0) return this.state.events;
             // пока костыль
@@ -240,7 +240,7 @@ module.exports = (app) => {
             //    return item2.indexOf(search.toLowerCase()) !== -1;
             //  });
 
-             console.log(search);
+            //  console.log(search);
             //  console.log(items.length);
 
              let filteredItems = events.map(item => {
@@ -251,8 +251,8 @@ module.exports = (app) => {
 
                 const { _id:id, title, source, originalLink, date} = item;
 
-              
-              
+
+
                return {
                  id,
                  date,
@@ -271,7 +271,7 @@ module.exports = (app) => {
                 // delete item.text;
                 return t;
               }
-               
+
              })
 
              resolve(filteredItems);

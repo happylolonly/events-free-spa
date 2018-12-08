@@ -1,8 +1,10 @@
 export default (app) => {
 
   app.get('/', (req, res, next) => {
+    console.log('in /');
+
     // if (req.originalUrl.slice(-1) != '/') return next();
-    res.sendFile(__dirname + '/../static/build/index.html');
+    // res.sendFile(__dirname + '/../static/build/index.html');
   });
 
   app.get('/.well-known/acme-challenge/xQdTA59CaQG_x9AHRq-dvlrAAjOL-YY3Mt5NCecMVZU', (req, res, next) => {
@@ -21,5 +23,4 @@ export default (app) => {
   require('./feedback')(app);
   require('./moderate')(app);
   require('./logs')(app);
-
 }
