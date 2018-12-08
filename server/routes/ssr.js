@@ -13,7 +13,7 @@ export async function ssr(url, path) {
 
   const start = Date.now();
 
-  const browser = await puppeteer.launch({headless: true});
+  const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox']});
   const page = await browser.newPage();
 
   try {
