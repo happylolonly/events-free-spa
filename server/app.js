@@ -11,7 +11,7 @@ import parse from './helpers/parse';
 import Log from './model/log';
 
 import logger from './helpers/logger';
-import ssr from './routes/ssr';
+import {ssr, preload} from './routes/ssr';
 
 // import renderer from './helpers/renderer';
 // import createStore from './helpers/createStore';
@@ -38,35 +38,35 @@ require('./helpers/db').default(mongoose, () => {
 
   cron.schedule('0 */6 * * *', () => {
     console.log('running a task every 6 hour');
-  
+
     times = times + 1;
-  
+
     const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
       schedule: 'test',
       times,
     } });
-  
+
     log.save()
     .then(() => {
       console.log('log saved');
     })
     .catch(error => {
       console.log(error);
-  
+
       // тупо но вдруг
       const log2 = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
         error
       } });
-  
+
       log2.save();
-  
-  });
-  
-    parse(io);
-  
+
   });
 
-  
+    parse(io);
+
+  });
+
+
 
 });
 
@@ -88,21 +88,29 @@ require('./routes').default(app);
 app.use( async(req, res, next) => {
   console.log('in last');
   console.log(req.url);
-  const normal = req.params.normal;
+  // debugger;
+  const shouldSSR = ['settings', 'about', 'weekevents', 'events', 'event'].some(item => req.url.includes(item));
 
-  if (normal) {
-    res.sendFile(__dirname + './static/build/index.html');
+  // const normal = req.params.normal;
+
+  // if (normal) {
+  //   res.sendFile(__dirname + './static/build/index.html');
+  //   return;
+  // }
+
+  if (!shouldSSR) {
+    res.send(404);
     return;
   }
-  
+
   try {
-    const {html, ttRenderMs} = await ssr(`${req.protocol}://${req.get('host')}/index.html`, req.url);
-    
+    const { html, ttRenderMs } = await ssr(`${req.protocol}://${req.get('host')}/index.html`, req.url);
+
     res.set('Server-Timing', `Prerender;dur=${ttRenderMs};desc="Headless render time (ms)"`);
     res.status(200).send(html);
   } catch (e) {
-    console.log(e);
-    res.sendFile(path.join(__dirname, '/static/build/index.html'));
+    // console.log(e);
+    // res.sendFile(path.join(__dirname, '/static/build/index.html'));
   }
 
     // const store = createStore(req);
@@ -139,3 +147,6 @@ app.use( async(req, res, next) => {
 //     res.send(content);
 //   });
 });
+
+
+preload();
