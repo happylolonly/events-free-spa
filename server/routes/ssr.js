@@ -85,7 +85,8 @@ export async function preload() {
   const events = await EventModel.find({ date: {$gte: Date.parse(start) - dif , $lt: Date.parse(end) - dif}});
   // await ssr('http://localhost:3090/index.html', `/event/${events[0].id}`);
 
-  const url = 'http://localhost:3090/index.html';
+  // const url = 'http://localhost:3090/index.html';
+  const url = 'https://www.eventsfree.by/index.html';
   const promises = events.map(event => ssr(url, `/event/${event.id}`))
 
   promises.push(ssr(url, '/events'));
@@ -93,6 +94,12 @@ export async function preload() {
   promises.push(ssr(url, '/about'));
   promises.push(ssr(url, '/weekevents'));
 
-  await Promise.all(promises);
+  try {
+    await Promise.all(promises);
+
+  } catch (error) {
+    console.log(error);
+  }
+  debugger;
   console.log(RENDER_CACHE);
 }
