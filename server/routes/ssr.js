@@ -87,12 +87,22 @@ export async function preload() {
 
   // const url = 'http://localhost:3090/index.html';
   const url = 'https://www.eventsfree.by/index.html';
-  const promises = events.map(event => ssr(url, `/event/${event.id}`))
+  // const promises = events.map(event => )
+
+  const promises = [];
 
   promises.push(ssr(url, '/events'));
   promises.push(ssr(url, '/settings'));
   promises.push(ssr(url, '/about'));
   promises.push(ssr(url, '/weekevents'));
+
+  for (const event of events) {
+    try {
+      await ssr(url, `/event/${event.id}`)
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   try {
     await Promise.all(promises);
