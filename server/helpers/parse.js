@@ -14,10 +14,13 @@ import config from './parse-config';
 
 
 export default (io) => {
+
+  return;
+
   config.meetupBy && meetupBy.init();
   config.eventsDevBy && eventsDevBy.init();
   config.imaguru && imaguru.init();
-  
+
   config.sportMts && sportMts.init();
   config.tutby && tutby.init();
 
@@ -32,7 +35,7 @@ export default (io) => {
       citydogVedy.init();
     }, 1000);
   }
-  
+
   config.minskforfree && vk.init('minskforfree');
   config.freeFitnessMinsk && vk.init('free_fitness_minsk');
   config.freeLanguagesMinsk && vk.init('free_languages_minsk');
