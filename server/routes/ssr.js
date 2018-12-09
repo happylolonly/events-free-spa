@@ -61,24 +61,28 @@ export async function preload() {
 
 
   setTimeout(() => {
-    promises.push(ssr(url, '/events'));
-    promises.push(ssr(url, '/settings'));
-    promises.push(ssr(url, '/about'));
-    promises.push(ssr(url, '/weekevents'));
-
-  }, 1000*40)
 
 
-  for (const event of events) {
-    try {
-      await ssr(url, `/event/${event.id}`)
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  }, 1000)
+
+
+
 
   try {
-    await Promise.all(promises);
+    // await Promise.all(promises);
+
+    await ssr(url, '/events');
+    await ssr(url, '/settings');
+    await ssr(url, '/about');
+    await ssr(url, '/weekevents');
+
+    for (const event of events) {
+      try {
+        await ssr(url, `/event/${event.id}`)
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
   } catch (error) {
     console.log(error);
