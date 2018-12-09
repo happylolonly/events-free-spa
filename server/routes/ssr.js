@@ -28,7 +28,9 @@ export async function ssr(url, path) {
 
   } catch (error) {
     console.error(error);
-    throw new Error('page.goto/waitForSelector timed out.');
+    console.log('page.goto/waitForSelector timed out.');
+    console.log('for page', url, path);
+    // throw new Error('page.goto/waitForSelector timed out.');
   }
 
   const html = await page.content();
@@ -87,5 +89,5 @@ export async function preload() {
   } catch (error) {
     console.log(error);
   }
-  console.log(RENDER_CACHE);
+  // console.log(RENDER_CACHE);
 }
