@@ -24,7 +24,7 @@ class App extends Component {
     if (isChristmasHolidays()) { // add cool snow
       const script = document.createElement('script');
 
-      script.src = './libs/snowstorm-min.js';
+      script.src = '/libs/snowstorm-min.js';
       script.onload = () => {
         window.snowStorm.flakesMaxActive = 156;
         window.snowStorm.followMouse = false;
