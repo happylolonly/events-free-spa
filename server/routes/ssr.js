@@ -24,6 +24,8 @@ export async function ssr(url, path) {
       window.browserHistory.push(path);
     }, path)
 
+    await page.waitFor(2000);
+
   } catch (error) {
     console.error(error);
     throw new Error('page.goto/waitForSelector timed out.');
