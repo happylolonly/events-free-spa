@@ -21,7 +21,7 @@ export async function ssr(url, path) {
 
     // {waitUntil: 'networkidle0'}
 
-    await page.waitFor(4000);
+    await page.waitFor(3000);
 
     await page.waitForSelector('.app');
 
@@ -83,13 +83,13 @@ export async function preload() {
     await ssr(url, '/about');
     await ssr(url, '/weekevents');
 
-    // for (const event of events) {
-    //   try {
-    //     await ssr(url, `/event/${event.id}`)
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
+    for (const event of events) {
+      try {
+        await ssr(url, `/event/${event.id}`)
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
   } catch (error) {
     console.log(error);
