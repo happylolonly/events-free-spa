@@ -108,11 +108,13 @@ app.use( async(req, res, next) => {
   // }
 
   if (!shouldSSR) {
-    res.send(404);
+    // res.send(404);
+    res.sendFile(__dirname + './static/build/index.html');
     return;
   }
 
   try {
+    console.log('start pup');
     const { html, ttRenderMs } = await ssr(`${req.protocol}://${req.get('host')}/index.html`, req.url);
 
     res.set('Server-Timing', `Prerender;dur=${ttRenderMs};desc="Headless render time (ms)"`);
