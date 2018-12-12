@@ -78,6 +78,7 @@ export async function preload() {
   try {
     // await Promise.all(promises);
 
+    await ssr(url, '/');
     await ssr(url, '/events');
     await ssr(url, '/settings');
     await ssr(url, '/about');

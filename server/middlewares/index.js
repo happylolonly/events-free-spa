@@ -1,6 +1,7 @@
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import compression from 'compression';
+import path from 'path';
 
 
 export default (app, express) => {
@@ -12,6 +13,6 @@ export default (app, express) => {
 
     app.use(compression())
 
-    app.use(express.static(__dirname + '/../static/'));
-    app.use(express.static(__dirname + '/../static/build'));
+    app.use(express.static(path.join(__dirname + '/../static/'), { index : false }));
+    app.use(express.static(path.join(__dirname + '/../static/build'), { index : false }));
 };

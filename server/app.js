@@ -95,33 +95,23 @@ require('./routes').default(app);
 // });
 
 app.use( async(req, res, next) => {
-  console.log('in last');
-  console.log(req.url);
-  // debugger;
-  const shouldSSR = ['settings', 'about', 'weekevents', 'events', 'event'].some(item => req.url.includes(item));
 
-  // const normal = req.params.normal;
-
-  // if (normal) {
-  //   res.sendFile(__dirname + './static/build/index.html');
-  //   return;
-  // }
+  const shouldSSR = ['/', 'events', 'event', 'weekevents', 'about', 'settings'].some(item => req.url.includes(item));
 
   if (!shouldSSR) {
-    // res.send(404);
-    res.sendFile(__dirname + './static/build/index.html');
+    res.sendFile(path.join(__dirname, '/static/build/index.html'));
     return;
   }
 
   try {
-    console.log('start pup');
+    console.log('start ssr');
     const { html, ttRenderMs } = await ssr(`${req.protocol}://${req.get('host')}/index.html`, req.url);
 
     res.set('Server-Timing', `Prerender;dur=${ttRenderMs};desc="Headless render time (ms)"`);
     res.status(200).send(html);
-  } catch (e) {
-    // console.log(e);
-    // res.sendFile(path.join(__dirname, '/static/build/index.html'));
+  } catch (error) {
+    console.log(error);
+    res.sendFile(path.join(__dirname, '/static/build/index.html'));
   }
 
     // const store = createStore(req);
