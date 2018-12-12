@@ -15,10 +15,6 @@ import {ssr, preload} from './routes/ssr';
 
 import onliner from './puppeteer';
 
-// import renderer from './helpers/renderer';
-// import createStore from './helpers/createStore';
-// // import Routes from '../client/src/routes';
-// import { matchRoutes } from 'react-router-config';
 
 var path = require('path');
 
@@ -114,39 +110,6 @@ app.use( async(req, res, next) => {
     res.sendFile(path.join(__dirname, '/static/build/index.html'));
   }
 
-    // const store = createStore(req);
-    // res.sendFile(__dirname + '/build');
-
-    // const content = renderer(req, store);
-    // res.send(content);
-
-  // const store = createStore(req);
-
-  // const promises = matchRoutes(Routes, req.path)
-  //   .map(({ route }) => {
-  //     return route.loadData ? route.loadData(store) : null;
-  //   });
-    // .map(promise => {
-    //   if (promise) {
-    //     return new Promise((resolve, reject) => {
-    //       promise.then(resolve).catch(resolve);
-    //     });
-    //   }
-    // });
-
-  // Promise.all(promises).then(() => {
-  //   const context = {};
-  //   const content = renderer(req, store, context);
-
-    // if (context.url) {
-    //   return res.redirect(301, context.url);
-    // }
-    // if (context.notFound) {
-    //   res.status(404);
-    // }
-
-//     res.send(content);
-//   });
 });
 
 
