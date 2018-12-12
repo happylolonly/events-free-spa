@@ -14,9 +14,6 @@ import config from './parse-config';
 
 
 export default (io) => {
-
-  return;
-
   config.meetupBy && meetupBy.init();
   config.eventsDevBy && eventsDevBy.init();
   config.imaguru && imaguru.init();
