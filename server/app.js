@@ -11,9 +11,12 @@ import parse from './helpers/parse';
 import Log from './model/log';
 
 import logger from './helpers/logger';
-import {ssr, preload} from './routes/ssr';
+import ssr from './routes/ssr';
 
 import onliner from './puppeteer';
+
+import serverConfig from './configs/main';
+
 
 
 var path = require('path');
@@ -78,21 +81,13 @@ require('./helpers/db').default(mongoose, () => {
 logger.init();
 
 require('./services/cache');
-
 require('./helpers/sockets').default(io);
 require('./middlewares').default(app, express);
 require('./routes').default(app);
 
+app.use(async(req, res) => {
 
-// app.get('*', function(req, res){
-//     console.log('sended');
-//
-//   res.sendFile(__dirname + '/build');
-// });
-
-app.use( async(req, res, next) => {
-
-  const shouldSSR = ['/', 'events', 'event', 'weekevents', 'about', 'settings'].some(item => req.url.includes(item));
+  const shouldSSR = serverConfig.ssr.pages.some(item => req.url.includes(item));
 
   if (!shouldSSR) {
     res.sendFile(path.join(__dirname, '/static/build/index.html'));
@@ -101,8 +96,9 @@ app.use( async(req, res, next) => {
 
   try {
     console.log('start ssr');
-    const { html, ttRenderMs } = await ssr(`${req.protocol}://${req.get('host')}/index.html`, req.url);
+    const { html, ttRenderMs } = await ssr.render(`${req.protocol}://${req.get('host')}/index.html`, req.url);
 
+    // TODO: удалить ttRenderMs после проверки в проде
     res.set('Server-Timing', `Prerender;dur=${ttRenderMs};desc="Headless render time (ms)"`);
     res.status(200).send(html);
   } catch (error) {
@@ -113,4 +109,6 @@ app.use( async(req, res, next) => {
 });
 
 
-preload();
+if (process.env.NODE_ENV !== 'development') {
+  ssr.init();
+}

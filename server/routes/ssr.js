@@ -1,10 +1,27 @@
 import puppeteer from 'puppeteer';
-import EventModel from '../model/event';
+import cron from 'node-cron';
 import moment from 'moment';
+
+import EventModel from '../model/event';
+import serverConfig from '../configs/main';
+
 
 const RENDER_CACHE = new Map();
 
-export async function ssr(url, path) {
+
+function init() {
+  preload();
+
+  cron.schedule('0 0 0 * * *', () => {
+    console.log('preload new day ssr pages...');
+
+    RENDER_CACHE.clear();
+    preload();
+  });
+
+}
+
+async function render(url, path) {
   console.log(url, path);
 
   if (RENDER_CACHE.has(path)) {
@@ -19,9 +36,10 @@ export async function ssr(url, path) {
   try {
     await page.goto(url);
 
+    // TODO: find out why with this arg not working on heroku
     // {waitUntil: 'networkidle0'}
 
-    await page.waitFor(3000);
+    await page.waitFor(2500);
 
     await page.waitForSelector('.app');
 
@@ -29,13 +47,12 @@ export async function ssr(url, path) {
       window.browserHistory.push(path);
     }, path)
 
-    await page.waitFor(2000);
+    await page.waitFor(2500);
 
   } catch (error) {
-    console.error(error);
-    console.log('page.goto/waitForSelector timed out.');
-    console.log('for page', url, path);
-    // throw new Error('page.goto/waitForSelector timed out.');
+    console.log('error for page', url, path);
+    console.log(error);
+    throw new Error(error);
   }
 
   const html = await page.content();
@@ -50,50 +67,44 @@ export async function ssr(url, path) {
 }
 
 
-export async function preload() {
+async function preload() {
+
+  // TODO: refactor dates
   var start = moment.utc().format();
   start = moment(start).set({hour:0,minute:0,second:0,millisecond:0});
   var end = moment.utc().format();
   end = moment(end).set({hour:23,minute:59,second:59,millisecond:999});
   const dif = 1000*60*60*3;
 
-  const events = await EventModel.find({ date: {$gte: Date.parse(start) - dif , $lt: Date.parse(end) - dif}});
-  // await ssr('http://localhost:3090/index.html', `/event/${events[0].id}`);
+  const events = await EventModel.find({ date: {
+    $gte: Date.parse(start) - dif,
+    $lt: Date.parse(end) - dif
+  }});
 
-  // const url = 'http://localhost:3090/index.html';
   const url = 'https://www.eventsfree.by/index.html';
-  // const promises = events.map(event => )
 
-  const promises = [];
+  for (const page of serverConfig.ssr.pages) {
+    if (page === 'event') continue;
 
-
-  setTimeout(() => {
-
-
-  }, 1000)
-
-
-
-
-  try {
-    // await Promise.all(promises);
-
-    await ssr(url, '/');
-    await ssr(url, '/events');
-    await ssr(url, '/settings');
-    await ssr(url, '/about');
-    await ssr(url, '/weekevents');
-
-    for (const event of events) {
-      try {
-        await ssr(url, `/event/${event.id}`)
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      await render(url, page);
+    } catch (error) {
+      continue;
     }
-
-  } catch (error) {
-    console.log(error);
   }
-  // console.log(RENDER_CACHE);
+
+  for (const event of events) {
+
+    try {
+      await render(url, `/event/${event._id.toString()}`);
+    } catch (error) {
+      continue;
+    }
+  }
+}
+
+export default {
+  init,
+  render,
+  preload
 }
