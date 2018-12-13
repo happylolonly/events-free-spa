@@ -53,7 +53,7 @@ app.use(async(req, res) => {
   });
 
   if (!shouldSSR) {
-    res.sendFile(path.join(__dirname, '/static/build/index.html'));
+    res.sendStatus(404);
     return;
   }
 
