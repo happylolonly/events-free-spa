@@ -177,7 +177,7 @@ class TodayPageContainer extends Component {
   render() {
     return (
       <div className="today-page-container">
-        {this.props.location.query && false && <button className="test-button" onClick={this.handleSecretButtonClick}>секретная кнопка</button>}
+        {this.props.location.search === '?test' && <button className="test-button" onClick={this.handleSecretButtonClick}>секретная кнопка</button>}
         <Search handleSearch={this.handleSearch} search={this.state.search} />
         <Filters handleFilter={this.handleFilter} currentFilter={this.state.currentFilter} />
         <p className="event-sources">Откуда получать мероприятия можно выбрать <Link to="/settings">тут</Link></p>
