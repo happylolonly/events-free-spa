@@ -61,7 +61,13 @@ app.use(async(req, res) => {
   try {
     console.log(req.url);
     console.log('start ssr');
-    const { html, ttRenderMs } = await ssr.render(`${req.protocol}://${req.get('host')}/index.html`, req.url);
+    const { html, ttRenderMs, isLoading } = await ssr.render(`${req.protocol}://${req.get('host')}/index.html`, req.url);
+
+    if (isLoading) {
+      console.log(req.url, 'is loading now');
+      res.sendFile(path.join(__dirname, '/static/build/index.html'));
+      return;
+    }
 
     // TODO: удалить ttRenderMs после проверки в проде
     res.set('Server-Timing', `Prerender;dur=${ttRenderMs};desc="Headless render time (ms)"`);

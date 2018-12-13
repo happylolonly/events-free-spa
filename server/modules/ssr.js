@@ -25,7 +25,13 @@ async function render(url, path) {
   console.log(url, path);
 
   if (RENDER_CACHE.has(path)) {
-    return {html: RENDER_CACHE.get(path), ttRenderMs: 0};
+    const { html, status } = RENDER_CACHE.get(path);
+    return {html, ttRenderMs: 0, status};
+  } else {
+    RENDER_CACHE.set(path, {
+      html: null,
+      isLoading: true
+    });
   }
 
   const start = Date.now();
@@ -61,7 +67,10 @@ async function render(url, path) {
   const ttRenderMs = Date.now() - start;
   console.info(`Headless rendered page in: ${ttRenderMs}ms`);
 
-  RENDER_CACHE.set(path, html);
+  RENDER_CACHE.set(path, {
+    html,
+    isLoading: false
+  });
 
   return {html, ttRenderMs};
 }
