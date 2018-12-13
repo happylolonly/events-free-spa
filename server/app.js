@@ -52,12 +52,14 @@ app.use(async(req, res) => {
     return req.url.includes(page);
   });
 
+
   if (!shouldSSR) {
     res.sendStatus(404);
     return;
   }
 
   try {
+    console.log(req.url);
     console.log('start ssr');
     const { html, ttRenderMs } = await ssr.render(`${req.protocol}://${req.get('host')}/index.html`, req.url);
 

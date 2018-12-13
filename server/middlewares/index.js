@@ -13,6 +13,5 @@ export default (app, express) => {
 
     app.use(compression())
 
-    app.use(express.static(path.join(__dirname + '/../static/'), { index : false }));
     app.use(express.static(path.join(__dirname + '/../static/build'), { index : false }));
 };
