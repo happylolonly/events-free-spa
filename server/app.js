@@ -43,11 +43,17 @@ logger.init();
 
 app.use(async(req, res) => {
 
-  const shouldSSR = serverConfig.ssr.pages.some(item => req.url.includes(item));
+  const shouldSSR = serverConfig.ssr.pages.some(page => {
 
-  res.sendFile(path.join(__dirname, '/static/build/index.html'));
-  return;
+    if (page === '/' && req.url !== '/') {
+      return false;
+    }
+
+    return req.url.includes(page);
+  });
+
   if (!shouldSSR) {
+    res.sendFile(path.join(__dirname, '/static/build/index.html'));
     return;
   }
 
