@@ -1,3 +1,9 @@
+import cron from 'node-cron';
+import moment from 'moment';
+import Log from '../model/log';
+
+import config from '../helpers/parse-config';
+
 import meetupBy from '../parse/meetupBy';
 import eventsDevBy from '../parse/eventsDevBy';
 import imaguru from '../parse/imaguru';
@@ -10,10 +16,8 @@ import citydogVedy from '../parse/citydogVedy';
 import citydogAfisha from '../parse/citydogAfisha';
 import vk from '../parse/vk';
 
-import config from './parse-config';
 
-
-export default (io) => {
+function start(callback) {
   config.meetupBy && meetupBy.init();
   config.eventsDevBy && eventsDevBy.init();
   config.imaguru && imaguru.init();
@@ -38,7 +42,47 @@ export default (io) => {
   config.freeLanguagesMinsk && vk.init('free_languages_minsk');
 
   setTimeout(() => {
-    io.sockets.emit('events-updated');
+    callback && callback();
   }, 1000*30);
 
-};
+}
+
+// TODO: check this kostyl
+let times = 0;
+function init(callback) {
+  start(callback);
+
+  cron.schedule('0 */6 * * *', () => {
+    console.log('running a task every 6 hour');
+
+    times = times + 1;
+
+    const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
+      schedule: 'test',
+      times,
+    } });
+
+    log.save()
+    .then(() => {
+      console.log('log saved');
+    })
+    .catch(error => {
+      console.log(error);
+
+      // тупо но вдруг
+      const log2 = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
+        error
+      } });
+
+      log2.save();
+
+      });
+
+    start(callback);
+  });
+}
+
+export default {
+  init,
+  start,
+}

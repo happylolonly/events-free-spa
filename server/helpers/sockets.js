@@ -1,4 +1,4 @@
-import parse from './parse';
+import parse from '../modules/parse';
 
 export default (io) => {
 
@@ -15,7 +15,7 @@ export default (io) => {
 
     socket.on('reparse events', () => {
       console.log('reparsing starts');
-      parse(io);
+      parse.start();
     });
 
     connections.push(socket);

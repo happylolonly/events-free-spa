@@ -1,19 +1,24 @@
 // auto up onliner cause this app always living
 
 import puppeteer from 'puppeteer';
+import cron from 'node-cron';
+
 
 const startURL = 'https://www.onliner.by';
 const login = process.env.ONLINER_LOGIN;
 const password = process.env.ONLINER_PASSWORD;
 
 
-function delay(time) {
-  return new Promise(resolve => {
-    setTimeout(resolve, time)
+function init() {
+  start();
+
+  cron.schedule('0 */8 * * *', () => {
+    console.log('start onliner task...');
+    start();
   });
 }
 
-export default async () => {
+async function start() {
   console.log('Onliner started');
 
   const browser = await puppeteer.launch({
@@ -52,4 +57,14 @@ export default async () => {
   console.log('Onliner upped');
 
   await browser.close();
-};
+}
+
+function delay(time) {
+  return new Promise(resolve => {
+    setTimeout(resolve, time)
+  });
+}
+
+export default {
+  init
+}
