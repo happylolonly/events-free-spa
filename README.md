@@ -38,10 +38,11 @@ Deploy:
 #### Запуск:
 
 1. Скопировать репозиторий
-2. Поставить [Node.js](https://nodejs.org/en) версии которая указана в `package.json` в `engines` > `node` (или выше)
+2. Поставить [Node.js](https://nodejs.org/en) версии которая указана в `package.json` в `engines` > `node` (или выше)  
+А лучше сразу [NVM](https://github.com/creationix/nvm)
 3. Из папки выполнить команду `npm install`
 4. Клиент - `npm start` и перейти на http://localhost:3000
-5. Сервер - `npm run ss` и перейти на http://localhost:3090 (если нужно проверять что-то серверное)
+5. Сервер - `npm run ss` запустить в другом терминале и перейти на http://localhost:3090 (если нужно проверять что-то серверное)
 
 ####
 
