@@ -45,8 +45,9 @@ app.use(async(req, res) => {
 
   const shouldSSR = serverConfig.ssr.pages.some(item => req.url.includes(item));
 
+  res.sendFile(path.join(__dirname, '/static/build/index.html'));
+  return;
   if (!shouldSSR) {
-    res.sendFile(path.join(__dirname, '/static/build/index.html'));
     return;
   }
 
