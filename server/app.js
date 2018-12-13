@@ -35,7 +35,7 @@ require('./middlewares').default(app, express);
 require('./routes').default(app);
 
 if (process.env.NODE_ENV !== 'development') {
-  ssr.init();
+  setTimeout(ssr.init, 1000*20);
   onliner.init();
 }
 
