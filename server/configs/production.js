@@ -8,5 +8,7 @@ export default {
   "db": {
     "url": process.env.MONGO_URI
   },
-  "redis": "redis-15117.c12.us-east-1-4.ec2.cloud.redislabs.com"
+  "redis": {
+    "uri": process.env.REDIS_URI
+  }
 }

@@ -4,12 +4,7 @@ import redis from 'redis';
 import util from 'util';
 import config from '../configs';
 
-
-const client = redis.createClient('15117', config.redis, { no_ready_check: true });
-
-client.auth('SsuWlN1ScMpgFDt5QKQHU2vUHY1VoTP8', (err) => {
-    if (err) throw err;
-});
+const client = redis.createClient(config.redis.uri, { no_ready_check: true });
 
 client.on('connect', () => {
     console.log('Connected to Redis');
@@ -40,12 +35,11 @@ mongoose.Query.prototype.exec = async function() {
     }
 
     const key = JSON.stringify(Object.assign({}, this.getQuery(), {
-        
         collection: this.mongooseCollection.name
     }));
-    
+
     const cacheValue = await client.hget(this.hashKey, key);
-    
+
     if (cacheValue) {
         const doc = JSON.parse(cacheValue);
 
