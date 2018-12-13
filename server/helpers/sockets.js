@@ -1,4 +1,6 @@
 import parse from '../modules/parse';
+import ssr from '../modules/ssr';
+
 
 export default (io) => {
 
@@ -15,8 +17,14 @@ export default (io) => {
 
     socket.on('reparse events', () => {
       console.log('reparsing starts');
-      parse.start();
+      ssr.init();
+      // parse.start();
     });
+
+    // socket.on('update', () => {
+    //   console.log('reparsing starts');
+    //   parse.start();
+    // });
 
     connections.push(socket);
     console.log('Connected: %s sockets connected.', connections.length);
