@@ -25,8 +25,8 @@ async function render(url, path) {
   console.log(url, path);
 
   if (RENDER_CACHE.has(path)) {
-    const { html, status } = RENDER_CACHE.get(path);
-    return {html, ttRenderMs: 0, status};
+    const { html, isLoading } = RENDER_CACHE.get(path);
+    return {html, ttRenderMs: 0, isLoading};
   } else {
     RENDER_CACHE.set(path, {
       html: null,
