@@ -8,6 +8,7 @@ const EventSchema = new Schema({
   images: { type: Array },
   contacts: { type: Object },
   location: { type: String },
+  tags: { type: Array },
 
   originalLink: { type: String, required: [true] },
   source: { type: String, required: [true] },

@@ -10,6 +10,7 @@ import FeedbackPage from './pages/FeedbackPage/FeedbackPage';
 import ModerateContainer from './pages/ModeratePage/ModerateContainer';
 import SettingsPage from './pages/SettingsPage/SettingsPage';
 import WeekEventsPage from './pages/WeekEvents/WeekEventsContainer';
+import AdminPage from './pages/Admin/AdminContainer';
 
 
 export default [
@@ -19,11 +20,14 @@ export default [
 		routes: [
 			{ ...TodayPageContainer, path: '/events' },
 			{ ...EventPageContainer, path: '/event/:id' },
+			{ ...EventPageContainer, path: '/check/:id' },
 			{ component: AboutPage, path: '/about' },
 			{ component: WeekEventsPage, path: '/weekevents' },
 			{ component: SettingsPage, path: '/settings' },
 			{ component: FeedbackPage, path: '/feedback1' },
 			{ component: ModerateContainer, path: '/moder' },
+			{ component: AdminPage, path: '/somepath' },
+			// { component: AdminPage, path: '/somepath' },
 			{
 			 path: ['/', '/event', '*'],
 			 exact: true,

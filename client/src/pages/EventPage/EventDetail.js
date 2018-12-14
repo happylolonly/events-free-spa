@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import EventDetailFooter from './EventDetailFooter/EventDetailFooter';
+import Tags from './Tags/Tags';
 
 import EventText from './EventText';
 
@@ -16,11 +17,18 @@ const propTypes = {
   text: PropTypes.string.isRequired,
   date: PropTypes.number.isRequired,
   images: PropTypes.array,
+  tags: PropTypes.array.isRequired,
   // contacts
   // location id
+  // routerLocation
+  // routerHistory
 }
 
-const EventDetail = ({ title, text, date, images, contacts, location, id, routerHistory, ...rest }) => {
+const EventDetail = ({ title, text, date, images, contacts, location, id, routerHistory, routerLocation, tags, ...rest }) => {
+
+  // maybe move in container
+  const isAdmin = routerLocation.pathname.includes('check');
+
   return (
     <div className="event-detail">
       <h3>{title}</h3>
@@ -58,6 +66,15 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, router
 
         <EventText text={text} />
 
+
+        {/* {<hr/>} */}
+
+        <Tags
+          id={id}
+          tags={tags}
+          adminMode={isAdmin}
+          routerHistory={routerHistory}
+        />
 
         <hr/>
 

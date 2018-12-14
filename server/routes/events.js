@@ -301,7 +301,7 @@ module.exports = (app) => {
     const { id } = req.query;
 
     const item = await Event.find({ _id: id })
-      .cache({ key: id })
+      // .cache({ key: id })
     res.send(item);
   });
 
@@ -315,5 +315,40 @@ module.exports = (app) => {
     }).sort({ date: 1 });
 
     res.send(events);
+  });
+
+  // maybe change
+  app.get('/api/events-for-tagging', async (req, res) => {
+
+    const events = await Event.find({
+      // need today+
+      date: { $gte: Date.parse(new Date() )- 1000*60*60*12 },
+      tags: undefined,
+      status: 'active' // !!!
+    }).sort({ date: 1 }).limit(10);
+
+    debugger;
+
+    res.send(events);
+  });
+
+  // also change
+  app.patch('/api/event-tag', async (req, res) => {
+    const { tags, id } = req.body;
+    console.log(tags);
+
+    try {
+      const event = await Event.findByIdAndUpdate(id, {
+        tags,
+      });
+
+      console.log(event.toObject());
+
+    } catch (error) {
+      console.log(error);
+
+    }
+
+    res.send(200);
   });
 }

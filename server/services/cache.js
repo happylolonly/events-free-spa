@@ -9,9 +9,9 @@ const client = redis.createClient(config.redis.uri, { no_ready_check: true });
 client.on('connect', () => {
     console.log('Connected to Redis');
 
-    // client.FLUSHDB(() => {
-    //     console.log('cleared');
-    // });
+    client.FLUSHDB(() => {
+        console.log('cleared');
+    });
 
     client.keys('*', (err, keys) => {
         console.log('Redis cache length: ', keys.length);

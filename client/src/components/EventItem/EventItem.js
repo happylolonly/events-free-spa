@@ -15,14 +15,15 @@ const propTypes = {
 
   originalLink: PropTypes.string.isRequired,
   source: PropTypes.string.isRequired,
+  adminMode: PropTypes.bool,
 }
 
-const EventItem = ({ date, title, link, originalLink, source, mouseOver }) => {
-  // console.log(link);
+const EventItem = ({ date, title, link, originalLink, source, mouseOver, adminMode }) => {
+
   return (
     <div className="event-item" onMouseOver={mouseOver}>
       <header>
-        <Link to={`/event/${link}`}>{title}</Link>
+        <Link to={`/${adminMode ? 'check' : 'event'}/${link}`}>{title}</Link>
         <div>
           <span className="date">{moment(date).locale('ru').format('D MMMM YYYY')}</span>
           <span className="time">{moment(date).locale('ru').format('HH:mm') !== '00:00' ? moment(date).locale('ru').format('HH:mm') : 'Время не указано'}</span>

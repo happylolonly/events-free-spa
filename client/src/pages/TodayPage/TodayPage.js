@@ -22,12 +22,12 @@ const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
 
       if (!window.location.search) { // /events => certain
         return <h3>Все мероприятия</h3>
-      } 
+      }
         const [ day, month ] = window.location.search.split('=')[1].split('_');
 
         if (!month) { // перерендер до колбека setState
           return <h3>Все мероприятия</h3>
-        } 
+        }
 
         const monthRU = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
@@ -54,6 +54,7 @@ const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
             source={source}
 
             mouseOver={() => handleMouseOver(id) }
+            adminMode={false}
           />
         )
       })}

@@ -58,6 +58,7 @@ class EventPageContainer extends Component {
           contacts={contacts}
           location={location}
           routerHistory={this.props.history}
+          routerLocation={this.props.location}
         />
       </div>
     )
