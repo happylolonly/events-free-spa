@@ -33,7 +33,7 @@ if (sources) {
 }
 
 if (savedEvents) {
-	
+
 	const currentDate = new Date();
 	const currentDay = currentDate.getDate();
 	const currentMounth = currentDate.getMonth() + 1;
@@ -67,5 +67,5 @@ ReactDOM.hydrate(
   document.getElementById('root')
 );
 
-// registerServiceWorker();
-unregister();
+registerServiceWorker();
+// unregister();
