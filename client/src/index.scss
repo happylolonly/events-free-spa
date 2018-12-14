@@ -1,6 +1,5 @@
 @import "./constants/style/_fonts";
-
-
+@import './constants/style/colors';
 
 body {
   // position: relative;
@@ -22,7 +21,7 @@ body {
     margin-top: 50px;
     margin-bottom: 30px;
     font-size: 30px;
-    color: #f7931e;
+    color: $primary-color;
     text-align: center;
     font-family: 'MuseoSansBold';
   }

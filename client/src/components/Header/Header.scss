@@ -1,5 +1,7 @@
+@import '../../constants/style/colors';
+
 .header {
-  background-color: #ffc500;
+  background-color: $primary-color;
 
   display: flex;
   justify-content: space-between;
