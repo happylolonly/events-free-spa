@@ -1,14 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import SocialButtons from 'components/SocialButtons/SocialButtons';
+import ChristmasTree from './ChristmasTree/ChristmasTree';
+
+import { isChristmasHolidays } from 'utils/helpers';
 
 import './Footer.scss';
 
-
-const propTypes = {
-
-}
 
 const Footer = () => {
   return (
@@ -26,11 +24,9 @@ const Footer = () => {
         </ul>
       </div>
 
-      <p>© 2017 - {new Date().getFullYear()} Events Free. All rights reserved. Making with love <span>❤</span></p>
+      <p>© 2017 - {new Date().getFullYear()} Events Free. All rights reserved. Making with love {isChristmasHolidays() ? <ChristmasTree /> : <span>❤</span>}</p>
     </footer>
   )
 }
-
-Footer.propTypes = propTypes;
 
 export default Footer;

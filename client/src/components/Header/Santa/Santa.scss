@@ -1,0 +1,13 @@
+.header .santa {
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0px;
+    right: -75px;
+    height: 42px;
+    width: 42px;
+    background-image: url('./images/santa.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}

@@ -1,19 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Santa from './Santa/Santa';
+import { isChristmasHolidays } from 'utils/helpers';
 
 import './Header.scss';
 
-
-const propTypes = {
-
-}
 
 const Header = () => {
   return (
     <div className="header">
       <div className="title">
-        <span>Events Free</span>
+        <span>Events Free {isChristmasHolidays() && <Santa />}</span>
         <p>Все бесплатные мероприятия в одном месте</p>
       </div>
       <ul>
@@ -25,7 +22,5 @@ const Header = () => {
     </div>
   )
 }
-
-Header.propTypes = propTypes;
 
 export default Header;
