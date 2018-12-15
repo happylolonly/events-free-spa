@@ -1,9 +1,10 @@
 import Event from '../model/event';
 
 module.exports = (app) => {
-  
+
   app.get('/moderate', (req, res) => {
     Event.find({ status: 'noactive' })
+    .limit(50)
       .then(data => {
         res.send(data);
       })
@@ -17,7 +18,6 @@ module.exports = (app) => {
     console.log(id, moderate);
 
     Event.findByIdAndUpdate(id, { status: moderate === 'true' ? 'active' : 'rejected' })
-      .limit(50)
       .then(() => {
         res.send(true);
       })
