@@ -32,9 +32,14 @@ class Tags extends Component {
 
     this.state = {
       tags: [],
-      newTag: ''
+      newTag: '',
+      predictedTags: [],
     }
 
+  }
+
+  componentDidMount() {
+    this.predict(this.props.id);
   }
 
   saveTags = async () => {
@@ -69,10 +74,24 @@ class Tags extends Component {
       })
 
     }
+  }
 
+  async predict(id) {
 
+    try {
+      const data = await axios.get(`${API}/event-tag-predict`, {
+        params: {
+          id,
+        }
+      });
+      const predictedTags = data.data;
 
-
+      this.setState({
+        predictedTags,
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
@@ -90,6 +109,16 @@ class Tags extends Component {
           console.log(item);
           return (
             <Tag key={i} text={item} />
+          )
+        })}
+
+        {this.state.predictedTags.map((item, i) => {
+          const { tag, probability } = item;
+          return (
+            <div>
+              <Tag key={i} text={tag} />
+              <p>Probability: {probability}</p>
+            </div>
           )
         })}
 

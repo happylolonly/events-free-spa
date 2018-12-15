@@ -1,5 +1,6 @@
 import Event from '../model/event';
 import moment from 'moment';
+import axios from 'axios';
 //
 // import { removeInlineStyles, saveEventItemToDB } from './parse/helpers';
 //
@@ -327,8 +328,6 @@ module.exports = (app) => {
       status: 'active' // !!!
     }).sort({ date: 1 }).limit(10);
 
-    debugger;
-
     res.send(events);
   });
 
@@ -351,4 +350,27 @@ module.exports = (app) => {
 
     res.send(200);
   });
+
+
+  app.get('/api/event-tag-predict', async (req, res) => {
+    const { id } = req.query;
+
+    const event = await Event.findById(id);
+
+    const data = await axios.post('https://python-ml-server.herokuapp.com/', {
+      text: event.toObject().text,
+    });
+
+    const prediction = data.data.scores.map(item => {
+      const { name, number } = item;
+
+      return {
+        tag: name,
+        probability: number / 100,
+      }
+    });
+
+    res.send(prediction);
+  });
+
 }
