@@ -27,7 +27,6 @@ export default [
 			{ component: FeedbackPage, path: '/feedback1' },
 			{ component: ModerateContainer, path: '/moder' },
 			{ component: AdminPage, path: '/somepath' },
-			// { component: AdminPage, path: '/somepath' },
 			{
 			 path: ['/', '/event', '*'],
 			 exact: true,

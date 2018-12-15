@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import EventDetailFooter from './EventDetailFooter/EventDetailFooter';
 import Tags from './Tags/Tags';
+import Moderation from './Moderation/Moderation';
 
 import EventText from './EventText';
 
@@ -86,6 +87,7 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, router
           image={(images && images[0]) || ''}
         />
 
+        {isAdmin && <Moderation id={id} routerHistory={routerHistory} />}
       </section>
 
 

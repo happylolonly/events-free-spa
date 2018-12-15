@@ -40,6 +40,7 @@ class AdminContainer extends Component {
     }
   }
 
+
   render() {
     const { events } = this.state;
 
