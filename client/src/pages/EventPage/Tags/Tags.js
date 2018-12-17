@@ -19,7 +19,7 @@ const propTypes = {
 // new component
 const Tag = ({ text }) => {
   return (
-    <div>
+    <div className='tag'>
       {text}
     </div>
   )
@@ -95,10 +95,17 @@ class Tags extends Component {
   }
 
   render() {
-
     if (!this.props.adminMode) {
-      // not important now
-      return null;
+      return (
+        <div className='tag__container'>
+          {this.props.tags.map((item, i) => {
+            console.log(item);
+            return (
+              <Tag key={i} text={item} />
+            )
+          })}
+        </div>
+      )
     }
 
 
