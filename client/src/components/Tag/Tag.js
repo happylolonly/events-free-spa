@@ -1,12 +1,19 @@
 import React from 'react';
 import './Tag.scss';
+import PropTypes from 'prop-types';
+
+const propTypes = {
+  text: PropTypes.string.isRequired
+}
 
 const Tag = ({ text }) => {
   return (
-    <div className="awesom-tag">
+    <div className="Tag">
       {text}
     </div>
   );
 };
+
+Tag.prototype = propTypes;
 
 export default Tag;
