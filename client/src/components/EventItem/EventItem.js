@@ -7,18 +7,21 @@ import 'moment/locale/ru';
 
 import './EventItem.scss';
 
+import Tag from '../Tag/Tag';
+
 
 const propTypes = {
   date: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
+  tags: PropTypes.array.isRequired,
 
   originalLink: PropTypes.string.isRequired,
   source: PropTypes.string.isRequired,
   adminMode: PropTypes.bool,
 }
 
-const EventItem = ({ date, title, link, originalLink, source, mouseOver, adminMode }) => {
+const EventItem = ({ date, title, link, originalLink, source, mouseOver, adminMode, tags }) => {
 
   return (
     <div className="event-item" onMouseOver={mouseOver}>
@@ -30,7 +33,11 @@ const EventItem = ({ date, title, link, originalLink, source, mouseOver, adminMo
         </div>
       </header>
       <p className="source">Источник: <a target="_blank" href={`http://${source}${originalLink}`}>{source}</a></p>
-
+      <div className="tag__container">
+        {tags.map((text, i) => (
+          <Tag text={text} key={i} />
+        ))}
+      </div>
     </div>
   )
 }
