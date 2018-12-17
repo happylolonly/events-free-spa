@@ -34,9 +34,10 @@ const EventItem = ({ date, title, link, originalLink, source, mouseOver, adminMo
       </header>
       <p className="source">Источник: <a target="_blank" href={`http://${source}${originalLink}`}>{source}</a></p>
       <div className="tag__container">
-        {tags.map((text, i) => (
-          <Tag text={text} key={i} />
-        ))}
+        {tags === undefined ? null :
+          tags.map((text, i) => (
+            <Tag text={text} key={i} />
+          ))}
       </div>
     </div>
   )
