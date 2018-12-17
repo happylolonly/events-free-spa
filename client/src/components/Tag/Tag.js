@@ -8,7 +8,7 @@ const propTypes = {
 
 const Tag = ({ text }) => {
   return (
-    <div className="Tag">
+    <div className="tag">
       {text}
     </div>
   );
