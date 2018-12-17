@@ -325,7 +325,7 @@ module.exports = (app) => {
       // need today+
       date: { $gte: Date.parse(new Date() )- 1000*60*60*12 },
       tags: { $size: 0 }, // fix
-      status: { $not: 'rejected' },
+      status: { $ne: 'rejected' },
     }).sort({ date: 1 }).limit(10);
 
     res.send(events);
