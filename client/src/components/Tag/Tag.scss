@@ -1,0 +1,9 @@
+.awesom-tag {
+  padding: 5px 10px;
+  border-radius: 3px;
+  background-color: rgba(#ccc, 0.4);
+
+  &:not(:last-of-type) {
+    margin-right: 10px;
+  }
+}

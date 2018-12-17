@@ -12,6 +12,7 @@ const propTypes = {
 }
 
 const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
+  console.log(events)
   const showTitle = () => {
     switch (currentFilter) {
       case 'today':
@@ -20,10 +21,10 @@ const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
         return <h3>Мероприятия на завтра</h3>
       case 'certain':
 
-      if (!window.location.search) { // /events => certain
-        return <h3>Все мероприятия</h3>
-      }
-        const [ day, month ] = window.location.search.split('=')[1].split('_');
+        if (!window.location.search) { // /events => certain
+          return <h3>Все мероприятия</h3>
+        }
+        const [day, month] = window.location.search.split('=')[1].split('_');
 
         if (!month) { // перерендер до колбека setState
           return <h3>Все мероприятия</h3>
@@ -42,7 +43,7 @@ const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
     <div className="today-page">
       {showTitle()}
       {events.map(item => {
-        const { date, title, id, originalLink, source } = item;
+        const { date, title, id, originalLink, source, tags } = item;
         return (
           <EventItem
             key={id}
@@ -53,8 +54,9 @@ const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
             originalLink={originalLink}
             source={source}
 
-            mouseOver={() => handleMouseOver(id) }
+            mouseOver={() => handleMouseOver(id)}
             adminMode={false}
+            tags={tags}
           />
         )
       })}

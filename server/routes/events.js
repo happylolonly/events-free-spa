@@ -45,10 +45,10 @@ module.exports = (app) => {
 
     // console.log(start.getTimezoneOffset());
     // start.setHours(0,0,0,0);
-    start = moment(start).set({hour:0,minute:0,second:0,millisecond:0});
+    start = moment(start).set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
 
     var end = moment.utc().format();
-    end = moment(end).set({hour:23,minute:59,second:59,millisecond:999});
+    end = moment(end).set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
     // end.setHours(23,59,59,999);
     // end.setDate(end.getDate() + 5);
 
@@ -57,12 +57,12 @@ module.exports = (app) => {
     // console.log((start));
     // console.log((start.toUTCString()));
 
-    const dif = 1000*60*60*3;
+    const dif = 1000 * 60 * 60 * 3;
 
 
     switch (day) {
       case 'today':
-        obj.date = {$gte: Date.parse(start) - dif , $lt: Date.parse(end) - dif};
+        obj.date = { $gte: Date.parse(start) - dif, $lt: Date.parse(end) - dif };
         break;
     }
 
@@ -75,15 +75,15 @@ module.exports = (app) => {
 
 
 
-      Event.find(obj)
-        .count()
-        .then(count => {
-          console.log(count);
-          res.send({totalCount: count});
-        })
-        .catch(error => {
-          console.log(error);
-        })
+    Event.find(obj)
+      .count()
+      .then(count => {
+        console.log(count);
+        res.send({ totalCount: count });
+      })
+      .catch(error => {
+        console.log(error);
+      })
 
 
   });
@@ -108,14 +108,14 @@ module.exports = (app) => {
     let certainStart = '';
     let certainEnd = '';
     if (day.split('_').length === 3) {
-      const [ certainDay, certainMonth, certainYear ] = day.split('_');
+      const [certainDay, certainMonth, certainYear] = day.split('_');
       certainDate = day;
 
       certainStart = moment.utc().format();
-      certainStart = moment(certainStart).set({date: +certainDay, month: +certainMonth - 1, year: +certainYear ,hour:0,minute:0,second:0,millisecond:0});
+      certainStart = moment(certainStart).set({ date: +certainDay, month: +certainMonth - 1, year: +certainYear, hour: 0, minute: 0, second: 0, millisecond: 0 });
       certainStart = Date.parse(certainStart);
 
-      certainEnd = moment(certainStart).set({hour:23,minute:59,second:59,millisecond:999});
+      certainEnd = moment(certainStart).set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
 
       certainEnd = Date.parse(certainEnd);
 
@@ -131,10 +131,10 @@ module.exports = (app) => {
 
     // console.log(start.getTimezoneOffset());
     // start.setHours(0,0,0,0);
-    start = moment(start).set({hour:0,minute:0,second:0,millisecond:0});
+    start = moment(start).set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
 
     var end = moment.utc().format();
-    end = moment(end).set({hour:23,minute:59,second:59,millisecond:999});
+    end = moment(end).set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
     // end.setHours(23,59,59,999);
     // end.setDate(end.getDate() + 5);
 
@@ -143,24 +143,24 @@ module.exports = (app) => {
     // console.log((start));
     // console.log((start.toUTCString()));
 
-    const dif = 1000*60*60*3;
+    const dif = 1000 * 60 * 60 * 3;
 
 
     switch (day) {
       case 'today':
-        obj.date = {$gte: Date.parse(start) - dif , $lt: Date.parse(end) - dif};
+        obj.date = { $gte: Date.parse(start) - dif, $lt: Date.parse(end) - dif };
         break;
 
       case 'tomorrow':
-        obj.date = {$gte: Date.parse(start) - dif + 1000*60*60*24,  $lt: Date.parse(end) - dif + 1000*60*60*24};
+        obj.date = { $gte: Date.parse(start) - dif + 1000 * 60 * 60 * 24, $lt: Date.parse(end) - dif + 1000 * 60 * 60 * 24 };
         break;
 
       case 'all':
-        obj.date = {$gte: Date.parse(start) - dif};
+        obj.date = { $gte: Date.parse(start) - dif };
         break;
 
       case 'past':
-        obj.date = {$lt: Date.parse(start) - dif  };
+        obj.date = { $lt: Date.parse(start) - dif };
         break;
 
       case 'certain':
@@ -244,27 +244,28 @@ module.exports = (app) => {
             //  console.log(search);
             //  console.log(items.length);
 
-             let filteredItems = events.map(item => {
+            let filteredItems = events.map(item => {
 
 
               // debugger;
               if (!full) { //cтрока
 
-                const { _id:id, title, source, originalLink, date} = item;
+                const { _id: id, title, source, originalLink, date, tags } = item;
 
 
 
-               return {
-                 id,
-                 date,
-                 title,
-                 source,
-                 originalLink
-               }
-              // return obj;
+                return {
+                  id,
+                  date,
+                  title,
+                  tags,
+                  source,
+                  originalLink
+                }
+                // return obj;
 
               } else {
-                  // const obj = Object.create(item);
+                // const obj = Object.create(item);
                 // item.id = item._id;
 
                 const t = item.toObject({ getters: true });
@@ -273,9 +274,9 @@ module.exports = (app) => {
                 return t;
               }
 
-             })
+            })
 
-             resolve(filteredItems);
+            resolve(filteredItems);
           })
           .catch(error => {
             console.log(error);
@@ -302,7 +303,7 @@ module.exports = (app) => {
     const { id } = req.query;
 
     const item = await Event.find({ _id: id })
-      // .cache({ key: id })
+    // .cache({ key: id })
     res.send(item);
   });
 
@@ -323,7 +324,7 @@ module.exports = (app) => {
 
     const events = await Event.find({
       // need today+
-      date: { $gte: Date.parse(new Date() )- 1000*60*60*12 },
+      date: { $gte: Date.parse(new Date()) - 1000 * 60 * 60 * 12 },
       tags: { $size: 0 }, // fix
       status: { $ne: 'rejected' },
     }).sort({ date: 1 }).limit(10);
