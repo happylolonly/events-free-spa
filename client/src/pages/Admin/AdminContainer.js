@@ -48,7 +48,7 @@ class AdminContainer extends Component {
       <div className="">
 
         {events.map(item => {
-          const { date, title, _id, originalLink, source } = item;
+          const { date, title, _id, originalLink, source, tags } = item;
           return (
             <EventItem
               key={_id}
@@ -58,6 +58,7 @@ class AdminContainer extends Component {
               link={_id}
               originalLink={originalLink}
               source={source}
+              tags={tags}
 
               // mouseOver={() => handleMouseOver(id)}
               adminMode={true}

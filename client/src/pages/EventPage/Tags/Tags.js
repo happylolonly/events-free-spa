@@ -1,30 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import axios from 'axios';
-import { API } from 'constants/config';
+import axios from "axios";
+import { API } from "constants/config";
 
-
-import './Tags.scss';
-
+import Tag from "../../../components/Tag/Tag";
 
 const propTypes = {
   tags: PropTypes.array.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired
   //routerHistory
   // adminMode
   // unconfirmedTags
 };
-
-// new component
-const Tag = ({ text }) => {
-  return (
-    <div className='tag'>
-      {text}
-    </div>
-  )
-}
-
 
 class Tags extends Component {
   constructor(props) {
@@ -32,10 +20,9 @@ class Tags extends Component {
 
     this.state = {
       tags: [],
-      newTag: '',
-      predictedTags: [],
-    }
-
+      newTag: "",
+      predictedTags: []
+    };
   }
 
   componentDidMount() {
@@ -46,21 +33,20 @@ class Tags extends Component {
     try {
       await axios.patch(`${API}/event-tag`, {
         id: this.props.id,
-        tags: this.state.tags,
+        tags: this.state.tags
       });
 
-      this.props.routerHistory.push('/somepath');
+      this.props.routerHistory.push("/somepath");
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  handleChange = (event) => {
+  handleChange = event => {
     const newTag = event.target.value;
 
     this.setState({ newTag });
-
-  }
+  };
 
   handleClick = () => {
     // const { tags, newTag } = this.state;
@@ -70,25 +56,23 @@ class Tags extends Component {
     if (this.state.newTag) {
       this.setState({
         tags: [...this.state.tags, this.state.newTag], // check dyplicates
-        newTag: ''
-      })
-
+        newTag: ""
+      });
     }
-  }
+  };
 
   async predict(id) {
-
     try {
       const data = await axios.get(`${API}/event-tag-predict`, {
         params: {
-          id,
+          id
         }
       });
       const predictedTags = data.data;
 
       this.setState({
-        predictedTags,
-      })
+        predictedTags
+      });
     } catch (error) {
       console.log(error);
     }
@@ -97,26 +81,18 @@ class Tags extends Component {
   render() {
     if (!this.props.adminMode) {
       return (
-        <div className='tag__container'>
+        <div className="tag__container">
           {this.props.tags.map((item, i) => {
-            console.log(item);
-            return (
-              <Tag key={i} text={item} />
-            )
+            return <Tag key={i} text={item} />;
           })}
         </div>
-      )
+      );
     }
-
 
     return (
       <div className="">
-
         {this.state.tags.map((item, i) => {
-          console.log(item);
-          return (
-            <Tag key={i} text={item} />
-          )
+          return <Tag key={i} text={item} />;
         })}
 
         {this.state.predictedTags.map((item, i) => {
@@ -126,14 +102,18 @@ class Tags extends Component {
               <Tag key={i} text={tag} />
               <p>Probability: {probability}</p>
             </div>
-          )
+          );
         })}
 
-        <input type="text" value={this.state.newTag} onChange={this.handleChange} />
+        <input
+          type="text"
+          value={this.state.newTag}
+          onChange={this.handleChange}
+        />
         <button onClick={this.handleClick}>Добавить</button>
         <button onClick={this.saveTags}>Сохранить</button>
       </div>
-    )
+    );
   }
 }
 

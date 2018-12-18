@@ -144,7 +144,7 @@ class TodayPageContainer extends Component {
         window.history.pushState(filter, null, `events?day=${filter}`);
         this.loadEvents();
       }
-        
+
     });
   }
 
@@ -155,7 +155,7 @@ class TodayPageContainer extends Component {
   handleCalendarChange(date) {
     this.props.resetEvents();
     const formattedDate = moment(date).format('DD_MM_YYYY');
-    this.setState({ calendarDate: date, isShowCalendar: false,       offset: 0, formattedCalendarDate: formattedDate }, () => {
+    this.setState({ calendarDate: date, isShowCalendar: false, offset: 0, formattedCalendarDate: formattedDate }, () => {
       window.history.pushState(formattedDate, null, `events?day=${formattedDate}`);
       this.loadEvents();
     });
@@ -165,7 +165,7 @@ class TodayPageContainer extends Component {
     if (this.state.preload.includes(id) || this.props.eventInfo.data[id]) {
       return;
     }
-    
+
     const state = [...this.state.preload];
     state.push(id);
 
@@ -195,7 +195,7 @@ class TodayPageContainer extends Component {
           <div>
             <TodayPage events={this.props.events.data.model} currentFilter={this.state.currentFilter} handleMouseOver={this.handleMouseOver} />
 
-            {this.props.events.data.model.length < this.props.events.data.totalCount && !this.props.events.isLoading && 
+            {this.props.events.data.model.length < this.props.events.data.totalCount && !this.props.events.isLoading &&
               <button className="btn btn-link show-more" onClick={this.loadMore}>Показать еще</button>}
           </div>
         }
@@ -212,7 +212,7 @@ class TodayPageContainer extends Component {
 }
 
 const mapStateToProps = ({ events, event }) => {
-  return {events, eventInfo: event }
+  return { events, eventInfo: event }
 };
 
 TodayPageContainer.propTypes = propTypes;
