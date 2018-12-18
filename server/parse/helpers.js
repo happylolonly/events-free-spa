@@ -88,7 +88,11 @@ export const saveEventItemToDB = (results) => {
     const updateEvent = (_id, item) => {
       // const { date, title, originalLink, source, text, images, location, contacts } = item;
       const obj = Object.assign({}, item);
-      Event.update({_id}, obj, {overwrite: true})
+
+
+      // TODO: refactor this ditch
+      Event.findByIdAndUpdate(_id, obj)
+      // Event.update({_id}, obj, {overwrite: true})
       .then(() => {
           clearHash(_id.toString());
           console.log('update event', item.source);
@@ -127,10 +131,12 @@ export const saveEventItemToDB = (results) => {
           delete checkItem.status;
 
           const dat = data[0].toObject();
-          
+
           delete dat.status;
           delete dat._id;
           delete dat.__v;
+
+          item.tags = obj.tags;
 
           if (
             // item.title !== data[0].title ||
