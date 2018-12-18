@@ -136,7 +136,8 @@ export const saveEventItemToDB = (results) => {
           delete dat._id;
           delete dat.__v;
 
-          item.tags = obj.tags;
+
+          item.tags = dat.tags || []; // костыль!!!
 
           if (
             // item.title !== data[0].title ||
