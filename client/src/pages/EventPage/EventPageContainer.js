@@ -40,12 +40,12 @@ class EventPageContainer extends Component {
       return <Loader />;
     }
 
-    const { title, text, date, images, contacts, location, _id: id } = this.props.event.data[this.props.match.params.id];
+    const { title, text, date, images, contacts, location, _id: id, tags } = this.props.event.data[this.props.match.params.id];
     return (
       <div className="event-page-container">
         <Helmet>
           <title>{title}</title>
-          <meta property="og:title" content={title}/>
+          <meta property="og:title" content={title} />
           <meta property="og:url" content={`https://www.eventsfree.by/event/${id}`} />
           {images.length && <meta property="og:image" content={images[0]} />}
         </Helmet>
@@ -59,6 +59,7 @@ class EventPageContainer extends Component {
           location={location}
           routerHistory={this.props.history}
           routerLocation={this.props.location}
+          tags={tags}
         />
       </div>
     )
@@ -66,7 +67,7 @@ class EventPageContainer extends Component {
 }
 
 const mapStateToProps = ({ event }) => {
-  return {event}
+  return { event }
 }
 
 EventPageContainer.propTypes = propTypes;

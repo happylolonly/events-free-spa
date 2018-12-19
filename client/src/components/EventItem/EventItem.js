@@ -22,7 +22,7 @@ const propTypes = {
 }
 
 const EventItem = ({ date, title, link, originalLink, source, mouseOver, adminMode, tags }) => {
-
+  console.log(tags)
   return (
     <div className="event-item" onMouseOver={mouseOver}>
       <header>
@@ -35,7 +35,7 @@ const EventItem = ({ date, title, link, originalLink, source, mouseOver, adminMo
       <p className="source">Источник: <a target="_blank" href={`http://${source}${originalLink}`}>{source}</a></p>
       <div className="tag__container">
         {tags.map((text, i) => (
-          <Tag text={text} key={i} />
+          < Tag text={text} key={i} />
         ))}
       </div>
     </div>
