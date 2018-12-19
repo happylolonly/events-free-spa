@@ -20,9 +20,10 @@ class Tags extends Component {
 
     this.state = {
       tags: [],
-      newTag: "",
-      predictedTags: []
-    };
+      newTag: '',
+      prTags: '',
+      predictedTags: [],
+    }
   }
 
   componentDidMount() {
@@ -68,11 +69,12 @@ class Tags extends Component {
           id
         }
       });
-      const predictedTags = data.data;
+      const { prediction, tags } = data.data;
 
       this.setState({
-        predictedTags
-      });
+        predictedTags: prediction,
+        prTags: JSON.stringify(tags),
+      })
     } catch (error) {
       console.log(error);
     }
@@ -94,6 +96,10 @@ class Tags extends Component {
         {this.state.tags.map((item, i) => {
           return <Tag key={i} text={item} />;
         })}
+
+        <hr />
+        <p>{this.state.prTags}</p>
+        <hr />
 
         {this.state.predictedTags.map((item, i) => {
           const { tag, probability } = item;

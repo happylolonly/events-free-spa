@@ -14,6 +14,6 @@ const Tag = ({ text }) => {
   );
 };
 
-Tag.prototype = propTypes;
+Tag.propTypes = propTypes;
 
 export default Tag;
