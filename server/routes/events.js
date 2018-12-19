@@ -362,6 +362,10 @@ module.exports = (app) => {
       text: event.toObject().text,
     });
 
+    const data2 = await axios.post('https://python-ml-server.herokuapp.com/tags', {
+      text: event.toObject().text,
+    });
+
     const prediction = data.data.scores.map(item => {
       const { name, number } = item;
 
@@ -371,7 +375,10 @@ module.exports = (app) => {
       }
     });
 
-    res.send(prediction);
+    res.send({
+      prediction,
+      tags: data2.data.scores
+    });
   });
 
 }
