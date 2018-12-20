@@ -358,11 +358,14 @@ module.exports = (app) => {
 
     const event = await Event.findById(id);
 
-    const data = await axios.post('https://python-ml-server.herokuapp.com/', {
+    const url = 'https://python-ml-server.herokuapp.com/';
+    // const url = 'http://0.0.0.0:5000/';
+
+    const data = await axios.post(url, {
       text: event.toObject().text,
     });
 
-    const data2 = await axios.post('https://python-ml-server.herokuapp.com/tags', {
+    const data2 = await axios.post(`${url}tags`, {
       text: event.toObject().text,
     });
 
