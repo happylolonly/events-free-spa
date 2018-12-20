@@ -324,10 +324,10 @@ module.exports = (app) => {
 
     const events = await Event.find({
       // need today+
-      date: { $gte: Date.parse(new Date()) - 1000 * 60 * 60 * 24 },
+      date: { $gte: Date.parse(new Date()) - 1000 * 60 * 60 * 50*15 },
       $where: "!this.tags || this.tags.length < 1", // fix
       status: { $ne: 'rejected' },
-    }).sort({ date: 1 }).limit(10);
+    }).sort({ date: 1 }).limit(50);
 
     res.send(events);
   });
