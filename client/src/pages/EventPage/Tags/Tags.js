@@ -19,7 +19,7 @@ class Tags extends Component {
     super(props);
 
     this.state = {
-      tags: [],
+      tags: this.props.tags,
       newTag: '',
       prTags: '',
       predictedTags: [],
@@ -56,9 +56,10 @@ class Tags extends Component {
 
     if (this.state.newTag) {
       this.setState({
-        tags: [...this.state.tags, this.state.newTag], // check dyplicates
-        newTag: ""
-      });
+        tags: [...this.state.tags, ...this.state.newTag.split(' ')], // check dyplicates
+        newTag: ''
+      })
+
     }
   };
 
@@ -73,7 +74,7 @@ class Tags extends Component {
 
       this.setState({
         predictedTags: prediction,
-        prTags: JSON.stringify(tags),
+        prTags: JSON.stringify(tags).replace(/__label__/g, ''),
       })
     } catch (error) {
       console.log(error);

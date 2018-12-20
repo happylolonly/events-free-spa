@@ -324,8 +324,8 @@ module.exports = (app) => {
 
     const events = await Event.find({
       // need today+
-      date: { $gte: Date.parse(new Date()) - 1000 * 60 * 60 * 12 },
-      tags: { $size: 0 }, // fix
+      date: { $gte: Date.parse(new Date()) - 1000 * 60 * 60 * 24 },
+      $where: "!this.tags || this.tags.length < 1", // fix
       status: { $ne: 'rejected' },
     }).sort({ date: 1 }).limit(10);
 
@@ -342,7 +342,7 @@ module.exports = (app) => {
         tags,
       });
 
-      console.log(event.toObject());
+      // console.log(event.toObject());
 
     } catch (error) {
       console.log(error);
