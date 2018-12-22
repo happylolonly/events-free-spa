@@ -4,6 +4,18 @@
   .event-sources {
     text-align: center;
     margin: 5px;
+    color: #333333;
+    font-size: 14px;
+
+    a {
+      text-decoration: none;
+      color: #337ab7;
+
+      &:hover,
+      &:focus {
+        color: lighten(#337ab7, 15%);
+      }
+    }
   }
 
   h3 {
@@ -51,7 +63,7 @@
     }
 
     > div {
-      margin: 15px auto;  
+      margin: 15px auto;
     }
   }
 }

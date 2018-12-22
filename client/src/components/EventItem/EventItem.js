@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import moment from 'moment';
+import moment, { now } from 'moment';
 import 'moment/locale/ru';
 
 import './EventItem.scss';
@@ -22,13 +22,16 @@ const propTypes = {
 }
 
 const EventItem = ({ date, title, link, originalLink, source, mouseOver, adminMode, tags }) => {
-  console.log(tags)
+
+  const nowDate = moment().locale('ru').format('D MMMM');
+  const eventDate = moment(date).locale('ru').format('D MMMM');
+
   return (
     <div className="event-item" onMouseOver={mouseOver}>
       <header>
         <Link to={`/${adminMode ? 'check' : 'event'}/${link}`}>{title}</Link>
         <div>
-          <span className="date">{moment(date).locale('ru').format('D MMMM YYYY')}</span>
+          <span className="date">{nowDate === eventDate ? 'Сегодня' : eventDate}</span>
           <span className="time">{moment(date).locale('ru').format('HH:mm') !== '00:00' ? moment(date).locale('ru').format('HH:mm') : 'Время не указано'}</span>
         </div>
       </header>
