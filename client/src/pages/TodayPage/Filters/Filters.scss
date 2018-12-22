@@ -3,8 +3,14 @@
 .filters {
   display: flex;
   justify-content: center;
-  // padding: 0 15%;
   margin: 50px 0;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    max-width: 300px;
+    margin-right: auto;
+    margin-left: auto;
+  }
 
   button {
     border: none;
@@ -12,33 +18,20 @@
     margin: 0;
     min-width: 150px;
     height: 40px;
-    background: white;
-    // border: 1px solid #ff662c;
-    border-right: none;
-    border-radius: 0px;
-    // color: #ff662c;
-    // font-weight: bold;
-
+    font-size: 14px;
+    background-color: #ffffff;
     box-shadow: 0px 0px 2px gray;
-
-    &:last-child {
-      // border-right: 1px solid #ff662c;
-    }
+    cursor: pointer;
   }
 
   .filter-active {
-    // background-color: #ff662c;
     background-color: $primary-color;
-    color: white;
-    // font-weight: bold;
+    color: #ffffff;
   }
+}
 
-  @media (max-width: 650px) {
-    flex-direction: column;
-    align-items: center;
-
-    button {
-      width: 150px;
-    }
+.today-page-container > .filters > button {
+  @media screen and (max-width: 992px) {
+    min-width: 110px;
   }
 }
