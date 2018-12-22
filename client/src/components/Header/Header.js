@@ -10,15 +10,17 @@ const Header = () => {
   return (
     <div className="header">
       <div className="title">
-        <span>Events Free {isChristmasHolidays() && <Santa />}</span>
-        <p>Все бесплатные мероприятия в одном месте</p>
+        <span className="title__main">Events Free {isChristmasHolidays() && <Santa />}</span>
+        <span className="title__sub">Все бесплатные мероприятия в одном месте</span>
       </div>
-      <ul>
-        <li><Link to='/events'>Мероприятия</Link></li>
-        <li><Link to='/weekevents'>На неделю</Link></li>
-        <li><Link to='/about'>О приложении</Link></li>
-        <li><Link to='/settings'>Настройки</Link></li>
-      </ul>
+      <nav className="nav">
+        <ul className="nav__list">
+          <li className="nav__item"><Link to='/events'>Мероприятия</Link></li>
+          <li className="nav__item"><Link to='/weekevents'>На неделю</Link></li>
+          <li className="nav__item"><Link to='/about'>О приложении</Link></li>
+          <li className="nav__item"><Link to='/settings'>Настройки</Link></li>
+        </ul>
+      </nav>
     </div>
   )
 }
