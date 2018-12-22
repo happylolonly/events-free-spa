@@ -352,36 +352,30 @@ module.exports = (app) => {
     res.send(200);
   });
 
-
   app.get('/api/event-tag-predict', async (req, res) => {
     const { id } = req.query;
 
     const event = await Event.findById(id);
+    const { text } = event.toObject();
 
-    const url = 'https://python-ml-server.herokuapp.com/';
+    const url = 'https://python-ml-server.herokuapp.com';
     // const url = 'http://0.0.0.0:5000/';
 
-    const data = await axios.post(url, {
-      text: event.toObject().text,
-    });
+    try {
+      const data = await Promise.all([
+        axios.post(`${url}/lda`, { text }),
+        axios.post(`${url}/tags`, { text }),
+      ]);
 
-    const data2 = await axios.post(`${url}tags`, {
-      text: event.toObject().text,
-    });
+      const topics = data[0].data;
+      const tags = data[1].data;
 
-    const prediction = data.data.scores.map(item => {
-      const { name, number } = item;
+      res.send({ topics, tags });
+    } catch (error) {
 
-      return {
-        tag: name,
-        probability: number / 100,
-      }
-    });
+      res.status(500).send(error.response.statusText);
+    }
 
-    res.send({
-      prediction,
-      tags: data2.data.scores
-    });
   });
 
 }
