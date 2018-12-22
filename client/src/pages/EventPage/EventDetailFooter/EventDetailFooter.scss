@@ -11,9 +11,20 @@
     }
 
     .btn-link {
+        padding-left: 0;
         outline: none;
+        background-color: transparent;
+        border: none;
+        color: #337ab7;
+        font-size: 14px;
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+          color: lighten(#337ab7, 10%);
+        }
     }
 
     }
-    
+
   }

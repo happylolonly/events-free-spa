@@ -5,7 +5,7 @@
 
   min-height: 800px;
 
-  
+
 
   header {
     display: flex;
@@ -17,6 +17,15 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      text-decoration: none;
+      color: #337ab7;
+      font-size: 14px;
+      transition: color 0.3s ease;
+
+      &:hover,
+      &:focus {
+        color: #23527c;
+      }
 
       // color: #8144f2;
 

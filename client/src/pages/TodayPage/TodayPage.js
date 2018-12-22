@@ -32,11 +32,11 @@ const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
 
         const monthRU = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
-        return <h3>Мероприятия на {`${+day} ${monthRU[+month - 1].toLowerCase()}`}</h3>
+        return <h3 className="today-page__title">Мероприятия на {`${+day} ${monthRU[+month - 1].toLowerCase()}`}</h3>
       case 'past':
-        return <h3>Прошедшие мероприятия</h3>
+        return <h3 className="today-page__title">Прошедшие мероприятия</h3>
       default:
-        return <h3>Все мероприятия</h3>
+        return <h3 className="today-page__title">Все мероприятия</h3>
     }
   }
   return (

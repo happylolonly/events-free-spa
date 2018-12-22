@@ -7,6 +7,10 @@
     color: #333333;
     font-size: 14px;
 
+    @media screen and (max-width: 480px) {
+      font-size: 12px;
+    }
+
     a {
       text-decoration: none;
       color: #337ab7;
@@ -21,6 +25,12 @@
   h3 {
     margin-top: 60px;
     margin-bottom: 70px;
+
+    @media screen and (max-width: 480px) {
+      font-size: 23px;
+      margin-top: 50px;
+      margin-bottom: 40px;
+    }
   }
 
   > div > button {
@@ -42,6 +52,16 @@
 
   .show-more {
     margin: 20px auto;
+    background-color: transparent;
+    border: none;
+    color: #337ab7;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      color: lighten(#337ab7, 15%);
+    }
   }
 
   .no-results {
@@ -65,5 +85,18 @@
     > div {
       margin: 15px auto;
     }
+  }
+}
+
+.btn-toggle-calendar {
+  border: none;
+  background-color: transparent;
+  color: #337ab7;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: lighten(#337ab7, 15%);
   }
 }

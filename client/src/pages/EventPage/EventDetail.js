@@ -56,10 +56,10 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, router
             image.src = src;
 
             return image.complete;
-        }
+          }
 
 
-        if (!navigator.onLine && !is_cached(item)) return null;
+          if (!navigator.onLine && !is_cached(item)) return null;
 
 
           return <img key={item} src={item} alt={item} />
@@ -77,7 +77,7 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, router
           routerHistory={routerHistory}
         />
 
-        <hr/>
+        <hr />
 
         <EventDetailFooter
           location={location}

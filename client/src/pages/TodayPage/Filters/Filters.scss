@@ -7,9 +7,6 @@
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    max-width: 300px;
-    margin-right: auto;
-    margin-left: auto;
   }
 
   button {
@@ -18,20 +15,27 @@
     margin: 0;
     min-width: 150px;
     height: 40px;
-    font-size: 14px;
-    background-color: #ffffff;
+    background: white;
     box-shadow: 0px 0px 2px gray;
     cursor: pointer;
+    font-size: 14px;
   }
 
   .filter-active {
     background-color: $primary-color;
-    color: #ffffff;
+    color: white;
   }
 }
 
 .today-page-container > .filters > button {
   @media screen and (max-width: 992px) {
-    min-width: 110px;
+    min-width: 140px;
+  }
+
+  @media screen and (max-width: 768px) {
+    max-width: 300px;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
   }
 }

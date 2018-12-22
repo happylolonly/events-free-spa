@@ -23,15 +23,12 @@ const propTypes = {
 
 const EventItem = ({ date, title, link, originalLink, source, mouseOver, adminMode, tags }) => {
 
-  const nowDate = moment().locale('ru').format('D MMMM');
-  const eventDate = moment(date).locale('ru').format('D MMMM');
-
   return (
     <div className="event-item" onMouseOver={mouseOver}>
       <header>
         <Link to={`/${adminMode ? 'check' : 'event'}/${link}`}>{title}</Link>
         <div>
-          <span className="date">{nowDate === eventDate ? 'Сегодня' : eventDate}</span>
+          <span className="date">{moment(date).locale('ru').format('D MMMM YYYY')}</span>
           <span className="time">{moment(date).locale('ru').format('HH:mm') !== '00:00' ? moment(date).locale('ru').format('HH:mm') : 'Время не указано'}</span>
         </div>
       </header>
