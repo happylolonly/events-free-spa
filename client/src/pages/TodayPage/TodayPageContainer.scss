@@ -36,12 +36,6 @@
     text-align: center;
   }
 
-  .scroll-up-button {
-    position: absolute;
-    bottom: 100px;
-    left: 100px;
-  }
-
   .calendar-wrapper {
     display: flex;
     flex-direction: column;
@@ -51,7 +45,7 @@
     }
 
     > div {
-      margin: 15px auto;  
+      margin: 15px auto;
     }
   }
 }
