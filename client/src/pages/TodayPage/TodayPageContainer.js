@@ -207,7 +207,7 @@ class TodayPageContainer extends Component {
             <p>Попробуй изменить откуда получать мероприятия в <Link to="/settings">настройках</Link></p>
           </div>
         }
-        <ScrollUpButton scrollStep="50" delay="15" />
+        <ScrollUpButton />
       </div>
     )
   }
