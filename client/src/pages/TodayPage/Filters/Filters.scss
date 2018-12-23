@@ -19,11 +19,17 @@
     box-shadow: 0px 0px 2px gray;
     cursor: pointer;
     font-size: 14px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      color: #ffffff;
+      background-color: $primary-color;
+    }
   }
 
   .filter-active {
     background-color: $primary-color;
-    color: white;
+    color: #ffffff;
   }
 }
 

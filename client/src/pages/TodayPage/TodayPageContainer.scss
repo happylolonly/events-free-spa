@@ -1,10 +1,12 @@
+@import '../../constants/style/colors';
+
 .today-page-container {
   // min-height: 800px;
 
   .event-sources {
     text-align: center;
     margin: 5px;
-    color: #333333;
+    color: $text-color--muted;
     font-size: 14px;
 
     @media screen and (max-width: 480px) {
@@ -13,11 +15,12 @@
 
     a {
       text-decoration: none;
-      color: #337ab7;
+      color: $link-color;
 
       &:hover,
       &:focus {
-        color: lighten(#337ab7, 15%);
+        text-decoration: underline;
+        color: $link-color--hover;
       }
     }
   }
@@ -54,13 +57,14 @@
     margin: 20px auto;
     background-color: transparent;
     border: none;
-    color: #337ab7;
+    color: $link-color;
     font-size: 14px;
     cursor: pointer;
 
     &:hover,
     &:focus {
-      color: lighten(#337ab7, 15%);
+      text-decoration: underline;
+      color: $link-color--hover;
     }
   }
 
@@ -91,12 +95,11 @@
 .btn-toggle-calendar {
   border: none;
   background-color: transparent;
-  color: #337ab7;
-  font-size: 14px;
+  color: $link-color;
   cursor: pointer;
 
   &:hover,
   &:focus {
-    color: lighten(#337ab7, 15%);
+    color: $link-color--hover;
   }
 }

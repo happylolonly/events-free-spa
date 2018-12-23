@@ -1,14 +1,16 @@
+@import '../../constants/style/colors';
+
 .about-page {
   text-align: center;
 
   a {
-    color: #337ab7;
+    color: $link-color;
     text-decoration: none;
     transition: color 0.3s ease;
 
     &:hover,
     &:focus {
-      color: #23527c;
+      color: $link-color--hover;
       text-decoration: underline;
     }
   }

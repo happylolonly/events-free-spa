@@ -1,5 +1,7 @@
+@import '../../../constants/style/colors';
+
 .checkbox {
   label {
-    color: #333333;
+    color: $text-color--muted;
   }
 }
