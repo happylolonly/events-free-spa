@@ -322,12 +322,22 @@ module.exports = (app) => {
   // maybe change
   app.get('/api/events-for-tagging', async (req, res) => {
 
-    const events = await Event.find({
-      // need today+
-      date: { $gte: Date.parse(new Date()) - 1000 * 60 * 60 * 50*15 },
-      $where: "!this.tags || this.tags.length < 1", // fix
-      status: { $ne: 'rejected' },
-    }).sort({ date: 1 }).limit(50);
+    async function find ({ past }) {
+      const events = await Event.find({
+        // if no future events, find previous (for machine learning labeling)
+        date: { $gte: Date.parse(new Date()) - 1000 * 60 * 60 * 24 * (!past ? 1 : 2 * 30) },
+        $where: "!this.tags || this.tags.length < 1", // fix
+        status: { $ne: 'rejected' },
+      }).sort({ date: 1 }).limit(10);
+
+      return events;
+    }
+
+    let events = await(find({}));
+
+    if (events.length === 0) {
+      events = await(find({ past: true }));
+    }
 
     res.send(events);
   });
@@ -341,8 +351,6 @@ module.exports = (app) => {
       const event = await Event.findByIdAndUpdate(id, {
         tags,
       });
-
-      // console.log(event.toObject());
 
     } catch (error) {
       console.log(error);
