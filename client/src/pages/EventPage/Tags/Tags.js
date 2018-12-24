@@ -77,10 +77,11 @@ class Tags extends Component {
     // const { tags, newTag } = this.state;
     // const tags = [ ...this.state.tags ];
     // tags.push(newTag);
+    // this.state.newTag.split(' ')
 
     if (this.state.newTag) {
       this.setState({
-        tags: [...this.state.tags, ...this.state.newTag.split(' ')], // check dyplicates
+        tags: [...this.state.tags, this.state.newTag], // check dyplicates
         newTag: ''
       })
 
@@ -89,12 +90,17 @@ class Tags extends Component {
 
   renderPredictionTags() {
 
-    function renderTags (items) {
+
+    const renderTags = (items) => {
       return items.map((item, i) => {
         const { label, probability } = item;
         return (
           <div>
-            <Tag key={i} text={label} />
+            <Tag key={i} text={label} onClick={() => {
+              this.setState({
+                tags: [...this.state.tags, label],
+              })
+            }} />
             <p>{probability}%</p>
           </div>
         );
@@ -134,6 +140,8 @@ class Tags extends Component {
         {this.state.tags.map((item, i) => {
           return <Tag key={i} text={item} />;
         })}
+
+        <hr />
 
         {Object.keys(this.state.predictions).length && this.renderPredictionTags()}
 
