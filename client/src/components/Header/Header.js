@@ -15,7 +15,7 @@ const Header = () => {
       </div>
       <ul>
         <li><Link to='/events'>Мероприятия</Link></li>
-        <li><Link to='/weekevents'>На неделю</Link></li>
+        {/* <li><Link to='/weekevents'>На неделю</Link></li> */}
         <li><Link to='/about'>О приложении</Link></li>
         <li><Link to='/settings'>Настройки</Link></li>
       </ul>
