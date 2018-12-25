@@ -22,7 +22,7 @@ class ScrollUpButton extends Component {
   }
 
   handleScroll = (e) => {
-    window.pageYOffset > 300 ? this.setState({ showButton: true }) : this.setState({ showButton: false })
+    this.setState({ showButton: window.pageYOffset > 300 })
   }
 
   scrollStep = () => {
@@ -36,19 +36,18 @@ class ScrollUpButton extends Component {
   scrollToTop() {
     const delay = 15;
     this.interval = setInterval(this.scrollStep, delay);
-    // this.setState({ interval: interval });
   }
 
   render() {
     const { showButton } = this.state;
-    if (showButton) {
-      return (
-        <button className="scroll-up-button" onClick={() => { this.scrollToTop() }}>
-          Вверх
-        </button>
-      )
+    if (!showButton) {
+      return null;
     }
-    return null;
+    return (
+      <button className="scroll-up-button" onClick={() => { this.scrollToTop() }}>
+        Вверх
+      </button>
+    )
   }
 }
 
