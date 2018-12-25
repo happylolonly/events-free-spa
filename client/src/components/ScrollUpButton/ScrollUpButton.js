@@ -21,8 +21,8 @@ class ScrollUpButton extends Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
-  handleScroll = (e) => {
-    this.setState({ showButton: window.pageYOffset > 300 })
+  handleScroll = () => {
+    this.setState({ showButton: window.pageYOffset > 300 });
   }
 
   scrollStep = () => {
@@ -40,11 +40,13 @@ class ScrollUpButton extends Component {
 
   render() {
     const { showButton } = this.state;
+
     if (!showButton) {
       return null;
     }
+
     return (
-      <button className="scroll-up-button" onClick={() => { this.scrollToTop() }}>
+      <button className="scroll-up-button" onClick={this.scrollToTop}>
         Вверх
       </button>
     )
