@@ -10,7 +10,6 @@ const propTypes = {
 class ScrollUpButton extends Component {
 
   state = {
-    interval: 0,
     showButton: false
   }
 
@@ -27,15 +26,17 @@ class ScrollUpButton extends Component {
   }
 
   scrollStep = () => {
+    const scrollStep = 50;
     if (window.pageYOffset === 0) {
-      clearInterval(this.state.interval);
+      clearInterval(this.interval);
     }
-    window.scroll(0, window.pageYOffset - 50);
+    window.scroll(0, window.pageYOffset - scrollStep);
   }
 
   scrollToTop() {
-    let interval = setInterval(this.scrollStep, 15);
-    this.setState({ interval: interval });
+    const delay = 15;
+    this.interval = setInterval(this.scrollStep, delay);
+    // this.setState({ interval: interval });
   }
 
   render() {
