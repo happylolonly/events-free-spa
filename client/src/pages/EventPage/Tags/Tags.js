@@ -101,7 +101,7 @@ class Tags extends Component {
                 tags: [...this.state.tags, label],
               })
             }} />
-            <p>{probability}%</p>
+            <p>{probability * 100} %</p>
           </div>
         );
       })
@@ -143,7 +143,7 @@ class Tags extends Component {
 
         <hr />
 
-        {Object.keys(this.state.predictions).length && this.renderPredictionTags()}
+        {Object.keys(this.state.predictions).length > 0 && this.renderPredictionTags()}
 
         <input
           type="text"
