@@ -16,7 +16,7 @@ const Header = () => {
       <nav className="nav">
         <ul className="nav__list">
           <li className="nav__item"><Link to='/events'>Мероприятия</Link></li>
-          <li className="nav__item"><Link to='/weekevents'>На неделю</Link></li>
+          {/* <li className="nav__item"><Link to='/weekevents'>На неделю</Link></li> */}
           <li className="nav__item"><Link to='/about'>О приложении</Link></li>
           <li className="nav__item"><Link to='/settings'>Настройки</Link></li>
         </ul>

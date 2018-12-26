@@ -322,12 +322,22 @@ module.exports = (app) => {
   // maybe change
   app.get('/api/events-for-tagging', async (req, res) => {
 
-    const events = await Event.find({
-      // need today+
-      date: { $gte: Date.parse(new Date()) - 1000 * 60 * 60 * 50*15 },
-      $where: "!this.tags || this.tags.length < 1", // fix
-      status: { $ne: 'rejected' },
-    }).sort({ date: 1 }).limit(50);
+    async function find ({ past }) {
+      const events = await Event.find({
+        // if no future events, find previous (for machine learning labeling)
+        date: { $gte: Date.parse(new Date()) - 1000 * 60 * 60 * 24 * (!past ? 1 : 2 * 30) },
+        $where: "!this.tags || this.tags.length < 1", // fix
+        status: { $ne: 'rejected' },
+      }).sort({ date: 1 }).limit(10);
+
+      return events;
+    }
+
+    let events = await(find({}));
+
+    if (events.length === 0) {
+      events = await(find({ past: true }));
+    }
 
     res.send(events);
   });
@@ -342,8 +352,6 @@ module.exports = (app) => {
         tags,
       });
 
-      // console.log(event.toObject());
-
     } catch (error) {
       console.log(error);
 
@@ -352,36 +360,30 @@ module.exports = (app) => {
     res.send(200);
   });
 
-
   app.get('/api/event-tag-predict', async (req, res) => {
     const { id } = req.query;
 
     const event = await Event.findById(id);
+    const { text } = event.toObject();
 
-    const url = 'https://python-ml-server.herokuapp.com/';
+    const url = 'https://python-ml-server.herokuapp.com';
     // const url = 'http://0.0.0.0:5000/';
 
-    const data = await axios.post(url, {
-      text: event.toObject().text,
-    });
+    try {
+      const data = await Promise.all([
+        axios.post(`${url}/lda`, { text }),
+        axios.post(`${url}/tags`, { text }),
+      ]);
 
-    const data2 = await axios.post(`${url}tags`, {
-      text: event.toObject().text,
-    });
+      const topics = data[0].data;
+      const tags = data[1].data;
 
-    const prediction = data.data.scores.map(item => {
-      const { name, number } = item;
+      res.send({ topics, tags });
+    } catch (error) {
 
-      return {
-        tag: name,
-        probability: number / 100,
-      }
-    });
+      res.status(500).send(error.response.statusText);
+    }
 
-    res.send({
-      prediction,
-      tags: data2.data.scores
-    });
   });
 
 }

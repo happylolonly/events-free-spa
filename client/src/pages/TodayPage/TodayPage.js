@@ -55,7 +55,6 @@ const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
             source={source}
 
             mouseOver={() => handleMouseOver(id)}
-            adminMode={false}
             tags={tags}
           />
         )

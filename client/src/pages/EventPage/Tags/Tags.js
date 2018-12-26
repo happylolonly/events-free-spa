@@ -1,33 +1,57 @@
+/**
+ * Component show tags on event's page and allow to check them on admin's
+ */
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+
+import Tag from "../../../components/Tag/Tag";
 
 import axios from "axios";
 import { API } from "constants/config";
 
-import Tag from "../../../components/Tag/Tag";
+import './Tags.scss';
+
 
 const propTypes = {
   tags: PropTypes.array.isRequired,
-  id: PropTypes.string.isRequired
-  //routerHistory
-  // adminMode
-  // unconfirmedTags
+  id: PropTypes.string.isRequired,
+  routerHistory: PropTypes.object.isRequired,
+  adminMode: PropTypes.bool,
+  // unconfirmedTags: PropTypes.array.isRequired
 };
 
 class Tags extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      tags: this.props.tags,
-      newTag: '',
-      prTags: '',
-      predictedTags: [],
-    }
+  state = {
+    tags: this.props.tags,
+    newTag: '',
+    predictions: {},
   }
 
   componentDidMount() {
     this.predict(this.props.id);
+  }
+
+  async predict(id) {
+    try {
+      const data = await axios.get(`${API}/event-tag-predict`, {
+        params: {
+          id
+        }
+      });
+
+      const { topics, tags } = data.data;
+
+      this.setState({
+        predictions: {
+          topics,
+          tags
+        }
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   saveTags = async () => {
@@ -44,41 +68,60 @@ class Tags extends Component {
   };
 
   handleChange = event => {
-    const newTag = event.target.value;
+    const { value } = event.target;
 
-    this.setState({ newTag });
+    this.setState({ newTag: value });
   };
 
   handleClick = () => {
     // const { tags, newTag } = this.state;
     // const tags = [ ...this.state.tags ];
     // tags.push(newTag);
+    // this.state.newTag.split(' ')
 
     if (this.state.newTag) {
       this.setState({
-        tags: [...this.state.tags, ...this.state.newTag.split(' ')], // check dyplicates
+        tags: [...this.state.tags, this.state.newTag], // check dyplicates
         newTag: ''
       })
 
     }
   };
 
-  async predict(id) {
-    try {
-      const data = await axios.get(`${API}/event-tag-predict`, {
-        params: {
-          id
-        }
-      });
-      const { prediction, tags } = data.data;
+  renderPredictionTags() {
 
-      this.setState({
-        predictedTags: prediction,
-        prTags: JSON.stringify(tags).replace(/__label__/g, ''),
+
+    const renderTags = (items) => {
+      return items.map((item, i) => {
+        const { label, probability } = item;
+        return (
+          <div>
+            <Tag key={i} text={label} onClick={() => {
+              this.setState({
+                tags: [...this.state.tags, label],
+              })
+            }} />
+            <p>{probability * 100} %</p>
+          </div>
+        );
       })
-    } catch (error) {
-      console.log(error);
     }
+
+    const { tags, topics } = this.state.predictions;
+
+    return (
+      <div className="predictions">
+        <div>
+          <h5>Tags</h5>
+          {renderTags(tags)}
+        </div>
+        <div>
+          <h5>Topics</h5>
+          {renderTags(topics)}
+        </div>
+      </div>
+    );
+
   }
 
   render() {
@@ -93,30 +136,23 @@ class Tags extends Component {
     }
 
     return (
-      <div className="">
+      <div className="tags">
         {this.state.tags.map((item, i) => {
           return <Tag key={i} text={item} />;
         })}
 
         <hr />
-        <p>{this.state.prTags}</p>
-        <hr />
 
-        {this.state.predictedTags.map((item, i) => {
-          const { tag, probability } = item;
-          return (
-            <div>
-              <Tag key={i} text={tag} />
-              <p>Probability: {probability}</p>
-            </div>
-          );
-        })}
+        {Object.keys(this.state.predictions).length > 0 && this.renderPredictionTags()}
 
         <input
           type="text"
           value={this.state.newTag}
           onChange={this.handleChange}
         />
+
+        {/* TODO: use common components */}
+
         <button onClick={this.handleClick}>Добавить</button>
         <button onClick={this.saveTags}>Сохранить</button>
       </div>

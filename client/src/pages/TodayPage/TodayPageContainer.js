@@ -9,6 +9,7 @@ import Search from './Search/Search';
 import Filters from './Filters/Filters';
 import TodayPage from './TodayPage';
 import { Loader, Calendar } from 'components/common';
+import ScrollUpButton from '../../components/ScrollUpButton/ScrollUpButton';
 import moment from 'moment';
 
 import { loadEvents, resetEvents, loadEvent } from 'actions/events';
@@ -206,6 +207,7 @@ class TodayPageContainer extends Component {
             <p>Попробуй изменить откуда получать мероприятия в <Link to="/settings">настройках</Link></p>
           </div>
         }
+        <ScrollUpButton />
       </div>
     )
   }
