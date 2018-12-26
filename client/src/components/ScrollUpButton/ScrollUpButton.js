@@ -33,10 +33,9 @@ class ScrollUpButton extends Component {
     window.scroll(0, window.pageYOffset - scrollStep);
   }
 
-  scrollToTop() {
+  scrollToTop = () => {
     const delay = 15;
     this.interval = setInterval(this.scrollStep, delay);
-  }
 
   render() {
     const { showButton } = this.state;
