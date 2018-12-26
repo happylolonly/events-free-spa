@@ -10,6 +10,10 @@
   padding: 15px 15%;
   padding-bottom: 5px;
 
+  @media screen and (max-width: 480px) {
+    padding: 15px 9%;
+  }
+
   > div {
     display: flex;
     justify-content: space-between;

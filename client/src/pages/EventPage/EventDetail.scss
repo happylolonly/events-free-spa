@@ -1,11 +1,10 @@
+@import '../../constants/style/colors';
+
 .event-detail {
   width: 70%;
   margin: 10px auto;
   margin-bottom: 40px;
-
   min-height: 800px;
-
-  
 
   header {
     display: flex;
@@ -18,37 +17,26 @@
       justify-content: flex-start;
       align-items: center;
 
-      // color: #8144f2;
-
-      span {
-        background-image: url('http://www.rakpetroleum.ae/extension/bytedesign_rak/design/rak/images/arrow_up_orange.svg');
-        background-size: contain;
-        background-repeat: no-repeat;
-        transform: rotate(-90deg);
-        margin-top: -7px;
-        height: 20px;
-        width: 20px;
-        display: block;
-        // width: 100px;
-        // margin-left: auto;
-        margin-right: 7px;
-        text-align: center;
-      }
-
-
       &:hover {
         text-decoration: none;
 
         span {
-          transform: rotate(-90deg) scale(1.2);
+          transform: translateX(-5px);
         }
       }
+
+      span {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='rgb(246,134,30)' viewBox='0 0 444.822 444.822'%3E%3Cpath d='M423.265 178.298c-6.2-7.14-14.23-10.707-24.126-10.707h-200.99L281.8 83.937c7.234-7.23 10.848-15.89 10.848-25.98 0-10.085-3.613-18.747-10.848-25.98l-21.413-21.13C253.156 3.62 244.6 0 234.693 0c-10.09 0-18.752 3.615-25.98 10.848L22.848 196.428c-7.043 7.423-10.564 16.084-10.564 25.98 0 10.09 3.52 18.654 10.564 25.693l185.864 186.152c7.422 7.043 16.083 10.567 25.98 10.567 10.085 0 18.65-3.524 25.693-10.567L281.8 412.56c7.234-6.85 10.848-15.42 10.848-25.693 0-10.284-3.613-18.853-10.848-25.7l-83.652-83.94h200.99c9.896 0 17.936-3.57 24.126-10.707 6.184-7.14 9.274-15.75 9.274-25.838V204.14c.004-10.09-3.1-18.702-9.273-25.84z'/%3E%3C/svg%3E");
+        background-size: 15px;
+        background-repeat: no-repeat;
+        height: 15px;
+        width: 15px;
+        display: block;
+        margin-right: 7px;
+        text-align: center;
+        transition: all 0.2s ease-in-out;
+      }
     }
-
-
-
-
-
   }
 
   section {
