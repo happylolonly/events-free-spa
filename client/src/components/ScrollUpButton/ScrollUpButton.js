@@ -36,6 +36,7 @@ class ScrollUpButton extends Component {
   scrollToTop = () => {
     const delay = 15;
     this.interval = setInterval(this.scrollStep, delay);
+  };
 
   render() {
     const { showButton } = this.state;
