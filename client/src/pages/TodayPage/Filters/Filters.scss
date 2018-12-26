@@ -25,23 +25,21 @@
       color: #ffffff;
       background-color: $primary-color;
     }
+
+    @media screen and (max-width: 992px) {
+      min-width: 140px;
+    }
+
+    @media screen and (max-width: 768px) {
+      max-width: 300px;
+      width: 100%;
+      margin-right: auto;
+      margin-left: auto;
+    }
   }
 
   .filter-active {
     background-color: $primary-color;
     color: #ffffff;
-  }
-}
-
-.today-page-container > .filters > button {
-  @media screen and (max-width: 992px) {
-    min-width: 140px;
-  }
-
-  @media screen and (max-width: 768px) {
-    max-width: 300px;
-    width: 100%;
-    margin-right: auto;
-    margin-left: auto;
   }
 }
