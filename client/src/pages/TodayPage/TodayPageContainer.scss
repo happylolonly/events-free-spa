@@ -12,17 +12,6 @@
     @media screen and (max-width: 480px) {
       font-size: 12px;
     }
-
-    a {
-      text-decoration: none;
-      color: $link-color;
-
-      &:hover,
-      &:focus {
-        text-decoration: underline;
-        color: $link-color--hover;
-      }
-    }
   }
 
   h3 {
@@ -89,17 +78,5 @@
     > div {
       margin: 15px auto;
     }
-  }
-}
-
-.btn-toggle-calendar {
-  border: none;
-  background-color: transparent;
-  color: $link-color;
-  cursor: pointer;
-
-  &:hover,
-  &:focus {
-    color: $link-color--hover;
   }
 }

@@ -1,19 +1,5 @@
-@import '../../constants/style/colors';
-
 .about-page {
   text-align: center;
-
-  a {
-    color: $link-color;
-    text-decoration: none;
-    transition: color 0.3s ease;
-
-    &:hover,
-    &:focus {
-      color: $link-color--hover;
-      text-decoration: underline;
-    }
-  }
 
   h5 {
     font-size: 16px;

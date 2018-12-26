@@ -3,11 +3,16 @@
     content: '';
     position: absolute;
     top: 0px;
-    right: -75px;
+    right: -100px;
     height: 42px;
     width: 42px;
     background-image: url('./images/santa.png');
     background-repeat: no-repeat;
     background-size: contain;
+
+    @media screen and (max-width: 992px) {
+      margin-top: -10px;
+      right: -45px;
+    }
   }
 }

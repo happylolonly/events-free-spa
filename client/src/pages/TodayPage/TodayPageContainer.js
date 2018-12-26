@@ -184,7 +184,7 @@ class TodayPageContainer extends Component {
 
         <div className="calendar-wrapper">
 
-          {this.state.currentFilter === 'certain' && <button className="btn-toggle-calendar" onClick={this.toggleCalendar}>{!this.state.isShowCalendar ? 'Показать' : 'Cкрыть'} календарь</button>}
+          {this.state.currentFilter === 'certain' && <button className="btn--link" onClick={this.toggleCalendar}>{!this.state.isShowCalendar ? 'Показать' : 'Cкрыть'} календарь</button>}
           {this.state.isShowCalendar && <Calendar value={this.state.calendarDate} onChange={this.handleCalendarChange} />}
 
         </div>

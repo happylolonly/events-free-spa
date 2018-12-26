@@ -33,6 +33,10 @@ body {
   background-color: #f7f7f7;
 }
 
+button {
+  cursor: pointer;
+}
+
 
 div.root {
   // position: relative;
@@ -85,9 +89,16 @@ hr {
   border-top: 1px solid #eee;
 }
 
-.checkbox, .radio {
-  position: relative;
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 10px;
+a, .btn--link {
+  border: none;
+  background-color: transparent;
+  text-decoration: none;
+  color: $link-color;
+  transition: color 0.2s ease;
+
+  &:hover,
+  &:focus {
+    color: $link-color--hover;
+    text-decoration: underline;
+  }
 }

@@ -49,15 +49,6 @@
       }
     }
   }
-
-  .santa::after {
-    right: -100px;
-
-    @media screen and (max-width: 992px) {
-      margin-top: -10px;
-      right: -45px;
-    }
-  }
 }
 
 .nav {

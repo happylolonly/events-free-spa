@@ -1,6 +1,12 @@
 @import '../../../constants/style/colors';
 
-.checkbox {
+.checkbox,
+.radio {
+  position: relative;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
   label {
     color: $text-color--muted;
   }

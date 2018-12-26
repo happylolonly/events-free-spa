@@ -1,32 +1,17 @@
-@import '../../../constants/style/colors';
-
 .additional-info {
 
   .first-row {
-
     display: flex;
     justify-content: space-between;
 
-  @media (max-width: 900px) {
-    text-align: center;
-    flex-direction: column;
-  }
+    @media (max-width: 900px) {
+      text-align: center;
+      flex-direction: column;
+    }
 
-  .btn-link {
+    .btn--link {
       padding-left: 0;
-      outline: none;
-      background-color: transparent;
-      border: none;
-      color: $link-color;
       font-size: 14px;
-      cursor: pointer;
-
-      &:hover,
-      &:focus {
-        color: $link-color--hover;
-      }
+    }
   }
-
-  }
-
 }
