@@ -15,7 +15,7 @@ const propTypes = {
   // title
   // id
   // contacts
-}
+};
 
 class EventDetailFooter extends Component {
   constructor(props) {
@@ -23,22 +23,18 @@ class EventDetailFooter extends Component {
 
     this.state = {
       isShowMap: false,
-    }
+    };
 
     this.handleClick = this.handleClick.bind(this);
-
   }
 
   handleClick() {
     this.setState({ isShowMap: !this.state.isShowMap });
   }
 
-
-
   render() {
     const { title, location, id, contacts, image } = this.props;
     return (
-
       <div className="additional-info">
         <div className="first-row">
           <SocialButtons
@@ -48,19 +44,19 @@ class EventDetailFooter extends Component {
             image={image}
           />
           {contacts && Object.keys(contacts).length > 0 && <Contacts contacts={contacts} />}
-          {location &&
+          {location && (
             <div>
               <Location location={location} />
-              <button className="btn--link" onClick={this.handleClick}>{!this.state.isShowMap ? 'Показать на карте' : 'Скрыть'} </button>
-
-            </div>}
+              <button className="btn--link" onClick={this.handleClick}>
+                {!this.state.isShowMap ? 'Показать на карте' : 'Скрыть'}{' '}
+              </button>
+            </div>
+          )}
         </div>
 
         {this.state.isShowMap && <Map location={this.props.location} />}
-
       </div>
-
-    )
+    );
   }
 }
 

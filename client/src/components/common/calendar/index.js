@@ -5,29 +5,22 @@ import ReactCalendar from 'react-calendar';
 import './index.scss';
 
 const propTypes = {
-    // onChange
-    // name
-    // value
-
+  // onChange
+  // name
+  // value
 };
 
-
 const Calendar = ({ onChange, value, name }) => {
+  function handleChange(date) {
+    onChange(date, name);
+  }
 
-    function handleChange(date) {
-        onChange(date, name);
-    }
-
-    return (
-        <div>
-        <ReactCalendar
-        onChange={handleChange}
-        value={value}
-        locale="ru-RU"
-        />
-  </div>
-    );
-  };
+  return (
+    <div>
+      <ReactCalendar onChange={handleChange} value={value} locale="ru-RU" />
+    </div>
+  );
+};
 
 Calendar.propTypes = propTypes;
 

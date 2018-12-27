@@ -3,11 +3,9 @@
 import puppeteer from 'puppeteer';
 import cron from 'node-cron';
 
-
 const startURL = 'https://www.onliner.by';
 const login = process.env.ONLINER_LOGIN;
 const password = process.env.ONLINER_PASSWORD;
-
 
 function init() {
   start();
@@ -23,7 +21,7 @@ async function start() {
 
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--no-sandbox']
+    args: ['--no-sandbox'],
   });
 
   const page = await browser.newPage();
@@ -61,10 +59,10 @@ async function start() {
 
 function delay(time) {
   return new Promise(resolve => {
-    setTimeout(resolve, time)
+    setTimeout(resolve, time);
   });
 }
 
 export default {
-  init
-}
+  init,
+};

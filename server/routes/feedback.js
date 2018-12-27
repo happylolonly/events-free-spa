@@ -1,17 +1,15 @@
 import Feedback from '../model/feedback';
 
-
-module.exports = (app) => {
-
+module.exports = app => {
   app.get('/feedback', (req, res) => {
     Feedback.find({})
-      .then((data) => {
+      .then(data => {
         res.send(data);
       })
       .catch(error => {
         res.status(422).send(error);
-      })
-  })
+      });
+  });
 
   app.post('/feedback', function(req, res) {
     console.log(req.body);
@@ -20,15 +18,16 @@ module.exports = (app) => {
 
     const feedback = new Feedback({ date, message });
 
-    feedback.save()
-      .then((data) => {
+    feedback
+      .save()
+      .then(data => {
         console.log('feedback saved');
         res.send('saved');
       })
       .catch(error => {
         console.log(error);
         res.status(422).send(error);
-      })
+      });
   });
 
   app.delete('/feedback', (req, res) => {
@@ -46,7 +45,6 @@ module.exports = (app) => {
       .catch(error => {
         console.log(error);
         res.status(422).send(error);
-      })
+      });
   });
-  
-}
+};

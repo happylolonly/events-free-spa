@@ -6,39 +6,40 @@ import EventList from './EventList/EventList';
 
 import './WeekEvents.scss';
 
-
 const propTypes = {
-    events: PropTypes.array.isRequired,
-    week: PropTypes.oneOf(['current', 'next']).isRequired,
-    words: PropTypes.string.isRequired,
-    handleSeachChange: PropTypes.func.isRequired,
-    handleSearchButtonClick: PropTypes.func.isRequired,
+  events: PropTypes.array.isRequired,
+  week: PropTypes.oneOf(['current', 'next']).isRequired,
+  words: PropTypes.string.isRequired,
+  handleSeachChange: PropTypes.func.isRequired,
+  handleSearchButtonClick: PropTypes.func.isRequired,
 
-    weekError: PropTypes.string,
-    wordsError: PropTypes.string,
+  weekError: PropTypes.string,
+  wordsError: PropTypes.string,
 };
 
-const WeekEvents = ({ events, week, words, handleSeachChange, handleSearchButtonClick, weekError, wordsError }) => {
+const WeekEvents = ({
+  events,
+  week,
+  words,
+  handleSeachChange,
+  handleSearchButtonClick,
+  weekError,
+  wordsError,
+}) => {
   return (
     <div className="week-events-page">
+      <h3>Мероприятия на неделю</h3>
 
-        <h3>Мероприятия на неделю</h3>
+      <Search
+        week={week}
+        words={words}
+        handleData={handleSeachChange}
+        handleClick={handleSearchButtonClick}
+        weekError={weekError}
+        wordsError={wordsError}
+      />
 
-        <Search
-            week={week}
-            words={words}
-            handleData={handleSeachChange}
-            handleClick={handleSearchButtonClick}
-
-            weekError={weekError}
-            wordsError={wordsError}
-        />
-
-        {events.length ?
-            <EventList events={events} /> :
-            <p>Ничего не найдено :(</p>
-        }
-
+      {events.length ? <EventList events={events} /> : <p>Ничего не найдено :(</p>}
     </div>
   );
 };

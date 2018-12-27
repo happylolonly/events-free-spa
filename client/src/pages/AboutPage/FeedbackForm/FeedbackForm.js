@@ -5,10 +5,7 @@ import axios from 'axios';
 
 import './FeedbackForm.scss';
 
-
-const propTypes = {
-
-}
+const propTypes = {};
 
 class FeedbackForm extends Component {
   constructor() {
@@ -18,7 +15,7 @@ class FeedbackForm extends Component {
       message: '',
 
       error: null,
-    }
+    };
 
     this.handleChange = this.handleChange.bind(this);
 
@@ -29,14 +26,14 @@ class FeedbackForm extends Component {
   handleChange(event) {
     const { value } = event.target;
 
-    this.setState({message: value, error: ''});
+    this.setState({ message: value, error: '' });
   }
 
   handleSubmit(event) {
     event.preventDefault();
     const { message } = this.state;
     if (!message) {
-      this.setState({error: 'Не отправляй, пожалуйста, нам пустые сообщения'});
+      this.setState({ error: 'Не отправляй, пожалуйста, нам пустые сообщения' });
       return;
     }
 
@@ -44,15 +41,16 @@ class FeedbackForm extends Component {
   }
 
   sendFeedback(message) {
-    axios.post('/feedback', {date: Date.now(), message})
+    axios
+      .post('/feedback', { date: Date.now(), message })
       .then(() => {
         // toastr.success('Мы получили твое сообщение!', 'Спасибо!');
-        this.setState({message: ''});
+        this.setState({ message: '' });
       })
       .catch(error => {
         console.log(error.response.data);
-        this.setState({error: 'Ой, что то пошло не так('});
-      })
+        this.setState({ error: 'Ой, что то пошло не так(' });
+      });
   }
 
   render() {
@@ -61,8 +59,12 @@ class FeedbackForm extends Component {
         <h5>Знаешь что можно сделать лучше? Напиши нам!</h5>
         <form>
           <div className="form-group">
-            <label htmlFor=""></label>
-            <textarea value={this.state.message} onChange={this.handleChange} className="form-control"></textarea>
+            <label htmlFor="" />
+            <textarea
+              value={this.state.message}
+              onChange={this.handleChange}
+              className="form-control"
+            />
           </div>
 
           {this.state.error && <div className="error">{this.state.error}</div>}
@@ -70,7 +72,7 @@ class FeedbackForm extends Component {
           <input type="submit" onClick={this.handleSubmit} value="Отправить" />
         </form>
       </div>
-    )
+    );
   }
 }
 

@@ -2,16 +2,15 @@
  * Component show tags on event's page and allow to check them on admin's
  */
 
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import Tag from "../../../components/Tag/Tag";
+import Tag from '../../../components/Tag/Tag';
 
-import axios from "axios";
-import { API } from "constants/config";
+import axios from 'axios';
+import { API } from 'constants/config';
 
 import './Tags.scss';
-
 
 const propTypes = {
   tags: PropTypes.array.isRequired,
@@ -22,12 +21,11 @@ const propTypes = {
 };
 
 class Tags extends Component {
-
   state = {
     tags: this.props.tags,
     newTag: '',
     predictions: {},
-  }
+  };
 
   componentDidMount() {
     this.predict(this.props.id);
@@ -37,8 +35,8 @@ class Tags extends Component {
     try {
       const data = await axios.get(`${API}/event-tag-predict`, {
         params: {
-          id
-        }
+          id,
+        },
       });
 
       const { topics, tags } = data.data;
@@ -46,9 +44,9 @@ class Tags extends Component {
       this.setState({
         predictions: {
           topics,
-          tags
-        }
-      })
+          tags,
+        },
+      });
     } catch (error) {
       console.log(error);
     }
@@ -58,10 +56,10 @@ class Tags extends Component {
     try {
       await axios.patch(`${API}/event-tag`, {
         id: this.props.id,
-        tags: this.state.tags
+        tags: this.state.tags,
       });
 
-      this.props.routerHistory.push("/somepath");
+      this.props.routerHistory.push('/somepath');
     } catch (error) {
       console.log(error);
     }
@@ -82,30 +80,31 @@ class Tags extends Component {
     if (this.state.newTag) {
       this.setState({
         tags: [...this.state.tags, this.state.newTag], // check dyplicates
-        newTag: ''
-      })
-
+        newTag: '',
+      });
     }
   };
 
   renderPredictionTags() {
-
-
-    const renderTags = (items) => {
+    const renderTags = items => {
       return items.map((item, i) => {
         const { label, probability } = item;
         return (
           <div>
-            <Tag key={i} text={label} onClick={() => {
-              this.setState({
-                tags: [...this.state.tags, label],
-              })
-            }} />
+            <Tag
+              key={i}
+              text={label}
+              onClick={() => {
+                this.setState({
+                  tags: [...this.state.tags, label],
+                });
+              }}
+            />
             <p>{probability * 100} %</p>
           </div>
         );
-      })
-    }
+      });
+    };
 
     const { tags, topics } = this.state.predictions;
 
@@ -121,7 +120,6 @@ class Tags extends Component {
         </div>
       </div>
     );
-
   }
 
   render() {
@@ -145,11 +143,7 @@ class Tags extends Component {
 
         {Object.keys(this.state.predictions).length > 0 && this.renderPredictionTags()}
 
-        <input
-          type="text"
-          value={this.state.newTag}
-          onChange={this.handleChange}
-        />
+        <input type="text" value={this.state.newTag} onChange={this.handleChange} />
 
         {/* TODO: use common components */}
 

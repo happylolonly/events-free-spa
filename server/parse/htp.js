@@ -1,4 +1,4 @@
-import tress  from 'tress';
+import tress from 'tress';
 import cheerio from 'cheerio';
 
 import chrono from 'chrono-node';
@@ -7,16 +7,14 @@ import axios from 'axios';
 
 import { saveEventItemToDB, convertMonths, formatDate, checkText } from './helpers';
 
-
 const URL = 'http://www.park.by/cat-38/';
 
-let results = []
+let results = [];
 let pagesCount;
 
-
 const q = tress((url, callback) => {
-
-  axios.get(url)
+  axios
+    .get(url)
     .then(data => {
       const $ = cheerio.load(data.data);
 
@@ -27,7 +25,9 @@ const q = tress((url, callback) => {
         console.log('main url', url);
         pagesCount = $('.posts_list .intro2').length;
         $('.posts_list .intro2').each((item, i) => {
-          const link = $(i).find('a').attr('href');
+          const link = $(i)
+            .find('a')
+            .attr('href');
           q.push(`http://www.park.by${link}`);
         });
         callback();
@@ -39,11 +39,18 @@ const q = tress((url, callback) => {
 
       const page = '.column2';
 
-      const title = $(page).find('.content_title h1').text().trim();
-      const html = $(page).find('.post_content').html();
+      const title = $(page)
+        .find('.content_title h1')
+        .text()
+        .trim();
+      const html = $(page)
+        .find('.post_content')
+        .html();
       const originalLink = url.split(`${URL}`)[1];
 
-      const dateBlock = $(page).find('.time').text();
+      const dateBlock = $(page)
+        .find('.time')
+        .text();
 
       const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
       // console.log(parsedDate);
@@ -69,7 +76,7 @@ const q = tress((url, callback) => {
     .catch(error => {
       callback();
       // console.log(error);
-    })
+    });
 }, 5);
 
 q.drain = () => {
@@ -78,15 +85,14 @@ q.drain = () => {
   saveEventItemToDB(results);
   results = [];
   if (pagesCount === results.length) {
-   
     // console.log(results);
   } else {
     console.log('some error happened');
   }
-}
+};
 
 const init = () => {
   q.push(URL);
-}
+};
 
 export default { init };

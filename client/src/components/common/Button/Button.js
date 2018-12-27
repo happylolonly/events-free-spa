@@ -5,7 +5,6 @@ import classnames from 'classnames';
 
 import './Button.scss';
 
-
 const propTypes = {
   text: PropTypes.string.isRequired,
   // type: PropTypes.oneOf([])
@@ -15,13 +14,7 @@ const propTypes = {
 };
 
 const Button = ({ text, type, className, onClick, ...rest }) => {
-
-  const classNames = classnames(
-    'button',
-    'btn',
-    type && `btn-${type}`,
-    className,
-  );
+  const classNames = classnames('button', 'btn', type && `btn-${type}`, className);
 
   return (
     <button className={classNames} onClick={onClick} {...rest}>

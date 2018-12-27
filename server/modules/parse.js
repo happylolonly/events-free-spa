@@ -16,7 +16,6 @@ import citydogVedy from '../parse/citydogVedy';
 import citydogAfisha from '../parse/citydogAfisha';
 import vk from '../parse/vk';
 
-
 function start(callback) {
   config.meetupBy && meetupBy.init();
   config.eventsDevBy && eventsDevBy.init();
@@ -32,7 +31,8 @@ function start(callback) {
   config.citydogAfisha && citydogAfisha.init();
 
   if (config.citydogVedy) {
-    setTimeout(() => { // citydog blocks
+    setTimeout(() => {
+      // citydog blocks
       citydogVedy.init();
     }, 1000);
   }
@@ -43,8 +43,7 @@ function start(callback) {
 
   setTimeout(() => {
     callback && callback();
-  }, 1000*30);
-
+  }, 1000 * 30);
 }
 
 // TODO: check this kostyl
@@ -57,25 +56,31 @@ function init(callback) {
 
     times = times + 1;
 
-    const log = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
-      schedule: 'test',
-      times,
-    } });
+    const log = new Log({
+      date: moment().format('DD/MM/YYYY hh:mm'),
+      data: {
+        schedule: 'test',
+        times,
+      },
+    });
 
-    log.save()
-    .then(() => {
-      console.log('log saved');
-    })
-    .catch(error => {
-      console.log(error);
+    log
+      .save()
+      .then(() => {
+        console.log('log saved');
+      })
+      .catch(error => {
+        console.log(error);
 
-      // тупо но вдруг
-      const log2 = new Log({ date: moment().format('DD/MM/YYYY hh:mm'), data: {
-        error
-      } });
+        // тупо но вдруг
+        const log2 = new Log({
+          date: moment().format('DD/MM/YYYY hh:mm'),
+          data: {
+            error,
+          },
+        });
 
-      log2.save();
-
+        log2.save();
       });
 
     start(callback);
@@ -85,4 +90,4 @@ function init(callback) {
 export default {
   init,
   start,
-}
+};

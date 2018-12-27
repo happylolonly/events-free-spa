@@ -13,12 +13,12 @@ const initialState = {
   afishaTutBy: true,
 };
 
-const saveToStorage = (data) => {
+const saveToStorage = data => {
   localStorage.setItem('events', JSON.stringify(data));
   localStorage.removeItem('savedEvents');
-}
+};
 
-export default (state=initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case types.UPDATE_SOURCES: {
       const { value, name } = action.payload;
@@ -28,9 +28,8 @@ export default (state=initialState, action) => {
 
       return newState;
     }
-  
-    case types.TOGGLE_SOURCES: {
 
+    case types.TOGGLE_SOURCES: {
       let score = 0;
       Object.keys(state).forEach(item => {
         score += state[item] ? 1 : -1;
@@ -52,4 +51,4 @@ export default (state=initialState, action) => {
     default:
       return state;
   }
-}
+};

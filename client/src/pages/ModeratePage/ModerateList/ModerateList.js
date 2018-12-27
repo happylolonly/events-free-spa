@@ -5,11 +5,10 @@ import ModerateListItem from '../ModerateListItem/ModerateListItem';
 
 import './ModerateList.scss';
 
-
 const propTypes = {
   events: PropTypes.array.isRequired,
   // moderateEvent
-}
+};
 
 const ModerateList = ({ events, moderateEvent }) => {
   return (
@@ -24,11 +23,11 @@ const ModerateList = ({ events, moderateEvent }) => {
             source={source}
             moderateEvent={moderateEvent}
           />
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
 ModerateList.propTypes = propTypes;
 

@@ -3,15 +3,12 @@ import PropTypes from 'prop-types';
 
 import './ScrollUpButton.scss';
 
-const propTypes = {
-
-}
+const propTypes = {};
 
 class ScrollUpButton extends Component {
-
   state = {
-    showButton: false
-  }
+    showButton: false,
+  };
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
@@ -23,7 +20,7 @@ class ScrollUpButton extends Component {
 
   handleScroll = () => {
     this.setState({ showButton: window.pageYOffset > 300 });
-  }
+  };
 
   scrollStep = () => {
     const scrollStep = 50;
@@ -31,7 +28,7 @@ class ScrollUpButton extends Component {
       clearInterval(this.interval);
     }
     window.scroll(0, window.pageYOffset - scrollStep);
-  }
+  };
 
   scrollToTop = () => {
     const delay = 15;
@@ -49,7 +46,7 @@ class ScrollUpButton extends Component {
       <button className="scroll-up-button" onClick={this.scrollToTop}>
         Вверх
       </button>
-    )
+    );
   }
 }
 

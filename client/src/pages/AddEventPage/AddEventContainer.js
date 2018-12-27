@@ -6,99 +6,86 @@ import axios from 'axios';
 
 import { API } from 'constants/config';
 
-const propTypes = {
-
-};
+const propTypes = {};
 
 class AddEventContainer extends Component {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.state = {
-            data: {
+    this.state = {
+      data: {},
 
-            },
+      dataErrors: {},
 
-            dataErrors: {
+      serverError: null,
+    };
+  }
 
-            },
+  async saveEvent() {
+    try {
+      const data = await axios.post(`${API}/event`, this.state.data);
 
-            serverError: null,
-        };
+      // notification
+
+      browserHistory.push('/events');
+    } catch (error) {
+      this.setState({ serverError: error.reponse.data });
     }
+  }
 
-    async saveEvent() {
+  validate() {}
 
-        try {
-            const data = await axios.post(`${API}/event`, this.state.data);
+  handleChange(value, name) {
+    this.setState({
+      data: {
+        ...this.state.data,
+        [name]: value,
+      },
+      dataErrors: {
+        ...this.state.dataErrors,
+        [name]: '',
+      },
+      serverError: null,
+    });
+  }
 
-            // notification
+  handleButtonSaveClick() {
+    if (!this.validate()) return;
 
-            browserHistory.push('/events');
-        } catch (error) {
-            this.setState({ serverError: error.reponse.data });
-        }
+    this.saveEvent();
+  }
 
-    }
+  render() {
+    const { data, dataErrors } = this.state;
+    return (
+      <div>
+        <h3>Добавить мероприятие</h3>
+        <p>Пожалуйста, не создавай всякую ерунду, пока нету регистрации</p>
 
-    validate() {
+        <AddEvent
+          title={data.title}
+          description={data.description}
+          date={data.date}
+          time={data.time}
+          address={data.address}
+          contacts={data.contacts}
+          images={data.images}
+          titleError={dataErrors.title}
+          descriptionError={dataErrors.description}
+          dateError={dataErrors.date}
+          timeError={dataErrors.time}
+          addressError={dataErrors.address}
+          contactsError={dataErrors.contacts}
+          imagesError={dataErrors.images}
+          handleData={this.handleChange}
+        />
 
-    }
+        <button onClick={this.handleButtonSaveClick}>Создать мероприятие</button>
 
-    handleChange(value, name) {
-        this.setState({
-            data: {
-                ...this.state.data,
-                [name]: value,
-            },
-            dataErrors: {
-                ...this.state.dataErrors,
-                [name]: '',
-            },
-            serverError: null,
-        });
-    }
-
-    handleButtonSaveClick() {
-        if (!this.validate()) return;
-
-        this.saveEvent();
-    }
-
-    render() {
-        const { data, dataErrors } = this.state
-        return (
-            <div>
-                <h3>Добавить мероприятие</h3>
-                <p>Пожалуйста, не создавай всякую ерунду, пока нету регистрации</p>
-
-                <AddEvent
-                    title={data.title}
-                    description={data.description}
-                    date={data.date}
-                    time={data.time}
-                    address={data.address}
-                    contacts={data.contacts}
-                    images={data.images}
-
-                    titleError={dataErrors.title}
-                    descriptionError={dataErrors.description}
-                    dateError={dataErrors.date}
-                    timeError={dataErrors.time}
-                    addressError={dataErrors.address}
-                    contactsError={dataErrors.contacts}
-                    imagesError={dataErrors.images}
-
-                    handleData={this.handleChange}
-                />
-
-                <button onClick={this.handleButtonSaveClick}>Создать мероприятие</button>
-
-                {this.state.serverError && <div className="error">{this.state.serverError}</div>}
-
-            </div>
-        )
-    }
+        {this.state.serverError && <div className="error">{this.state.serverError}</div>}
+      </div>
+    );
+  }
 }
 
 AddEventContainer.propTypes = propTypes;

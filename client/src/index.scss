@@ -1,4 +1,4 @@
-@import "./constants/style/_fonts";
+@import './constants/style/_fonts';
 @import './constants/style/colors';
 
 body {
@@ -11,8 +11,6 @@ body {
 
   // height: 100%;
   // min-height: 100%;
-
-
 
   ul {
     margin: 0;
@@ -28,7 +26,6 @@ body {
     font-family: 'MuseoSansBold';
   }
 
-
   // background-image: url('http://www.no-zaku.com/background/wp-content/uploads/sites/9/2016/11/Fresh-Wallpaper-For-Website-Background.jpg');
   background-color: #f7f7f7;
 }
@@ -36,7 +33,6 @@ body {
 button {
   cursor: pointer;
 }
-
 
 div.root {
   // position: relative;
@@ -59,7 +55,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 body::-webkit-scrollbar-thumb {
@@ -89,7 +85,8 @@ hr {
   border-top: 1px solid #eee;
 }
 
-a, .btn--link {
+a,
+.btn--link {
   border: none;
   background-color: transparent;
   text-decoration: none;

@@ -26,44 +26,41 @@ const sources = JSON.parse(localStorage.getItem('events') || null);
 const savedEvents = JSON.parse(localStorage.getItem('savedEvents') || null);
 
 if (sources) {
-	store.dispatch({
-		type: types.SETUP_SOURCES,
-		payload: sources,
-	})
+  store.dispatch({
+    type: types.SETUP_SOURCES,
+    payload: sources,
+  });
 }
 
 if (savedEvents) {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDate();
+  const currentMounth = currentDate.getMonth() + 1;
 
-	const currentDate = new Date();
-	const currentDay = currentDate.getDate();
-	const currentMounth = currentDate.getMonth() + 1;
+  const { date, data } = savedEvents;
 
-	const { date, data } = savedEvents;
+  const [mounth, day] = date.split('_');
+  if (currentDay == day && currentMounth == mounth) {
+    store.dispatch({
+      type: types.SETUP_EVENTS,
+      payload: data,
+    });
 
-	const [ mounth, day ] = date.split('_');
-	if (currentDay == day && currentMounth == mounth) {
-
-		store.dispatch({
-			type: types.SETUP_EVENTS,
-			payload: data,
-		});
-
-		store.dispatch({
-			type: types.SETUP_EVENTS_LIST,
-			payload: data,
-		});
-
-	} else {
-		localStorage.removeItem('savedEvents');
-	}
+    store.dispatch({
+      type: types.SETUP_EVENTS_LIST,
+      payload: data,
+    });
+  } else {
+    localStorage.removeItem('savedEvents');
+  }
 }
 
 ReactDOM.hydrate(
-	<Provider store={store}>
-		<BrowserRouter>
-			<div>{renderRoutes(Routes)}</div>
-		</BrowserRouter>
-	</Provider>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <div>{renderRoutes(Routes)}</div>
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 

@@ -5,7 +5,6 @@ import { Select, Textarea, Button } from 'components/common';
 
 import './Search.scss';
 
-
 const propTypes = {
   week: PropTypes.oneOf(['current', 'next']).isRequired,
   words: PropTypes.string.isRequired,
@@ -19,15 +18,14 @@ const propTypes = {
 const Search = ({ week, words, handleData, handleClick, weekError, wordsError }) => {
   return (
     <div className="search">
-
       <Select
         name="week"
         title="Неделя"
         value={week}
         onChange={handleData}
         options={{
-          current: "Текущая",
-          next: "Следующая"
+          current: 'Текущая',
+          next: 'Следующая',
         }}
         error={weekError}
       />

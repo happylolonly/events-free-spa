@@ -4,7 +4,6 @@ import moment from 'moment';
 import pathJoin from './path-join';
 import util from 'util';
 
-
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 const mkdir = util.promisify(fs.mkdir);
@@ -14,7 +13,6 @@ const LOG_PATH = pathJoin('../logs/main.txt');
 let results = [];
 
 async function init() {
-
   if (!fs.existsSync(LOG_PATH)) {
     await mkdir(pathJoin('../logs'));
     await writeFile(LOG_PATH, '[]');
@@ -28,9 +26,7 @@ async function init() {
 }
 
 async function write() {
-
   try {
-
     const resultToSave = [...results];
     results = [];
     const file = await readFile(LOG_PATH);
@@ -45,11 +41,9 @@ async function write() {
       console.log(error);
       results = resultToSave;
     }
-
   } catch (error) {
     console.log(error);
   }
-
 }
 
 function save(data) {
@@ -63,5 +57,5 @@ function save(data) {
 
 export default {
   init,
-  save
-}
+  save,
+};

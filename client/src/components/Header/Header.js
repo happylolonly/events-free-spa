@@ -5,7 +5,6 @@ import { isChristmasHolidays } from 'utils/helpers';
 
 import './Header.scss';
 
-
 const Header = () => {
   return (
     <div className="header">
@@ -15,14 +14,20 @@ const Header = () => {
       </div>
       <nav className="nav">
         <ul className="nav__list">
-          <li className="nav__item"><Link to='/events'>Мероприятия</Link></li>
+          <li className="nav__item">
+            <Link to="/events">Мероприятия</Link>
+          </li>
           {/* <li className="nav__item"><Link to='/weekevents'>На неделю</Link></li> */}
-          <li className="nav__item"><Link to='/about'>О приложении</Link></li>
-          <li className="nav__item"><Link to='/settings'>Настройки</Link></li>
+          <li className="nav__item">
+            <Link to="/about">О приложении</Link>
+          </li>
+          <li className="nav__item">
+            <Link to="/settings">Настройки</Link>
+          </li>
         </ul>
       </nav>
     </div>
-  )
-}
+  );
+};
 
 export default Header;

@@ -5,9 +5,9 @@ import eventReducer from './event';
 import sourcesReducer from './sources';
 
 const rootReducer = combineReducers({
-	events: eventsReducer,
-	event: eventReducer,
-	sources: sourcesReducer,
+  events: eventsReducer,
+  event: eventReducer,
+  sources: sourcesReducer,
 });
 
 export default rootReducer;

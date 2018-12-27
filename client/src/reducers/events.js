@@ -4,12 +4,12 @@ const initialState = {
   isLoading: false,
   data: {
     model: [],
-    totalCount: null
+    totalCount: null,
   },
   error: null,
-}
+};
 
-export default (state=initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case types.LOAD_EVENTS_START:
       return { ...state, isLoading: true };
@@ -19,13 +19,13 @@ export default (state=initialState, action) => {
 
       return {
         ...state,
-          data: {
+        data: {
           ...state.data,
-          model: [ ...state.data.model, ...model ],
+          model: [...state.data.model, ...model],
           totalCount: totalCount,
           day,
         },
-        isLoading: false
+        isLoading: false,
       };
 
     case types.LOAD_EVENTS_ERROR:
@@ -35,18 +35,17 @@ export default (state=initialState, action) => {
       return { ...state, data: initialState.data };
 
     case types.SETUP_EVENTS_LIST:
-
-    const obj = {
-      ...state,
-      isLoading: false,
-      data: {
-        model: Object.keys(action.payload).map(item => action.payload[item]),
-        day: 'today',
-      }
-    };
+      const obj = {
+        ...state,
+        isLoading: false,
+        data: {
+          model: Object.keys(action.payload).map(item => action.payload[item]),
+          day: 'today',
+        },
+      };
       return obj;
 
     default:
       return state;
   }
-}
+};

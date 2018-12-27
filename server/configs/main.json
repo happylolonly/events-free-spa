@@ -1,7 +1,5 @@
 {
   "ssr": {
-    "pages": [
-      "/", "events", "event", "weekevents", "about", "settings"
-    ]
+    "pages": ["/", "events", "event", "weekevents", "about", "settings"]
   }
 }

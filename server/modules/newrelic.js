@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * This file includes all of the configuration variables used by the Node.js
@@ -116,7 +116,7 @@ exports.config = {
    *
    * @env NEW_RELIC_APDEX
    */
-  apdex_t: 0.100,
+  apdex_t: 0.1,
   /**
    * Whether to capture parameters in the request URL in slow transaction
    * traces and error traces. Because this can pass sensitive data, it's
@@ -165,11 +165,10 @@ exports.config = {
      * Enables extra debugging at `warn` level. No need to enable except under
      * specific debugging conditions.
      */
-    diagnostics: false
+    diagnostics: false,
   },
 
   audit_log: {
-
     /**
      * Enables logging of out bound traffic from the Agent to the Collector.
      * This field is ignored if trace level logging is enabled.
@@ -188,7 +187,7 @@ exports.config = {
      *
      * @env NEW_RELIC_AUDIT_LOG_ENDPOINTS
      */
-    endpoints: []
+    endpoints: [],
   },
   /**
    * Whether to collect & submit error traces to New Relic.
@@ -230,7 +229,7 @@ exports.config = {
      * your own server's sake. The payload of events is compressed, but if it
      * grows too large the New Relic servers may reject it.
      */
-    max_event_samples_stored: 100
+    max_event_samples_stored: 100,
   },
   /**
    * Options regarding collecting system information. Used for system
@@ -272,7 +271,7 @@ exports.config = {
      *
      * @env NEW_RELIC_UTILIZATION_DETECT_GCP
      */
-    detect_gcp: true
+    detect_gcp: true,
   },
   transaction_tracer: {
     /**
@@ -338,7 +337,7 @@ exports.config = {
      * traces.  This is the minimum duration a query must take (in ms) for it
      * to be considered for for slow query and inclusion in transaction traces.
      */
-    explain_threshold: 500
+    explain_threshold: 500,
   },
   /**
    * Whether to enable internal supportability metrics and diagnostics. You're
@@ -364,7 +363,7 @@ exports.config = {
      *
      * @env NEW_RELIC_DEBUG_TRACER
      */
-    tracer_tracing: false
+    tracer_tracing: false,
   },
   /**
    * Rules for naming or ignoring transactions.
@@ -389,9 +388,7 @@ exports.config = {
      *
      * @env NEW_RELIC_IGNORING_RULES
      */
-    ignore: [
-      '^\/socket\.io\/.*\/xhr-polling/'
-    ]
+    ignore: ['^/socket.io/.*/xhr-polling/'],
   },
   /**
    * By default, any transactions that are not affected by other bits of
@@ -414,7 +411,6 @@ exports.config = {
    * through the server response, up until the actual page render completes.
    */
   browser_monitoring: {
-
     /**
      * Enable browser monitoring header generation.
      *
@@ -451,7 +447,7 @@ exports.config = {
      *
      * @env NEW_RELIC_BROWSER_MONITOR_DEBUG
      */
-    debug: false
+    debug: false,
   },
   /**
    * API Configuration
@@ -510,7 +506,7 @@ exports.config = {
      * behavior. You probably want at least double the value, but more is okay
      * as long as you can handle the memory overhead.
      */
-    max_samples_stored: 20000
+    max_samples_stored: 20000,
   },
 
   /**
@@ -540,13 +536,13 @@ exports.config = {
      * your own server's sake. The payload of events is compressed, but if it
      * grows too large the New Relic servers may reject it.
      */
-    max_samples_stored: 1000
+    max_samples_stored: 1000,
   },
   /**
    * This is used to configure properties about the user's host name.
    */
   process_host: {
-     /**
+    /**
      * Configurable display name for hosts
      *
      * @env NEW_RELIC_PROCESS_HOST_DISPLAY_NAME
@@ -557,9 +553,8 @@ exports.config = {
      *
      * @env NEW_RELIC_IPV_PREFERENCE
      */
-    ipv_preference: '4'
- },
-
+    ipv_preference: '4',
+  },
 
   /**
    * High Security
@@ -594,9 +589,9 @@ exports.config = {
    * slow_sql.max_samples sets the maximum number of slow query samples that
    * will be collected in a single harvest cycle.
    */
-   slow_sql: {
+  slow_sql: {
     enabled: false,
-    max_samples: 10
+    max_samples: 10,
   },
 
   /**
@@ -610,8 +605,8 @@ exports.config = {
    *  Enables reporting of database/schema names. Default is `true`.
    */
   datastore_tracer: {
-    instance_reporting: {enabled: true},
-    database_name_reporting: {enabled: true}
+    instance_reporting: { enabled: true },
+    database_name_reporting: { enabled: true },
   },
 
   /**
@@ -620,7 +615,7 @@ exports.config = {
    * @property {bool} [enabled=true]
    *  Enables tracing transactions across multiple applications. Default is `true`.
    */
-  cross_application_tracer: {enabled: true},
+  cross_application_tracer: { enabled: true },
 
   /**
    * Controls behavior of message broker tracing.
@@ -629,6 +624,6 @@ exports.config = {
    *  Enables reporting parameters on message broker segments.
    */
   message_tracer: {
-    segment_parameters: {enabled: true}
-  }
-}
+    segment_parameters: { enabled: true },
+  },
+};

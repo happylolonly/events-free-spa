@@ -8,4 +8,4 @@ export const isChristmasHolidays = () => {
   }
 
   return false;
-}
+};

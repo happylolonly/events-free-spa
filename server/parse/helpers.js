@@ -13,26 +13,24 @@ import { isEqual } from 'lodash';
 
 import { clearHash } from '../services/cache';
 
-
-export const detectContact = (href) => {
+export const detectContact = href => {
   let contact;
 
   if (href.indexOf('mailto:') !== -1) {
-    contact = { email: href.replace('mailto:', '')}
+    contact = { email: href.replace('mailto:', '') };
   } else if (href.indexOf('tel:') !== -1) {
-    contact = { phone: href.replace('tel:', '')}
+    contact = { phone: href.replace('tel:', '') };
   } else if (href.indexOf('://') !== -1) {
-    contact = { link: href.split('://')[1] }
+    contact = { link: href.split('://')[1] };
   } else {
     // check
-    contact = { contact: href }
+    contact = { contact: href };
   }
 
   return contact;
-}
+};
 
-
-const removeInlineStyles = (html) => {
+const removeInlineStyles = html => {
   let str = html;
 
   while (str.indexOf(' style="') !== -1) {
@@ -44,12 +42,12 @@ const removeInlineStyles = (html) => {
 
     str = firstPart + secondPart;
     // console.log('inline styles removed');
-  };
+  }
 
   return str;
 };
 
-const removeScripts = (html) => {
+const removeScripts = html => {
   let str = html;
 
   while (str.indexOf('<script') !== -1) {
@@ -61,47 +59,44 @@ const removeScripts = (html) => {
 
     str = firstPart + secondPart;
     // console.log('scripts was removed');
-  };
+  }
 
   return str;
 };
 
-
-export const formatHTML = (html) => {
+export const formatHTML = html => {
   return removeScripts(removeInlineStyles(html));
-}
+};
 
-export const saveEventItemToDB = (results) => {
+export const saveEventItemToDB = results => {
   results.forEach(item => {
-
     const saveEvent = () => {
       const event = new Event(item);
-      event.save()
+      event
+        .save()
         .then(() => {
           console.log('saved new', item.source, item.originalLink);
         })
         .catch(error => {
           console.log(error);
-        })
-    }
+        });
+    };
 
     const updateEvent = (_id, item) => {
       // const { date, title, originalLink, source, text, images, location, contacts } = item;
       const obj = Object.assign({}, item);
 
-
       // TODO: refactor this ditch
       Event.findByIdAndUpdate(_id, obj)
-      // Event.update({_id}, obj, {overwrite: true})
-      .then(() => {
+        // Event.update({_id}, obj, {overwrite: true})
+        .then(() => {
           clearHash(_id.toString());
           console.log('update event', item.source);
         })
         .catch(error => {
           console.log('update error', error);
-        })
-    }
-
+        });
+    };
 
     // function checkImages(item1, item2) {
     //   if (!Array.isArray(item1) || !Array.isArray(item2)) {
@@ -110,11 +105,10 @@ export const saveEventItemToDB = (results) => {
     //   return !(_.isEqual(item1, item2));
     // }
 
-
     // ищем по ссылке вида event/2017-08-01/tensorflow-meetup
     // console.log(item.originalLink);
     Event.find({ originalLink: item.originalLink })
-      .then((data) => {
+      .then(data => {
         // если что то нашлось
         if (data.length > 0) {
           // и другой title или date
@@ -136,7 +130,6 @@ export const saveEventItemToDB = (results) => {
           delete dat._id;
           delete dat.__v;
 
-
           item.tags = dat.tags || []; // костыль!!!
 
           if (
@@ -147,7 +140,7 @@ export const saveEventItemToDB = (results) => {
             // item.location !== data[0].location ||
             // item.text !== data[0].text ||
             // checkImages(item.images, data[0].images)
-            !(isEqual(checkItem, dat))
+            !isEqual(checkItem, dat)
             // false
             // если true то обновить, не сравнивает массивы в разном порядке [1,2] [2,1]
           ) {
@@ -156,23 +149,46 @@ export const saveEventItemToDB = (results) => {
             return;
           }
           console.log('event actual', item.title, 'from', item.source);
-        // если не нашлось в бд
+          // если не нашлось в бд
         } else {
           saveEvent();
         }
       })
       .catch(error => {
         console.log(error);
-      })
-  })
-}
+      });
+  });
+};
 
-
-export const convertMonths = (text) => {
-
-  const monthRU = ['Январ', 'Феврал', 'Март', 'Апрел', ['Май', 'Мая', 'Мае'], 'Июн', 'Июл', 'Август', 'Сентябр', 'Октябр', 'Ноябр', 'Декабр'];
-  const monthEN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
+export const convertMonths = text => {
+  const monthRU = [
+    'Январ',
+    'Феврал',
+    'Март',
+    'Апрел',
+    ['Май', 'Мая', 'Мае'],
+    'Июн',
+    'Июл',
+    'Август',
+    'Сентябр',
+    'Октябр',
+    'Ноябр',
+    'Декабр',
+  ];
+  const monthEN = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
 
   function covert(item, i) {
     let startIndex = text.toLowerCase().indexOf(item.toLowerCase());
@@ -200,8 +216,7 @@ export const convertMonths = (text) => {
   });
 
   return text;
-}
-
+};
 
 export const formatDate = (year, month, day, hour, minute) => {
   // const date = Date.parse(moment(new Date(year, month - 1, day, hour || 0, minute || 0 )));
@@ -216,15 +231,22 @@ export const formatDate = (year, month, day, hour, minute) => {
 
   // console.log(Date.parse((new Date(year, month - 1, day, (hour || 0) - (new Date().getTimezoneOffset() === 0 ? 3: 0) , minute || 0 )).toUTCString()));
 
-
-  return Date.parse((new Date(year, month - 1, day, (hour || 0) - (new Date().getTimezoneOffset() === 0 ? 3: 0) , minute || 0 )).toUTCString());
-}
+  return Date.parse(
+    new Date(
+      year,
+      month - 1,
+      day,
+      (hour || 0) - (new Date().getTimezoneOffset() === 0 ? 3 : 0),
+      minute || 0
+    ).toUTCString()
+  );
+};
 
 export const sliceText = (text, wordsNumber) => {
   const splittedText = text.trim().split(' ');
   if (text.indexOf(' ') === -1 && text.length > 10) {
     // console.log(text);
-    return text.substr(0, 10) + '...'
+    return text.substr(0, 10) + '...';
   }
 
   let newText = '';
@@ -234,20 +256,15 @@ export const sliceText = (text, wordsNumber) => {
     newText += ' ' + splittedText[i];
   }
 
-  if (newText.split(' ').length -1 === wordsNumber) {
+  if (newText.split(' ').length - 1 === wordsNumber) {
     newText += '...';
   }
 
   return newText;
-}
+};
 
-
-export const checkText = (text) => {
-  const words = [
-    'свободный',
-    'бесплатн',
-    'free'
-  ];
+export const checkText = text => {
+  const words = ['свободный', 'бесплатн', 'free'];
 
   let isFree = false;
 
@@ -262,4 +279,4 @@ export const checkText = (text) => {
   }
 
   return isFree;
-}
+};

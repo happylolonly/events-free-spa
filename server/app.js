@@ -13,7 +13,6 @@ import logger from './helpers/logger';
 import config from './configs';
 import serverConfig from './configs/main';
 
-
 const app = express();
 const port = process.env.PORT || config.port;
 
@@ -35,23 +34,20 @@ require('./middlewares').default(app, express);
 require('./routes').default(app);
 
 if (process.env.NODE_ENV !== 'development') {
-  setTimeout(ssr.init, 1000*20);
+  setTimeout(ssr.init, 1000 * 20);
   onliner.init();
 }
 
 logger.init();
 
-app.use(async(req, res) => {
-
+app.use(async (req, res) => {
   const shouldSSR = serverConfig.ssr.pages.some(page => {
-
     if (page === '/' && req.url !== '/') {
       return false;
     }
 
     return req.url.includes(page);
   });
-
 
   if (!shouldSSR) {
     res.sendStatus(404);
@@ -61,7 +57,10 @@ app.use(async(req, res) => {
   try {
     console.log(req.url);
     console.log('start ssr');
-    const { html, ttRenderMs, isLoading } = await ssr.render(`${req.protocol}://${req.get('host')}/index.html`, req.url);
+    const { html, ttRenderMs, isLoading } = await ssr.render(
+      `${req.protocol}://${req.get('host')}/index.html`,
+      req.url
+    );
 
     if (isLoading) {
       console.log(req.url, 'is loading now');
@@ -76,5 +75,4 @@ app.use(async(req, res) => {
     console.log(error);
     res.sendFile(path.join(__dirname, '/static/build/index.html'));
   }
-
 });

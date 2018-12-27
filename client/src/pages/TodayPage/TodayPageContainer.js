@@ -22,7 +22,7 @@ const propTypes = {
   events: PropTypes.object.isRequired,
   loadEvents: PropTypes.func.isRequired,
   resetEvents: PropTypes.func.isRequired,
-}
+};
 
 class TodayPageContainer extends Component {
   constructor(props) {
@@ -49,8 +49,8 @@ class TodayPageContainer extends Component {
       isShowCalendar: false,
       formattedCalendarDate,
 
-      preload: []
-    }
+      preload: [],
+    };
 
     if (currentFilter !== this.props.events.data.day) {
       this.props.resetEvents();
@@ -72,7 +72,6 @@ class TodayPageContainer extends Component {
   }
 
   componentDidMount() {
-
     this.socket = io();
     this.socket.on('connect', () => console.log('connect'));
     this.socket.on('disconnect', () => console.log('disconnect'));
@@ -104,12 +103,15 @@ class TodayPageContainer extends Component {
 
   handleSearch(search) {
     this.props.resetEvents();
-    this.setState({
-      search,
-      offset: 0,
-    }, () => {
-      this.loadEvents();
-    })
+    this.setState(
+      {
+        search,
+        offset: 0,
+      },
+      () => {
+        this.loadEvents();
+      }
+    );
   }
 
   loadEvents() {
@@ -120,33 +122,33 @@ class TodayPageContainer extends Component {
     this.props.loadEvents({
       search,
       offset,
-      day: currentFilter === 'certain' ? this.state.formattedCalendarDate : currentFilter
-    })
+      day: currentFilter === 'certain' ? this.state.formattedCalendarDate : currentFilter,
+    });
   }
 
   loadMore() {
     this.setState({ offset: this.state.offset + OFFSET_LENGTH }, () => {
       this.loadEvents();
-    })
+    });
   }
 
   handleFilter(filter) {
     this.props.resetEvents();
-    this.setState({
-      currentFilter: filter,
-      isShowCalendar: filter === 'certain',
-      offset: 0,
-    }, () => {
-      if (filter === 'certain') {
-        window.history.pushState(filter, null, `events?day=`);
-
-
-      } else {
-        window.history.pushState(filter, null, `events?day=${filter}`);
-        this.loadEvents();
+    this.setState(
+      {
+        currentFilter: filter,
+        isShowCalendar: filter === 'certain',
+        offset: 0,
+      },
+      () => {
+        if (filter === 'certain') {
+          window.history.pushState(filter, null, `events?day=`);
+        } else {
+          window.history.pushState(filter, null, `events?day=${filter}`);
+          this.loadEvents();
+        }
       }
-
-    });
+    );
   }
 
   toggleCalendar() {
@@ -156,10 +158,18 @@ class TodayPageContainer extends Component {
   handleCalendarChange(date) {
     this.props.resetEvents();
     const formattedDate = moment(date).format('DD_MM_YYYY');
-    this.setState({ calendarDate: date, isShowCalendar: false, offset: 0, formattedCalendarDate: formattedDate }, () => {
-      window.history.pushState(formattedDate, null, `events?day=${formattedDate}`);
-      this.loadEvents();
-    });
+    this.setState(
+      {
+        calendarDate: date,
+        isShowCalendar: false,
+        offset: 0,
+        formattedCalendarDate: formattedDate,
+      },
+      () => {
+        window.history.pushState(formattedDate, null, `events?day=${formattedDate}`);
+        this.loadEvents();
+      }
+    );
   }
 
   handleMouseOver(id) {
@@ -178,48 +188,71 @@ class TodayPageContainer extends Component {
   render() {
     return (
       <div className="today-page-container">
-        {this.props.location.search === '?test' && <button className="test-button" onClick={this.handleSecretButtonClick}>секретная кнопка</button>}
+        {this.props.location.search === '?test' && (
+          <button className="test-button" onClick={this.handleSecretButtonClick}>
+            секретная кнопка
+          </button>
+        )}
         <Search handleSearch={this.handleSearch} search={this.state.search} />
         <Filters handleFilter={this.handleFilter} currentFilter={this.state.currentFilter} />
-        <p className="event-sources">Откуда получать мероприятия можно выбрать <Link to="/settings">тут</Link></p>
+        <p className="event-sources">
+          Откуда получать мероприятия можно выбрать <Link to="/settings">тут</Link>
+        </p>
 
         <div className="calendar-wrapper">
-
-          {this.state.currentFilter === 'certain' && <button className="btn--link" onClick={this.toggleCalendar}>{!this.state.isShowCalendar ? 'Показать' : 'Cкрыть'} календарь</button>}
-          {this.state.isShowCalendar && <Calendar value={this.state.calendarDate} onChange={this.handleCalendarChange} />}
-
+          {this.state.currentFilter === 'certain' && (
+            <button className="btn--link" onClick={this.toggleCalendar}>
+              {!this.state.isShowCalendar ? 'Показать' : 'Cкрыть'} календарь
+            </button>
+          )}
+          {this.state.isShowCalendar && (
+            <Calendar value={this.state.calendarDate} onChange={this.handleCalendarChange} />
+          )}
         </div>
 
-
-
-        {this.props.events.isLoading && !this.props.events.data.model.length ? <Loader /> :
+        {this.props.events.isLoading && !this.props.events.data.model.length ? (
+          <Loader />
+        ) : (
           <div>
-            <TodayPage events={this.props.events.data.model} currentFilter={this.state.currentFilter} handleMouseOver={this.handleMouseOver} />
+            <TodayPage
+              events={this.props.events.data.model}
+              currentFilter={this.state.currentFilter}
+              handleMouseOver={this.handleMouseOver}
+            />
 
-            {this.props.events.data.model.length < this.props.events.data.totalCount && !this.props.events.isLoading &&
-              <button className="show-more" onClick={this.loadMore}>Показать еще</button>}
+            {this.props.events.data.model.length < this.props.events.data.totalCount &&
+              !this.props.events.isLoading && (
+                <button className="show-more" onClick={this.loadMore}>
+                  Показать еще
+                </button>
+              )}
           </div>
-        }
+        )}
 
-        {this.props.events.data.totalCount === 0 &&
+        {this.props.events.data.totalCount === 0 && (
           <div className="no-results">
             <p>Ничего не найдено:(</p>
-            <p>Попробуй изменить откуда получать мероприятия в <Link to="/settings">настройках</Link></p>
+            <p>
+              Попробуй изменить откуда получать мероприятия в <Link to="/settings">настройках</Link>
+            </p>
           </div>
-        }
+        )}
         <ScrollUpButton />
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = ({ events, event }) => {
-  return { events, eventInfo: event }
+  return { events, eventInfo: event };
 };
 
 TodayPageContainer.propTypes = propTypes;
 
 export default {
-  component: connect(mapStateToProps, { loadEvents, resetEvents, loadEvent })(TodayPageContainer),
-  loadData: ({ dispatch }) => dispatch(loadEvents())
+  component: connect(
+    mapStateToProps,
+    { loadEvents, resetEvents, loadEvent }
+  )(TodayPageContainer),
+  loadData: ({ dispatch }) => dispatch(loadEvents()),
 };

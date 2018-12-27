@@ -6,13 +6,11 @@ import moment from 'moment';
 
 // import './EventList.scss';
 
-
 const propTypes = {
-    events: PropTypes.array.isRequired,
+  events: PropTypes.array.isRequired,
 };
 
 const EventList = ({ events }) => {
-
   // const filteredEvents = [];
 
   // function prepareEvents (events) {
@@ -20,23 +18,22 @@ const EventList = ({ events }) => {
   //   events.forEach(item => {
 
   //     filteredEvents
-      
+
   //     switch (day) {
   //       case 'Monday':
-          
+
   //         break;
-      
+
   //       default:
   //         break;
   //     }
   //   });
 
-  // } 
+  // }
 
   return (
     <div className="events-list">
-
-        {/* {filteredEvents.map(item => {
+      {/* {filteredEvents.map(item => {
           const { day, events } = item;
           return (
             <div key={day}>
@@ -54,17 +51,15 @@ const EventList = ({ events }) => {
         
         })} */}
 
-
-        {events.map(item => {
-          const { _id: id, title, date } = item;
-          return (
-            <div>
-              <span>{moment(date).format('DD MMMM')}</span>
-              <Event key={id} id={id} title={title} />
-            </div>
-          )
-        })}
-      
+      {events.map(item => {
+        const { _id: id, title, date } = item;
+        return (
+          <div>
+            <span>{moment(date).format('DD MMMM')}</span>
+            <Event key={id} id={id} title={title} />
+          </div>
+        );
+      })}
     </div>
   );
 };
