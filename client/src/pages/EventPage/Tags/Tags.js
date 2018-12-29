@@ -28,7 +28,9 @@ class Tags extends Component {
   };
 
   componentDidMount() {
-    this.predict(this.props.id);
+    if (this.props.adminMode) {
+      this.predict(this.props.id);
+    }
   }
 
   async predict(id) {
