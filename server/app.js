@@ -7,7 +7,7 @@ import parse from './modules/parse';
 import ssr from './modules/ssr';
 import onliner from './modules/onliner';
 
-import path from 'path';
+import { getFullHTML } from './modules/html-joiner';
 import logger from './helpers/logger';
 
 import config from './configs';
@@ -64,15 +64,15 @@ app.use(async (req, res) => {
 
     if (isLoading) {
       console.log(req.url, 'is loading now');
-      res.sendFile(path.join(__dirname, '/static/build/index.html'));
+      res.send(getFullHTML());
       return;
     }
 
     // TODO: удалить ttRenderMs после проверки в проде
     res.set('Server-Timing', `Prerender;dur=${ttRenderMs};desc="Headless render time (ms)"`);
-    res.status(200).send(html);
+    res.status(200).send(getFullHTML(html));
   } catch (error) {
     console.log(error);
-    res.sendFile(path.join(__dirname, '/static/build/index.html'));
+    res.send(getFullHTML());
   }
 });
