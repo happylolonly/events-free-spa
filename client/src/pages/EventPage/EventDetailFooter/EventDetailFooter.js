@@ -54,7 +54,7 @@ class EventDetailFooter extends Component {
                 <button  className="btn-link" onClick={this.handleClick}>{!this.state.isShowMap ? 'Показать на карте' : 'Скрыть'} </button>
               </div>}
               <div>
-                <CalendarButton></CalendarButton>
+                <CalendarButton />
               </div>
             </div>
           

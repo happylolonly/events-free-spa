@@ -1,32 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './CalendarButton.scss';
 import Dropdown from './Dropdown/Dropdown';
 
-class CalendarButton extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      isDropdownOpen: false
-    }
-
-    this.onClick = this.onClick.bind(this);
-
+class CalendarButton extends React.Component {
+  state = {
+    isDropdownOpen: false
   }
 
-  onClick(event) {
-    this.setState({isDropdownOpen: !this.state.isDropdownOpen});
+  onClick = (event) => {
+    this.setState((state) => {return {isDropdownOpen: !this.state.isDropdownOpen}});
   }
+
+  handleDropdownClick = (item) => {
+    //здесь функция которая хэндлит клик по оции в дропдауне?
+  };
 
   render() {
     const items = ['Google Calendar', 'iCalendar', 'vCalendar']
     return (
-      <div className="calendar">
-        <button className="calendar-button" onClick={this.onClick}>
+      <div className="calendar-button">
+        <button className="calendar-btn" onClick={this.onClick}>
           <span>Добавить в календарь</span>
         </button>
         {this.state.isDropdownOpen && 
-          <Dropdown items={items}></Dropdown>
+          <Dropdown items={items} handleDropdownClick={this.handleDropdownClick}></Dropdown>
         }
       </div>
     );      

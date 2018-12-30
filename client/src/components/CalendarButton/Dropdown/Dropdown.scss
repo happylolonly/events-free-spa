@@ -1,19 +1,26 @@
 .dropdown {
-  display: flex;
-  flex-direction: column;
   position: absolute;
   top: 32px;
   right: 50%;
   transform: translateX(50%);
-}
 
-.dropdown__link {
-  display: block;
-  min-width: 179px;
-  background-color: #ffffff;
-  padding: 10px;
-  text-decoration: none;
-  color: #000000;
-  text-align: right;
-  box-shadow: 0px 0px 2px grey;
+  .dropdown__link {
+    display: block;
+    min-width: 179px;
+    background-color: #ffffff;
+    padding: 10px;
+    text-decoration: none;
+    color: #000000;
+    text-align: right;
+    box-shadow: 0px 0px 2px grey;
+    border: none;
+    outline: none;
+    transition: 0.3s;
+
+    &:hover,
+    &:focus {
+      background-color: #7000ff;
+      color: #ffffff;
+    }
+  }
 }
