@@ -13,7 +13,7 @@ import Routes from './routes';
 
 import './index.scss';
 
-import registerServiceWorker, { unregister } from './registerServiceWorker';
+import registerServiceWorker from './registerServiceWorker';
 
 window.BrowserRouter = BrowserRouter;
 
@@ -25,8 +25,8 @@ const store = createStore(
   )
 );
 
-const sources = JSON.parse(localStorage.getItem('events') || null);
-const savedEvents = JSON.parse(localStorage.getItem('savedEvents') || null);
+const sources = JSON.parse(window.localStorage.getItem('events') || null);
+const savedEvents = JSON.parse(window.localStorage.getItem('savedEvents') || null);
 
 if (sources) {
   store.dispatch({
@@ -43,7 +43,7 @@ if (savedEvents) {
   const { date, data } = savedEvents;
 
   const [mounth, day] = date.split('_');
-  if (currentDay == day && currentMounth == mounth) {
+  if (currentDay === day && currentMounth === mounth) {
     store.dispatch({
       type: types.SETUP_EVENTS,
       payload: data,
@@ -54,7 +54,7 @@ if (savedEvents) {
       payload: data,
     });
   } else {
-    localStorage.removeItem('savedEvents');
+    window.localStorage.removeItem('savedEvents');
   }
 }
 
