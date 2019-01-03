@@ -314,10 +314,12 @@ module.exports = app => {
       const events = await Event.find({
         // if no future events, find previous (for machine learning labeling)
         date: { $gte: Date.parse(new Date()) - 1000 * 60 * 60 * 24 * (!past ? 1 : 2 * 30) },
-        $where: '!this.tags || this.tags.length < 1', // fix
-        status: { $ne: 'rejected' },
+        $or: [
+          { $where: '!this.tags || this.tags.length === 0', status: { $ne: 'rejected' } },
+          { status: 'noactive' }
+        ],
       })
-        .sort({ date: 1 })
+        .sort({ date: !past ? 1 : -1 })
         .limit(10);
 
       return events;

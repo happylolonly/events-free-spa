@@ -36,8 +36,8 @@ const EventItem = ({ date, title, link, originalLink, source, mouseOver, adminMo
               .locale('ru')
               .format('HH:mm') !== '00:00'
               ? moment(date)
-                  .locale('ru')
-                  .format('HH:mm')
+                .locale('ru')
+                .format('HH:mm')
               : 'Время не указано'}
           </span>
         </div>

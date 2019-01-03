@@ -92,9 +92,8 @@ class Tags extends Component {
       return items.map((item, i) => {
         const { label, probability } = item;
         return (
-          <div>
+          <div key={i}>
             <Tag
-              key={i}
               text={label}
               onClick={() => {
                 this.setState({
