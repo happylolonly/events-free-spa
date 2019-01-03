@@ -19,11 +19,7 @@ window.BrowserRouter = BrowserRouter;
 
 const composer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(
-  reducers, composer(
-    applyMiddleware(thunk)
-  )
-);
+const store = createStore(reducers, composer(applyMiddleware(thunk)));
 
 const sources = JSON.parse(window.localStorage.getItem('events') || null);
 const savedEvents = JSON.parse(window.localStorage.getItem('savedEvents') || null);

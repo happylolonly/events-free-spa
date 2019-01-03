@@ -23,7 +23,6 @@ export default (state = initialState, action) => {
 
     case types.LOAD_ALL_EVENTS_SUCCESS:
       const { payload } = action;
-      // debugger;
 
       const obj = {};
 
@@ -52,7 +51,6 @@ export default (state = initialState, action) => {
       };
 
     case types.SETUP_EVENTS:
-      // debugger;
       return { ...state, isLoading: false, data: action.payload };
 
     default:
