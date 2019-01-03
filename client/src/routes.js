@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, IndexRedirect } from 'react-router';
+import { Redirect } from 'react-router';
 
 import App from './App';
 
@@ -9,23 +9,28 @@ import AboutPage from './pages/AboutPage/AboutPage';
 import FeedbackPage from './pages/FeedbackPage/FeedbackPage';
 import ModerateContainer from './pages/ModeratePage/ModerateContainer';
 import SettingsPage from './pages/SettingsPage/SettingsPage';
+import WeekEventsPage from './pages/WeekEvents/WeekEventsContainer';
+import AdminPage from './pages/Admin/AdminContainer';
 
-
-export default (
-	<Route path="/" component={App}>
-		<IndexRedirect from="/" to="events" />
-		<Route path="events" component={TodayPageContainer} />
-
-		<Redirect from="event" to="events" />
-		
-		<Route path="event/:id" component={EventPageContainer} />
-		<Route path="about" component={AboutPage} />
-		<Route path="settings" component={SettingsPage} />
-		<Route path="feedback1" component={FeedbackPage} />
-		<Route path="moder" component={ModerateContainer} />
-
-		<Redirect from="*" to="/" />
-	</Route>
-);
-
-// <Route path=":id" component={Event}/>
+export default [
+  {
+    component: App,
+    path: '/',
+    routes: [
+      { ...TodayPageContainer, path: '/events' },
+      { ...EventPageContainer, path: '/event/:id' },
+      { ...EventPageContainer, path: '/check/:id' },
+      { component: AboutPage, path: '/about' },
+      { component: WeekEventsPage, path: '/weekevents' },
+      { component: SettingsPage, path: '/settings' },
+      { component: FeedbackPage, path: '/feedback1' },
+      { component: ModerateContainer, path: '/moder' },
+      { component: AdminPage, path: '/somepath' },
+      {
+        path: ['/', '/event', '*'],
+        exact: true,
+        component: () => <Redirect to="/events" />,
+      },
+    ],
+  },
+];

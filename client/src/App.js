@@ -2,35 +2,53 @@ import React, { Component } from 'react';
 
 import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
+import { Helmet } from 'react-helmet';
 
-import './App.css';
+import { renderRoutes } from 'react-router-config';
+import ErrorBondary from 'components/error-bondary';
+import OfflineBar from 'components/offline-bar';
+import { isChristmasHolidays } from 'utils/helpers';
 
+import './App.scss';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
 
-  componentWillMount() {
-    // еще один костыль
-    const events = JSON.parse(localStorage.getItem('events')) || {};
-    if (Object.keys(events).length === 0) {
-      console.log('init');
-      let obj = {"imaguru":true,"eventsDevBy":true,"meetupBy":true,"minskforfree":true,"sportMts":false,"freeFitnessMinsk":false, "citydogAfisha":true, "citydogVedy":true};
-      localStorage.setItem('events', JSON.stringify(obj));
-    }
-
-
+    window.browserHistory = this.props.history;
   }
+
+  componentDidMount() {
+    if (isChristmasHolidays()) {
+      // add cool snow
+      const script = document.createElement('script');
+
+      script.src = '/libs/snowstorm-min.js';
+      script.onload = () => {
+        window.snowStorm.flakesMaxActive = 156;
+        window.snowStorm.followMouse = false;
+      };
+
+      document.body.appendChild(script);
+    }
+  }
+
   render() {
     return (
-      <div className="app">
-        <Header />
+      <ErrorBondary>
+        <Helmet>
+          <title>Events Free</title>
+        </Helmet>
 
-        <div className="content">
-          {this.props.children}
+        <div className="app">
+          <Header />
+          <OfflineBar />
+
+          <div className="content">{renderRoutes(this.props.route.routes)}</div>
+
+          <Footer />
         </div>
-        <div className="sk-spinner sk-spinner-pulse"></div>
-
-        <Footer />
-      </div>
+      </ErrorBondary>
     );
   }
 }

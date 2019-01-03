@@ -1,90 +1,82 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import EventDetail from './EventDetail';
 import { Loader } from 'components/common';
+import { withRouter } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
-import axios from 'axios';
-// import { API } from '';
+import { loadEvent } from 'actions/events';
 
-import './EventPageContainer.css';
+import isEqual from 'lodash/isEqual';
 
+import './EventPageContainer.scss';
 
 const propTypes = {
-
-}
-
-// const fakeEvent = {
-//   title: 'Cool event',
-//   text: '  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet veritatis ut repellat officiis ipsam aut, totam ratione optio laboriosam deserunt. Ullam consequuntur pariatur facere blanditiis, facilis minus ab? Hic omnis mollitia consequatur dolores voluptatum, labore assumenda quas possimus officiis veritatis quod ab nulla, porro, optio neque fugit cumque id vel?',
-//   date: 38293893483,
-//   images: [
-//     {
-//       src: 'http://www.uniwallpaper.com/static/images/Sunset-Village-Wallpaper_8I7ogbf.jpg',
-//       description: 'top image'
-//     },
-//     {
-//       src: 'http://www.uniwallpaper.com/static/images/EPUlp9X_YqNR99f.jpg',
-//       description: 'top image second'
-//     }
-//   ]
-// }
-
+  event: PropTypes.object.isRequired,
+  loadEvent: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+};
 
 class EventPageContainer extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      event: {},
-    }
-
-    this.loadEvent = this.loadEvent.bind(this);
-  }
-
   componentDidMount() {
-    this.loadEvent(this.props.params.id);
+    this.props.loadEvent(this.props.match.params.id);
     window.scrollTo(0, 0);
-    console.log(this.props);
   }
 
-  componentWillUnmount() {
-    document.title = 'Events free';
-  }
+  componentWillReceiveProps(nextProps) {
+    const eventId = this.props.match.params.id;
+    if (isEqual(nextProps.event.data[eventId], this.props.event.data[eventId])) return;
 
-  loadEvent(id) {
-    axios.get(`/event?id=${id}`)
-      .then(data => {
-        // setTimeout(() => {
-        const eventData = data.data[0];
-          this.setState({event:eventData });
-          window.scrollTo(0, 0);
-          document.title = eventData.title;
-        // });
-      })
-      .catch(error => {
-        console.log(error);
-      })
+    window.scrollTo(0, 0);
   }
 
   render() {
-    const { title, text, date, images } = this.state.event;
+    if (!Object.keys(this.props.event.data[this.props.match.params.id] || {}).length) {
+      return <Loader />;
+    }
+
+    const { title, text, date, images, contacts, location, _id: id, tags } = this.props.event.data[
+      this.props.match.params.id
+    ];
     return (
       <div className="event-page-container">
-        {Object.keys(this.state.event).length === 0  ?
-          <Loader /> :
-          <EventDetail
-            title={title}
-            text={text}
-            date={date}
-            images={images}
-          />
-    }
+        <Helmet>
+          <title>{title}</title>
+          <meta property="og:title" content={title} />
+          <meta property="og:url" content={`https://www.eventsfree.by/event/${id}`} />
+          {images.length && <meta property="og:image" content={images[0]} />}
+        </Helmet>
+        <EventDetail
+          id={id}
+          title={title}
+          text={text}
+          date={date}
+          images={images}
+          contacts={contacts}
+          location={location}
+          routerHistory={this.props.history}
+          routerLocation={this.props.location}
+          tags={tags}
+        />
       </div>
-    )
+    );
   }
 }
 
+const mapStateToProps = ({ event }) => {
+  return { event };
+};
+
 EventPageContainer.propTypes = propTypes;
 
-export default EventPageContainer;
+export default {
+  component: connect(
+    mapStateToProps,
+    { loadEvent }
+  )(withRouter(EventPageContainer)),
+  loadData: ({ dispatch }) => dispatch(loadEvent()),
+};

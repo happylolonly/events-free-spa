@@ -1,0 +1,25 @@
+language: node_js
+node_js:
+- '10'
+dist: trusty
+services:
+  - mongodb
+  - redis-server
+env:
+  - CI=false
+cache:
+  directories:
+    - node_modules
+install:
+  - npm install
+  - npm run build
+script:
+  - npm test
+deploy:
+  provider: heroku
+  api_key:
+    secure: bledmDbUuWtwpXkCVB4ebZb+5r418AVnFWgTCZ0hNPSQ4KwWEngfIvuozRYVOtiOrLW23wCmlWz9IVqqha1JUQYOR5fWPi95qiKBTQO2LjSHZ5io4h7xJTFztigzxOEaKQjoKhnc0iC8ct45XYieQaN9neZ4pJIC0wCJd1p2ZnxZrIQQMEbg8FUUvnbjuS2n6DQeyfxMf0Y6TntWRSWlFrQ/LuJ61T08XvoO5nJz7ntsP7LUFylQK4FP1XscUBPtBK8+gZV6LxXj1kUAcMEe7aiJiBaxl4UgcjuAvGos5Uxg4skm7iVhzRf4y0aVasnGapXoi/OBTzCrXCNJrmcIU01EaA07KwS2hW9T+/UG9m/d0yDsx72aLpTTzAEycuIHiKEv53CLaq8Yuu3eoE+A4iAFBpBNFodV04hKuHZb/2fqX0te9MT7nwPutBStR09zIQLwaxDU/0d0yTglQ4E2AdIMYn5pYf6YUz2m9Pu0TLw8ki8JhSueZBdQbDyVBNpA1H2V5+lIZracWTrOW6N2BDFLIyhxOtzgf0SLqM2gXE+jIEXhzCkG8Ibm5SczSF5tyApZ7emSzPRUsvcEs2pybCqhye6XqjCjyNY7AW42s7bBBJ02XWMA9HhTmpcpHNQD8kOQcj5oKbVClesK4FUPhV4HTiH/nl2iI+Ptl+1IyFk=
+  app: eventsfree
+  on:
+    repo: happylolonly/events-free-spa
+    branch: dev

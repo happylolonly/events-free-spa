@@ -1,110 +1,40 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { Checkbox } from 'components/common';
+import Sources from './Sources/Sources';
+import LoadAll from './LoadAll/LoadAll';
+import { updateSources, toggleSources } from 'actions/sources';
+import { loadAllEvents } from 'actions/events';
 
-import './SettingsPage.css';
-
+import './SettingsPage.scss';
 
 const propTypes = {
+  sources: PropTypes.object.isRequired,
+  updateSources: PropTypes.func.isRequired,
+  toggleSources: PropTypes.func.isRequired,
+};
 
-}
+const SettingsPage = ({ sources, updateSources, toggleSources, loadAllEvents }) => {
+  return (
+    <div className="settings-page">
+      <Sources sources={sources} updateSources={updateSources} toggleSources={toggleSources} />
 
-class SettingsPage extends Component {
-  constructor() {
-    super();
+      <hr />
+      <LoadAll sources={sources} loadAllEvents={loadAllEvents} />
+    </div>
+  );
+};
 
-    this.state = {
-      meetupBy: true,
-      eventsDevBy: true,
-      imaguru: true,
-      minskforfree: true,
-      sportMts: false,
-      freeFitnessMinsk: false,
-      citydogVedy: false,
-      citydogAfisha: false,
-    }
-
-    this.handleElementsChange = this.handleElementsChange.bind(this);
-  }
-
-  componentDidMount() {
-    const events = JSON.parse(localStorage.getItem('events')) || {};
-    console.log(events);
-
-    this.setState({...events});
-  }
-
-  handleElementsChange(name, value) {
-    console.log(value);
-    this.setState({[name]: value});
-    const events = JSON.parse(localStorage.getItem('events')) || {};
-    events[name] = value;
-    localStorage.setItem('events', JSON.stringify(events));
-  }
-
-  render() {
-    return (
-      <div className="settings-page">
-        <h3>Настройки</h3>
-        <p>Выбери откуда хочешь получать события</p>
-
-      <Checkbox
-        name="meetupBy"
-        value={this.state.meetupBy}
-        onChange={this.handleElementsChange}
-        text="meetup.by"
-      />
-      <Checkbox
-        name="eventsDevBy"
-        value={this.state.eventsDevBy}
-        onChange={this.handleElementsChange}
-        text="events.dev.by"
-      />
-      <Checkbox
-        name="imaguru"
-        value={this.state.imaguru}
-        onChange={this.handleElementsChange}
-        text="imaguru.by"
-      />
-      <Checkbox
-        name="minskforfree"
-        value={this.state.minskforfree}
-        onChange={this.handleElementsChange}
-        text="vk.com/minskforfree"
-      />
-      <Checkbox
-        name="citydogAfisha"
-        value={this.state.citydogAfisha}
-        onChange={this.handleElementsChange}
-        text="citydog.by/afisha"
-      />
-      <Checkbox
-        name="citydogVedy"
-        value={this.state.citydogVedy}
-        onChange={this.handleElementsChange}
-        text="citydog.by/vedy"
-      />
-
-    <hr />
-    <h5>Фитнес</h5>
-      <Checkbox
-        name="sportMts"
-        value={this.state.sportMts}
-        onChange={this.handleElementsChange}
-        text="sport.mts.by"
-      />
-      <Checkbox
-        name="freeFitnessMinsk"
-        value={this.state.freeFitnessMinsk}
-        onChange={this.handleElementsChange}
-        text="vk.com/free_fitness_minsk"
-      />
-      </div>
-    )
-  }
-}
+const mapStateToProps = ({ sources }) => {
+  return {
+    sources,
+  };
+};
 
 SettingsPage.propTypes = propTypes;
 
-export default SettingsPage;
+export default connect(
+  mapStateToProps,
+  { updateSources, toggleSources, loadAllEvents }
+)(SettingsPage);

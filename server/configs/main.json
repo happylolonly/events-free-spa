@@ -1,0 +1,5 @@
+{
+  "ssr": {
+    "pages": ["/", "events", "event", "weekevents", "about", "settings"]
+  }
+}

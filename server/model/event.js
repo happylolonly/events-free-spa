@@ -3,9 +3,12 @@ const Schema = mongoose.Schema;
 
 const EventSchema = new Schema({
   date: { type: Number, required: [true] },
-  title: { type: String, required: [true] },
+  title: { type: String, required: [true], text: true },
   text: { type: String, required: [true] },
   images: { type: Array },
+  contacts: { type: Object },
+  location: { type: String },
+  tags: { type: Array },
 
   originalLink: { type: String, required: [true] },
   source: { type: String, required: [true] },
@@ -14,6 +17,8 @@ const EventSchema = new Schema({
 });
 
 const Event = mongoose.model('event', EventSchema);
+
+EventSchema.index({ text: 'text' });
 
 module.exports = Event;
 
