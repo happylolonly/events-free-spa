@@ -38,12 +38,12 @@ if (sources) {
 if (savedEvents) {
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
-  const currentMounth = currentDate.getMonth() + 1;
+  const currentMonth = currentDate.getMonth() + 1;
 
   const { date, data } = savedEvents;
 
-  const [mounth, day] = date.split('_');
-  if (currentDay === day && currentMounth === mounth) {
+  const [month, day] = date.split('_');
+  if (currentDay === +day && currentMonth === +month) {
     store.dispatch({
       type: types.SETUP_EVENTS,
       payload: data,

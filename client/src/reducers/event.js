@@ -35,12 +35,12 @@ export default (state = initialState, action) => {
 
       const date = new Date();
       const day = date.getDate();
-      const mounth = date.getMonth() + 1;
+      const month = date.getMonth() + 1;
 
-      localStorage.setItem(
+      window.localStorage.setItem(
         'savedEvents',
         JSON.stringify({
-          date: mounth + '_' + day,
+          date: month + '_' + day,
           data: obj,
         })
       );
