@@ -1,6 +1,7 @@
 import React from 'react';
-import './Tag.scss';
 import PropTypes from 'prop-types';
+
+import './Tag.scss';
 
 const propTypes = {
   text: PropTypes.string.isRequired,
