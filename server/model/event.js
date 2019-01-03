@@ -13,7 +13,7 @@ const EventSchema = new Schema({
   originalLink: { type: String, required: [true] },
   source: { type: String, required: [true] },
 
-  status: { type: String, required: [true] },
+  status: { type: String, required: [true], enum: ['active', 'noactive', 'rejected'] },
 });
 
 const Event = mongoose.model('event', EventSchema);
