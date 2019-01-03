@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 
-import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import reducers from './reducers';
@@ -17,10 +16,14 @@ import './index.scss';
 import registerServiceWorker, { unregister } from './registerServiceWorker';
 
 window.BrowserRouter = BrowserRouter;
-const logger = createLogger({ collapsed: true });
 
-const createStoreWithMiddleware = applyMiddleware(logger, thunk)(createStore);
-const store = createStoreWithMiddleware(reducers);
+const composer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  reducers, composer(
+    applyMiddleware(thunk)
+  )
+);
 
 const sources = JSON.parse(localStorage.getItem('events') || null);
 const savedEvents = JSON.parse(localStorage.getItem('savedEvents') || null);
