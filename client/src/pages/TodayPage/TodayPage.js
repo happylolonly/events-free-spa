@@ -11,7 +11,6 @@ const propTypes = {
 };
 
 const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
-  console.log(events);
   const showTitle = () => {
     switch (currentFilter) {
       case 'today':
@@ -42,7 +41,7 @@ const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
           'Сентября',
           'Октября',
           'Ноября',
-          'Декабря',
+          'Декабря'
         ];
 
         return (

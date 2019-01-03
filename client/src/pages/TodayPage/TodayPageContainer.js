@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 import io from 'socket.io-client';
 
@@ -9,8 +10,7 @@ import Search from './Search/Search';
 import Filters from './Filters/Filters';
 import TodayPage from './TodayPage';
 import { Loader, Calendar } from 'components/common';
-import ScrollUpButton from '../../components/ScrollUpButton/ScrollUpButton';
-import moment from 'moment';
+import ScrollUpButton from 'components/ScrollUpButton/ScrollUpButton';
 
 import { loadEvents, resetEvents, loadEvent } from 'actions/events';
 
@@ -18,13 +18,13 @@ import './TodayPageContainer.scss';
 
 const OFFSET_LENGTH = 10;
 
-const propTypes = {
-  events: PropTypes.object.isRequired,
-  loadEvents: PropTypes.func.isRequired,
-  resetEvents: PropTypes.func.isRequired,
-};
+class TodayPageContainer extends PureComponent {
+  static propTypes = {
+    events: PropTypes.object.isRequired,
+    loadEvents: PropTypes.func.isRequired,
+    resetEvents: PropTypes.func.isRequired,
+  };
 
-class TodayPageContainer extends Component {
   constructor(props) {
     super(props);
 
@@ -62,8 +62,6 @@ class TodayPageContainer extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.loadMore = this.loadMore.bind(this);
 
-    this.handleFilter = this.handleFilter.bind(this);
-
     this.eventsUpdated = this.eventsUpdated.bind(this);
     this.handleSecretButtonClick = this.handleSecretButtonClick.bind(this);
     this.toggleCalendar = this.toggleCalendar.bind(this);
@@ -77,14 +75,6 @@ class TodayPageContainer extends Component {
     this.socket.on('disconnect', () => console.log('disconnect'));
     this.socket.on('events-updated', this.eventsUpdated);
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   // nextProps.route.path === 'today'
-  //   setTimeout(() => {
-  //     this.loadEvents();
-  //   }, 10);
-  //   // this.loadEvents();
-  // }
 
   componentWillUnmount() {
     this.socket.close();
@@ -117,8 +107,6 @@ class TodayPageContainer extends Component {
   loadEvents() {
     const { search, offset, currentFilter } = this.state;
 
-    // debugger;
-
     this.props.loadEvents({
       search,
       offset,
@@ -132,22 +120,20 @@ class TodayPageContainer extends Component {
     });
   }
 
-  handleFilter(filter) {
+  handleFilter = (filter) => {
     this.props.resetEvents();
-    this.setState(
-      {
-        currentFilter: filter,
-        isShowCalendar: filter === 'certain',
-        offset: 0,
-      },
-      () => {
-        if (filter === 'certain') {
-          window.history.pushState(filter, null, `events?day=`);
-        } else {
-          window.history.pushState(filter, null, `events?day=${filter}`);
-          this.loadEvents();
-        }
+    this.setState({
+      currentFilter: filter,
+      isShowCalendar: filter === 'certain',
+      offset: 0,
+    }, () => {
+      if (filter === 'certain') {
+        window.history.pushState(filter, null, `events?day=`);
+      } else {
+        window.history.pushState(filter, null, `events?day=${filter}`);
+        this.loadEvents();
       }
+    }
     );
   }
 
@@ -222,10 +208,10 @@ class TodayPageContainer extends Component {
 
             {this.props.events.data.model.length < this.props.events.data.totalCount &&
               !this.props.events.isLoading && (
-                <button className="show-more" onClick={this.loadMore}>
+              <button className="show-more" onClick={this.loadMore}>
                   Показать еще
-                </button>
-              )}
+              </button>
+            )}
           </div>
         )}
 
@@ -246,8 +232,6 @@ class TodayPageContainer extends Component {
 const mapStateToProps = ({ events, event }) => {
   return { events, eventInfo: event };
 };
-
-TodayPageContainer.propTypes = propTypes;
 
 export default {
   component: connect(
