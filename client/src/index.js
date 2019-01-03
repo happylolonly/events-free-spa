@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 
-import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import reducers from './reducers';
@@ -14,16 +13,20 @@ import Routes from './routes';
 
 import './index.scss';
 
-import registerServiceWorker, { unregister } from './registerServiceWorker';
+import registerServiceWorker from './registerServiceWorker';
 
 window.BrowserRouter = BrowserRouter;
-const logger = createLogger({ collapsed: true });
 
-const createStoreWithMiddleware = applyMiddleware(logger, thunk)(createStore);
-const store = createStoreWithMiddleware(reducers);
+const composer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const sources = JSON.parse(localStorage.getItem('events') || null);
-const savedEvents = JSON.parse(localStorage.getItem('savedEvents') || null);
+const store = createStore(
+  reducers, composer(
+    applyMiddleware(thunk)
+  )
+);
+
+const sources = JSON.parse(window.localStorage.getItem('events') || null);
+const savedEvents = JSON.parse(window.localStorage.getItem('savedEvents') || null);
 
 if (sources) {
   store.dispatch({
@@ -40,7 +43,7 @@ if (savedEvents) {
   const { date, data } = savedEvents;
 
   const [mounth, day] = date.split('_');
-  if (currentDay == day && currentMounth == mounth) {
+  if (currentDay === day && currentMounth === mounth) {
     store.dispatch({
       type: types.SETUP_EVENTS,
       payload: data,
@@ -51,7 +54,7 @@ if (savedEvents) {
       payload: data,
     });
   } else {
-    localStorage.removeItem('savedEvents');
+    window.localStorage.removeItem('savedEvents');
   }
 }
 
