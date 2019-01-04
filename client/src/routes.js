@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router';
+import { Redirect } from 'react-router-dom';
 
 import App from './App';
 
@@ -30,7 +30,7 @@ export default [
         path: ['/', '/event', '*'],
         exact: true,
         component: () => <Redirect to="/events" />,
-      },
+      }
     ],
-  },
+  }
 ];
