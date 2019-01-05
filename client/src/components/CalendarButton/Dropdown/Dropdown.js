@@ -8,21 +8,19 @@ const propTypes = {
   handleDropdownClick: PropTypes.func.isRequired
 }
 
-class Dropdown extends React.Component {
-  onClick = (event, item) => {
-    this.props.handleDropdownClick(item);
+const Dropdown = ({items, handleDropdownClick}) => {
+
+  const onClick = (item, e) => {
+    handleDropdownClick(item);
   }
 
-  render() {
-    const items = this.props.items;
-    return (
-      <div className="dropdown">
-        {items.map((text, i) => (
-          <button className="dropdown__link" key={i} onClick={this.onClick}>{text}</button>
-        ))}
-      </div>
-    )
-  }
+  return (
+    <div className="dropdown">
+      {items.map((text, i) => (
+        <button className="dropdown__link" key={i} onClick={(e) => onClick(items[i], e)}>{text}</button>
+      ))}
+    </div>
+  )
 }
 
 Dropdown.propTypes = propTypes;

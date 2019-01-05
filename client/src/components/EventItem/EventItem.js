@@ -22,7 +22,6 @@ const propTypes = {
 }
 
 const EventItem = ({ date, title, link, originalLink, source, mouseOver, adminMode, tags }) => {
-  // console.log(tags)
   return (
     <div className="event-item" onMouseOver={mouseOver}>
       <header>

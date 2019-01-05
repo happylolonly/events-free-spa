@@ -8,10 +8,11 @@ class CalendarButton extends React.Component {
   }
 
   onClick = (event) => {
-    this.setState((state) => {return {isDropdownOpen: !this.state.isDropdownOpen}});
+    this.setState({isDropdownOpen: !this.state.isDropdownOpen});
   }
 
   handleDropdownClick = (item) => {
+    console.log(item);
     //здесь функция которая хэндлит клик по оции в дропдауне?
   };
 
