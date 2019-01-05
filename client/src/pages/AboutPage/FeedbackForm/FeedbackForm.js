@@ -49,8 +49,8 @@ class FeedbackForm extends Component {
       })
       .catch(error => {
         console.log(error.response.data);
-        this.setState({ error: 'Ой, что то пошло не так(' });
-      });
+        this.setState({error: 'Ой, что-то пошло не так('});
+      })
   }
 
   render() {

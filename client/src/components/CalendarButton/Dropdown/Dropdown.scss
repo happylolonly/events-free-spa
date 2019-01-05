@@ -1,0 +1,28 @@
+.dropdown {
+  position: absolute;
+  top: 32px;
+  right: 50%;
+  transform: translateX(50%);
+
+  .dropdown__link {
+    display: block;
+    min-width: 180px;
+    background-color: #ffffff;
+    padding: 10px;
+    text-decoration: none;
+    color: #000000;
+    text-align: right;
+    border: solid 0.5px #ccc;
+    border-top: 0;
+    outline: none;
+    transition: 0.3s;
+
+
+    &:hover,
+    &:focus {
+      background-color: #7000ff;
+      color: #ffffff;
+      border-color: transparent;
+    }
+  }
+}
