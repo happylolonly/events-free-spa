@@ -53,7 +53,7 @@ class EventDetailFooter extends Component {
               </button>
             </div>
           )}
-          <div>
+          <div style={{ display: 'none' }}>
             <CalendarButton />
           </div>
         </div>
