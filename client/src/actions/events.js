@@ -1,21 +1,28 @@
 import axios from 'axios';
-
+import { createAction } from 'redux-actions';
 import types from '../constants/types';
 import { API } from '../constants/config';
 
+export const startLoadEvent = createAction(types.LOAD_EVENT_START);
+export const eventLoadedWithSuccess = createAction(types.LOAD_EVENT_SUCCESS);
+export const eventLoadedWithError = createAction(types.LOAD_EVENT_ERROR);
+
+export const startLoadEvents = createAction(types.LOAD_EVENTS_START);
+export const eventsLoadedWithSuccess = createAction(types.LOAD_EVENTS_SUCCESS);
+export const eventsLoadedWithError = createAction(types.LOAD_EVENTS_ERROR);
+
+export const setupEventList = createAction(types.SETUP_EVENTS_LIST);
+export const allEventsLoadedWithSuccess = createAction(types.LOAD_ALL_EVENTS_SUCCESS);
+
 export const loadEvents = config => {
   return async (dispatch, getState) => {
-    dispatch({ type: types.LOAD_EVENTS_START });
+    dispatch(startLoadEvents());
 
-    // const events = JSON.parse(localStorage.getItem('events') || null) || {};
-    const events = getState().sources;
-    var keys = Object.keys(events);
+    const sources = getState().sources;
 
-    var filtered = keys.filter(function(key) {
-      return events[key];
-    });
-
-    let sources = filtered.join(',');
+    const activeSources = Object.keys(sources)
+      .filter(key => sources[key])
+      .join(',');
 
     const { search = '', day = 'today', offset = 0 } = config;
 
@@ -25,66 +32,63 @@ export const loadEvents = config => {
           day,
           offset,
           search,
-          sources,
+          sources: activeSources,
           limit: 10,
         },
       });
-      console.log(events);
       const { model, totalCount } = events.data;
 
-      dispatch({ type: types.LOAD_EVENTS_SUCCESS, payload: { model, totalCount, day } });
+      dispatch(eventsLoadedWithSuccess({ model, totalCount, day }));
     } catch (error) {
-      dispatch({ type: types.LOAD_EVENTS_ERROR, payload: error });
+      dispatch(eventsLoadedWithError(error));
     }
   };
 };
 
 export const loadEvent = id => {
   return async dispatch => {
-    dispatch({ type: types.LOAD_EVENT_START });
+    dispatch(startLoadEvent());
 
     try {
-      const event = await axios.get(`${API}/event`, {
+      const { data } = await axios.get(`${API}/event`, {
         params: {
           id,
         },
       });
 
-      dispatch({ type: types.LOAD_EVENT_SUCCESS, payload: event.data[0] });
+      dispatch(eventLoadedWithSuccess(data[0]));
     } catch (error) {
-      dispatch({ type: types.LOAD_EVENT_ERROR, payload: error });
+      dispatch(eventLoadedWithError(error));
     }
   };
 };
 
 export const loadAllEvents = () => {
   return async (dispatch, getState) => {
-    // const events = JSON.parse(localStorage.getItem('events') || null) || {};
-    const events = getState().sources;
-    var keys = Object.keys(events);
+    const sources = getState().sources;
 
-    var filtered = keys.filter(function(key) {
-      return events[key];
-    });
+    const activeSources = Object.keys(sources)
+      .filter(key => sources[key])
+      .join(',');
 
-    let sources = filtered.join(',');
-
-    dispatch({ type: types.LOAD_EVENT_START });
+    dispatch(startLoadEvent());
 
     try {
-      const event = await axios.get(`${API}/events`, {
+      const {
+        data: { model },
+      } = await axios.get(`${API}/events`, {
         params: {
-          sources,
+          sources: activeSources,
           day: 'today',
           full: true,
         },
       });
 
-      dispatch({ type: types.SETUP_EVENTS_LIST, payload: event.data.model }); // возможно костыль, потом посмотреть
+      dispatch(setupEventList(model)); // возможно костыль, потом посмотреть
 
-      dispatch({ type: types.LOAD_ALL_EVENTS_SUCCESS, payload: event.data.model });
+      dispatch(allEventsLoadedWithSuccess(model));
     } catch (error) {
-      dispatch({ type: types.LOAD_EVENT_ERROR, payload: error });
+      dispatch(eventLoadedWithError(error));
     }
   };
 };
