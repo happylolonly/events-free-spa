@@ -11,8 +11,11 @@ export const startLoadEvents = createAction(types.LOAD_EVENTS_START);
 export const eventsLoadedWithSuccess = createAction(types.LOAD_EVENTS_SUCCESS);
 export const eventsLoadedWithError = createAction(types.LOAD_EVENTS_ERROR);
 
-export const setupEventList = createAction(types.SETUP_EVENTS_LIST);
+export const startLoadAllEvents = createAction(types.LOAD_ALL_EVENTS_START);
 export const allEventsLoadedWithSuccess = createAction(types.LOAD_ALL_EVENTS_SUCCESS);
+export const allEventsLoadedWithError = createAction(types.LOAD_ALL_EVENTS_ERROR);
+
+export const setupEventList = createAction(types.SETUP_EVENTS_LIST);
 
 export const loadEvents = config => {
   return async (dispatch, getState) => {
@@ -71,7 +74,7 @@ export const loadAllEvents = () => {
       .filter(key => sources[key])
       .join(',');
 
-    dispatch(startLoadEvent());
+    dispatch(startLoadAllEvents());
 
     try {
       const {
@@ -88,7 +91,7 @@ export const loadAllEvents = () => {
 
       dispatch(allEventsLoadedWithSuccess(model));
     } catch (error) {
-      dispatch(eventLoadedWithError(error));
+      dispatch(allEventsLoadedWithError(error));
     }
   };
 };
