@@ -15,7 +15,7 @@ export const setupEventList = createAction(types.SETUP_EVENTS_LIST);
 export const allEventsLoadedWithSuccess = createAction(types.LOAD_ALL_EVENTS_SUCCESS);
 
 export const loadEvents = config => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     dispatch(startLoadEvents());
 
     const sources = getState().sources;
@@ -26,8 +26,8 @@ export const loadEvents = config => {
 
     const { search = '', day = 'today', offset = 0 } = config;
 
-    return axios
-      .get(`${API}/events`, {
+    try {
+      const events = await axios.get(`${API}/events`, {
         params: {
           day,
           offset,
@@ -35,38 +35,36 @@ export const loadEvents = config => {
           sources: activeSources,
           limit: 10,
         },
-      })
-      .then(({ data }) => {
-        const { model, totalCount } = data;
-        dispatch(eventsLoadedWithSuccess({ model, totalCount, day }));
-      })
-      .catch(error => {
-        dispatch(eventsLoadedWithError(error));
       });
+      const { model, totalCount } = events.data;
+
+      dispatch(eventsLoadedWithSuccess({ model, totalCount, day }));
+    } catch (error) {
+      dispatch(eventsLoadedWithError(error));
+    }
   };
 };
 
 export const loadEvent = id => {
-  return dispatch => {
+  return async dispatch => {
     dispatch(startLoadEvent());
 
-    return axios
-      .get(`${API}/event`, {
+    try {
+      const { data } = await axios.get(`${API}/event`, {
         params: {
           id,
         },
-      })
-      .then(({ data }) => {
-        dispatch(eventLoadedWithSuccess(data[0]));
-      })
-      .catch(error => {
-        dispatch(eventLoadedWithError(error));
       });
+
+      dispatch(eventLoadedWithSuccess(data[0]));
+    } catch (error) {
+      dispatch(eventLoadedWithError(error));
+    }
   };
 };
 
 export const loadAllEvents = () => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const sources = getState().sources;
 
     const activeSources = Object.keys(sources)
@@ -75,22 +73,23 @@ export const loadAllEvents = () => {
 
     dispatch(startLoadEvent());
 
-    return axios
-      .get(`${API}/events`, {
+    try {
+      const {
+        data: { model },
+      } = await axios.get(`${API}/events`, {
         params: {
           sources: activeSources,
           day: 'today',
           full: true,
         },
-      })
-      .then(({ data: { model } }) => {
-        dispatch(setupEventList(model)); // возможно костыль, потом посмотреть
-
-        dispatch(allEventsLoadedWithSuccess(model));
-      })
-      .catch(error => {
-        dispatch(eventLoadedWithError(error));
       });
+
+      dispatch(setupEventList(model)); // возможно костыль, потом посмотреть
+
+      dispatch(allEventsLoadedWithSuccess(model));
+    } catch (error) {
+      dispatch(eventLoadedWithError(error));
+    }
   };
 };
 
