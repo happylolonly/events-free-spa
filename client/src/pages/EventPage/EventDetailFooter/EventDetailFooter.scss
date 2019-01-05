@@ -1,8 +1,6 @@
 .additional-info {
-
-    .first-row {
-
-        display: flex;
+  .first-row {
+    display: flex;
     justify-content: space-between;
 
     @media (max-width: 900px) {
@@ -10,10 +8,9 @@
       flex-direction: column;
     }
 
-    .btn-link {
-        outline: none;
+    .btn--link {
+      padding-left: 0;
+      font-size: 14px;
     }
-
-    }
-    
   }
+}

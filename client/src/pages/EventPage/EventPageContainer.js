@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import EventDetail from './EventDetail';
 import { Loader } from 'components/common';
 import { withRouter } from 'react-router-dom';
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 import { loadEvent } from 'actions/events';
 
@@ -13,13 +13,12 @@ import isEqual from 'lodash/isEqual';
 
 import './EventPageContainer.scss';
 
-
 const propTypes = {
   event: PropTypes.object.isRequired,
   loadEvent: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
 };
 
 class EventPageContainer extends Component {
@@ -40,7 +39,9 @@ class EventPageContainer extends Component {
       return <Loader />;
     }
 
-    const { title, text, date, images, contacts, location, _id: id, tags } = this.props.event.data[this.props.match.params.id];
+    const { title, text, date, images, contacts, location, _id: id, tags } = this.props.event.data[
+      this.props.match.params.id
+    ];
     return (
       <div className="event-page-container">
         <Helmet>
@@ -62,17 +63,20 @@ class EventPageContainer extends Component {
           tags={tags}
         />
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = ({ event }) => {
-  return { event }
-}
+  return { event };
+};
 
 EventPageContainer.propTypes = propTypes;
 
 export default {
-  component: connect(mapStateToProps, { loadEvent })(withRouter(EventPageContainer)),
-  loadData: ({ dispatch }) => dispatch(loadEvent())
+  component: connect(
+    mapStateToProps,
+    { loadEvent }
+  )(withRouter(EventPageContainer)),
+  loadData: ({ dispatch }) => dispatch(loadEvent()),
 };

@@ -4,67 +4,61 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './index.scss';
 
-
-const propTypes = {
-
-}
+const propTypes = {};
 
 class OflineBar extends Component {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.state = {
-            status: navigator.onLine,
-            isShow: false,
-        };
+    this.state = {
+      status: navigator.onLine,
+      isShow: false,
+    };
 
-        this.handleButtonClick = this.handleButtonClick.bind(this);
-        this.updateOnlineStatus = this.updateOnlineStatus.bind(this);
-    }
-    
-    componentDidMount() {
-        window.addEventListener('online',  this.updateOnlineStatus);
-        window.addEventListener('offline', this.updateOnlineStatus);
-    }
+    this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.updateOnlineStatus = this.updateOnlineStatus.bind(this);
+  }
 
-    componentWillUnmount() {
-        window.removeEventListener('online', this.updateOnlineStatus);
-        window.removeEventListener('offline', this.updateOnlineStatus);
-    }
+  componentDidMount() {
+    window.addEventListener('online', this.updateOnlineStatus);
+    window.addEventListener('offline', this.updateOnlineStatus);
+  }
 
-    updateOnlineStatus() {
-        this.setState({
-            status: navigator.onLine,
-            isShow: true,
-        });
+  componentWillUnmount() {
+    window.removeEventListener('online', this.updateOnlineStatus);
+    window.removeEventListener('offline', this.updateOnlineStatus);
+  }
 
-        if (navigator.onLine) {
-            setTimeout(() => {
-                this.setState({ isShow: false });
-            }, 3000);
-        }
-    }
+  updateOnlineStatus() {
+    this.setState({
+      status: navigator.onLine,
+      isShow: true,
+    });
 
-    handleButtonClick() {
+    if (navigator.onLine) {
+      setTimeout(() => {
         this.setState({ isShow: false });
+      }, 3000);
+    }
+  }
+
+  handleButtonClick() {
+    this.setState({ isShow: false });
+  }
+
+  render() {
+    if (!this.state.isShow) {
+      return null;
     }
 
-    render() {
-        if (!this.state.isShow) {
-            return null;
-        }
-
-        const classNames = classnames(
-            'offline-bar',
-            this.state.status ? 'online' : 'offline',
-        )
-        return (
-            <div className={classNames}>
-                <p>{!this.state.status ? 'Нет интернет соединения' : 'Соединение появилось!'}</p>
-                <button onClick={this.handleButtonClick}>Скрыть</button>
-            </div>
-        )
-    }
+    const classNames = classnames('offline-bar', this.state.status ? 'online' : 'offline');
+    return (
+      <div className={classNames}>
+        <p>{!this.state.status ? 'Нет интернет соединения' : 'Соединение появилось!'}</p>
+        <button onClick={this.handleButtonClick}>Скрыть</button>
+      </div>
+    );
+  }
 }
 
 OflineBar.propTypes = propTypes;

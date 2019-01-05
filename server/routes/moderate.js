@@ -1,16 +1,15 @@
 import Event from '../model/event';
 
-module.exports = (app) => {
-
+module.exports = app => {
   app.get('/moderate', (req, res) => {
     Event.find({ status: 'noactive' })
-    .limit(50)
+      .limit(50)
       .then(data => {
         res.send(data);
       })
       .catch(error => {
         res.status(422).send(error);
-      })
+      });
   });
 
   app.put('/moderate', (req, res) => {
@@ -23,6 +22,6 @@ module.exports = (app) => {
       })
       .catch(error => {
         res.status(422).send(error);
-      })
-  })
-}
+      });
+  });
+};

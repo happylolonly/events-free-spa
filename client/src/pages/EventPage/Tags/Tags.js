@@ -2,16 +2,15 @@
  * Component show tags on event's page and allow to check them on admin's
  */
 
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import Tag from "../../../components/Tag/Tag";
+import Tag from '../../../components/Tag/Tag';
 
-import axios from "axios";
-import { API } from "constants/config";
+import axios from 'axios';
+import { API } from 'constants/config';
 
 import './Tags.scss';
-
 
 const propTypes = {
   tags: PropTypes.array.isRequired,
@@ -22,23 +21,24 @@ const propTypes = {
 };
 
 class Tags extends Component {
-
   state = {
     tags: this.props.tags,
     newTag: '',
     predictions: {},
-  }
+  };
 
   componentDidMount() {
-    this.predict(this.props.id);
+    if (this.props.adminMode) {
+      this.predict(this.props.id);
+    }
   }
 
   async predict(id) {
     try {
       const data = await axios.get(`${API}/event-tag-predict`, {
         params: {
-          id
-        }
+          id,
+        },
       });
 
       const { topics, tags } = data.data;
@@ -46,9 +46,9 @@ class Tags extends Component {
       this.setState({
         predictions: {
           topics,
-          tags
-        }
-      })
+          tags,
+        },
+      });
     } catch (error) {
       console.log(error);
     }
@@ -58,10 +58,10 @@ class Tags extends Component {
     try {
       await axios.patch(`${API}/event-tag`, {
         id: this.props.id,
-        tags: this.state.tags
+        tags: this.state.tags,
       });
 
-      this.props.routerHistory.push("/somepath");
+      this.props.routerHistory.push('/somepath');
     } catch (error) {
       console.log(error);
     }
@@ -77,29 +77,35 @@ class Tags extends Component {
     // const { tags, newTag } = this.state;
     // const tags = [ ...this.state.tags ];
     // tags.push(newTag);
+    // this.state.newTag.split(' ')
 
     if (this.state.newTag) {
       this.setState({
-        tags: [...this.state.tags, ...this.state.newTag.split(' ')], // check dyplicates
-        newTag: ''
-      })
-
+        tags: [...this.state.tags, this.state.newTag], // check dyplicates
+        newTag: '',
+      });
     }
   };
 
   renderPredictionTags() {
-
-    function renderTags (items) {
+    const renderTags = items => {
       return items.map((item, i) => {
         const { label, probability } = item;
         return (
-          <div>
-            <Tag key={i} text={label} />
-            <p>{probability}%</p>
+          <div key={i}>
+            <Tag
+              text={label}
+              onClick={() => {
+                this.setState({
+                  tags: [...this.state.tags, label],
+                });
+              }}
+            />
+            <p>{probability * 100} %</p>
           </div>
         );
-      })
-    }
+      });
+    };
 
     const { tags, topics } = this.state.predictions;
 
@@ -115,7 +121,6 @@ class Tags extends Component {
         </div>
       </div>
     );
-
   }
 
   render() {
@@ -135,13 +140,11 @@ class Tags extends Component {
           return <Tag key={i} text={item} />;
         })}
 
-        {Object.keys(this.state.predictions).length && this.renderPredictionTags()}
+        <hr />
 
-        <input
-          type="text"
-          value={this.state.newTag}
-          onChange={this.handleChange}
-        />
+        {Object.keys(this.state.predictions).length > 0 && this.renderPredictionTags()}
+
+        <input type="text" value={this.state.newTag} onChange={this.handleChange} />
 
         {/* TODO: use common components */}
 

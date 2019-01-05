@@ -7,7 +7,6 @@ import { isChristmasHolidays } from 'utils/helpers';
 
 import './Footer.scss';
 
-
 const Footer = () => {
   return (
     <footer className="footer">
@@ -24,9 +23,12 @@ const Footer = () => {
         </ul>
       </div>
 
-      <p>© 2017 - {new Date().getFullYear()} Events Free. Making with love {isChristmasHolidays() ? <ChristmasTree /> : <span>❤</span>}</p>
+      <p>
+        © 2017 - {new Date().getFullYear()} Events Free. Making with love{' '}
+        {isChristmasHolidays() ? <ChristmasTree /> : <span>❤</span>}
+      </p>
     </footer>
-  )
-}
+  );
+};
 
 export default Footer;

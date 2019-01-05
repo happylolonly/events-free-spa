@@ -11,7 +11,6 @@ import { isChristmasHolidays } from 'utils/helpers';
 
 import './App.scss';
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -19,20 +18,19 @@ class App extends Component {
     window.browserHistory = this.props.history;
   }
 
-  componentDidMount () {
-
-    if (isChristmasHolidays()) { // add cool snow
+  componentDidMount() {
+    if (isChristmasHolidays()) {
+      // add cool snow
       const script = document.createElement('script');
 
       script.src = '/libs/snowstorm-min.js';
       script.onload = () => {
         window.snowStorm.flakesMaxActive = 156;
         window.snowStorm.followMouse = false;
-      }
+      };
 
       document.body.appendChild(script);
     }
-
   }
 
   render() {
@@ -46,9 +44,7 @@ class App extends Component {
           <Header />
           <OfflineBar />
 
-          <div className="content">
-            {renderRoutes(this.props.route.routes)}
-          </div>
+          <div className="content">{renderRoutes(this.props.route.routes)}</div>
 
           <Footer />
         </div>

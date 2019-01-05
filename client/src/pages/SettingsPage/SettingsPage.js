@@ -9,7 +9,6 @@ import { loadAllEvents } from 'actions/events';
 
 import './SettingsPage.scss';
 
-
 const propTypes = {
   sources: PropTypes.object.isRequired,
   updateSources: PropTypes.func.isRequired,
@@ -19,24 +18,23 @@ const propTypes = {
 const SettingsPage = ({ sources, updateSources, toggleSources, loadAllEvents }) => {
   return (
     <div className="settings-page">
-      <Sources
-        sources={sources}
-        updateSources={updateSources}
-        toggleSources={toggleSources}
-      />
+      <Sources sources={sources} updateSources={updateSources} toggleSources={toggleSources} />
 
       <hr />
       <LoadAll sources={sources} loadAllEvents={loadAllEvents} />
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = ({ sources }) => {
   return {
-    sources
-  }
-}
+    sources,
+  };
+};
 
 SettingsPage.propTypes = propTypes;
 
-export default connect(mapStateToProps, { updateSources, toggleSources, loadAllEvents })(SettingsPage);
+export default connect(
+  mapStateToProps,
+  { updateSources, toggleSources, loadAllEvents }
+)(SettingsPage);

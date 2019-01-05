@@ -1,16 +1,16 @@
 .map {
-    max-width: 80%;
-    margin: 10px auto;
+  max-width: 80%;
+  margin: 10px auto;
 
-    animation: appear 0.34s 0s ease-out;
+  animation: appear 0.34s 0s ease-out;
 
-    @keyframes appear {
-        from {
-            height: 0;
-        }
-
-        to {
-            height: 300px;
-        }
+  @keyframes appear {
+    from {
+      height: 0;
     }
+
+    to {
+      height: 300px;
+    }
+  }
 }

@@ -13,7 +13,7 @@ import './WeekEventsContainer';
 const STORAGE_KEY = 'week-events-search';
 
 const propTypes = {
-    sources: PropTypes.object.isRequired,
+  sources: PropTypes.object.isRequired,
 };
 
 class WeekEventsContainer extends Component {
@@ -21,15 +21,15 @@ class WeekEventsContainer extends Component {
     super();
 
     this.state = {
-        events: [],
-        data: {
-          week: 'current',
-          words: '',
-        },
-        dataErrors: {
-          week: '',
-          words: ''
-        }
+      events: [],
+      data: {
+        week: 'current',
+        words: '',
+      },
+      dataErrors: {
+        week: '',
+        words: '',
+      },
     };
 
     this.handleSeachChange = this.handleSeachChange.bind(this);
@@ -41,64 +41,81 @@ class WeekEventsContainer extends Component {
     const { week, words } = JSON.parse(search) || {};
 
     if (words) {
-        this.setState({ data: {
-          week,
-          words,
-        }}, () => {
-            this.loadEvents();
-        });
+      this.setState(
+        {
+          data: {
+            week,
+            words,
+          },
+        },
+        () => {
+          this.loadEvents();
+        }
+      );
     }
   }
 
   async loadEvents() {
-      const { week, words } = this.state.data;
-      let start, end;
+    const { week, words } = this.state.data;
+    let start, end;
 
-      if (week === 'current') {
-          start = moment().startOf('isoWeek').valueOf();
-          end = moment().endOf('isoWeek').valueOf();
-      } else if (week === 'next') {
-          start = moment().add(1, 'weeks').startOf('isoWeek').valueOf();
-          end = moment().add(1, 'weeks').endOf('isoWeek').valueOf();
-      }
+    if (week === 'current') {
+      start = moment()
+        .startOf('isoWeek')
+        .valueOf();
+      end = moment()
+        .endOf('isoWeek')
+        .valueOf();
+    } else if (week === 'next') {
+      start = moment()
+        .add(1, 'weeks')
+        .startOf('isoWeek')
+        .valueOf();
+      end = moment()
+        .add(1, 'weeks')
+        .endOf('isoWeek')
+        .valueOf();
+    }
 
-      try {
-          const data = await axios.get(`${API}/week-events`, {
-              params: {
-                words,
-                start,
-                end,
-                sources: Object.keys(this.props.sources).filter(item => this.props.sources[item]).join(',')
-              }
-          });
+    try {
+      const data = await axios.get(`${API}/week-events`, {
+        params: {
+          words,
+          start,
+          end,
+          sources: Object.keys(this.props.sources)
+            .filter(item => this.props.sources[item])
+            .join(','),
+        },
+      });
 
-          const events = data.data;
-          this.setState({ events });
-          
-      } catch (error) {
-          console.log(error);
-      }
+      const events = data.data;
+      this.setState({ events });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   handleSeachChange(value, name) {
-      this.setState({
-        data: {
-          ...this.state.data, [name]: value
-        },
-        dataErrors: {
-          ...this.state.dataErrors, [name]: ''
-        }
-      });
+    this.setState({
+      data: {
+        ...this.state.data,
+        [name]: value,
+      },
+      dataErrors: {
+        ...this.state.dataErrors,
+        [name]: '',
+      },
+    });
   }
 
   handleSearchButtonClick() {
+    if (this.validate()) {
+      this.loadEvents();
 
-      if (this.validate()) {
-          this.loadEvents();
-
-          const { week, words } = this.state.data;
-          localStorage.setItem(STORAGE_KEY, JSON.stringify({ week, words }));
-      }
+      const { week, words } = this.state.data;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ week, words }));
+    }
   }
 
   validate() {
@@ -119,26 +136,22 @@ class WeekEventsContainer extends Component {
       this.setState({ dataErrors: errors });
       return false;
     }
-
   }
 
   render() {
     return (
       <div className="">
-
         <WeekEvents
-            events={this.state.events}
-            week={this.state.data.week}
-            words={this.state.data.words}            
-            handleSeachChange={this.handleSeachChange}
-            handleSearchButtonClick={this.handleSearchButtonClick}
-
-            weekError={this.state.dataErrors.week}
-            wordsError={this.state.dataErrors.words}
+          events={this.state.events}
+          week={this.state.data.week}
+          words={this.state.data.words}
+          handleSeachChange={this.handleSeachChange}
+          handleSearchButtonClick={this.handleSearchButtonClick}
+          weekError={this.state.dataErrors.week}
+          wordsError={this.state.dataErrors.words}
         />
-
       </div>
-    )
+    );
   }
 }
 
@@ -146,8 +159,8 @@ WeekEventsContainer.propTypes = propTypes;
 
 const mapStateToProps = ({ sources }) => {
   return {
-    sources
-  }
-}
+    sources,
+  };
+};
 
 export default connect(mapStateToProps)(WeekEventsContainer);

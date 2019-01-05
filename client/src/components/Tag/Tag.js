@@ -1,14 +1,16 @@
 import React from 'react';
-import './Tag.scss';
 import PropTypes from 'prop-types';
 
-const propTypes = {
-  text: PropTypes.string.isRequired
-}
+import './Tag.scss';
 
-const Tag = ({ text }) => {
+const propTypes = {
+  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+};
+
+const Tag = ({ text, ...rest }) => {
   return (
-    <div className="tag">
+    <div className="tag" {...rest}>
       {text}
     </div>
   );

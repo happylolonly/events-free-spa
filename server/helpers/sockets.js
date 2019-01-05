@@ -1,13 +1,10 @@
 import parse from '../modules/parse';
 import ssr from '../modules/ssr';
 
-
-export default (io) => {
-
+export default io => {
   const connections = [];
 
-  io.sockets.on('connection', (socket) => {
-
+  io.sockets.on('connection', socket => {
     socket.once('disconnect', () => {
       console.log('disconnect');
       connections.splice(connections.indexOf(socket), 1);
@@ -28,7 +25,5 @@ export default (io) => {
 
     connections.push(socket);
     console.log('Connected: %s sockets connected.', connections.length);
-
   });
-
 };

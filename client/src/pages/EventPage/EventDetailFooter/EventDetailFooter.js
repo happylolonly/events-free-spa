@@ -12,11 +12,11 @@ import SocialButtons from 'components/SocialButtons/SocialButtons';
 import CalendarButton from 'components/CalendarButton/CalendarButton';
 
 const propTypes = {
-//locaton
-// title
-// id
-// contacts
-}
+  //locaton
+  // title
+  // id
+  // contacts
+};
 
 class EventDetailFooter extends Component {
   constructor(props) {
@@ -58,9 +58,29 @@ class EventDetailFooter extends Component {
               </div>
             </div>          
         {this.state.isShowMap &&       <Map location={this.props.location} />}        
+      <div className="additional-info">
+        <div className="first-row">
+          <SocialButtons
+            link={`https://www.eventsfree.by/event/${id}`}
+            title={title}
+            isShowCount={false}
+            image={image}
+          />
+          {contacts && Object.keys(contacts).length > 0 && <Contacts contacts={contacts} />}
+          {location && (
+            <div>
+              <Location location={location} />
+              <button className="btn--link" onClick={this.handleClick}>
+                {!this.state.isShowMap ? 'Показать на карте' : 'Скрыть'}{' '}
+              </button>
+            </div>
+          )}
         </div>
 
     )
+        {this.state.isShowMap && <Map location={this.props.location} />}
+      </div>
+    );
   }
 }
 

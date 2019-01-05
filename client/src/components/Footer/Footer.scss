@@ -10,6 +10,10 @@
   padding: 15px 15%;
   padding-bottom: 5px;
 
+  @media screen and (max-width: 480px) {
+    padding: 15px 9%;
+  }
+
   > div {
     display: flex;
     justify-content: space-between;
@@ -38,9 +42,7 @@
     }
   }
 
-
   @media (max-width: 750px) {
-
     > div {
       flex-direction: column;
 
@@ -51,9 +53,9 @@
     }
   }
 
-    // clear: both;
-    // position: relative;
-    // z-index: 10;
-    // height: 3em;
-    // margin-top: -3em;
+  // clear: both;
+  // position: relative;
+  // z-index: 10;
+  // height: 3em;
+  // margin-top: -3em;
 }

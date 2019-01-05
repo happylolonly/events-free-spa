@@ -1,4 +1,4 @@
-import tress  from 'tress';
+import tress from 'tress';
 import cheerio from 'cheerio';
 
 import chrono from 'chrono-node';
@@ -8,22 +8,18 @@ import axios from 'axios';
 import { saveEventItemToDB, convertMonths, formatDate, checkText } from './helpers';
 import logger from '../helpers/logger';
 
-
-
 const URL = 'https://afisha.tut.by/free-events';
 
-let results = []
+let results = [];
 let pagesCount;
 let requestsCount = 0;
 
-
 const q = tress((url, callback) => {
-
-  axios.get(url)
+  axios
+    .get(url)
     .then(data => {
       requestsCount += 1;
       const $ = cheerio.load(data.data);
-
 
       // q.push('https://events.dev.by?page=4');
       // if main page
@@ -34,15 +30,15 @@ const q = tress((url, callback) => {
         pagesCount = $(eventItem).length;
         // console.log(pagesCount);
         $(eventItem).each((item, i) => {
-          const link = $(i).find('a').attr('href');
+          const link = $(i)
+            .find('a')
+            .attr('href');
           // if (item > 5) return;
           q.push(link);
         });
         callback();
         return;
       }
-
-
 
       // if event's page
       // console.log('parsing', url);
@@ -57,8 +53,6 @@ const q = tress((url, callback) => {
       $html.find('div.b-prmplace-media').remove();
 
       const html = $html.html();
-
-
 
       const title = $page.find('.post_wrapper h1').text();
       const originalLink = url.split('afisha.tut.by')[1];
@@ -97,7 +91,7 @@ const q = tress((url, callback) => {
     .catch(error => {
       callback();
       // console.log(error);
-    })
+    });
 }, 1);
 
 q.drain = () => {
@@ -118,10 +112,10 @@ q.drain = () => {
   } else {
     // console.log('some error happened');
   }
-}
+};
 
 const init = () => {
   q.push(URL);
-}
+};
 
 export default { init };

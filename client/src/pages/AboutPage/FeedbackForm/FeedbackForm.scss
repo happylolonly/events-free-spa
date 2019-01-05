@@ -1,5 +1,4 @@
 .feedback-form {
-
   h5 {
     margin-top: 50px !important;
     // margin-bottom: 0px;
@@ -20,9 +19,12 @@
       }
     }
 
-    input[type="submit"] {
+    input[type='submit'] {
       border: none;
+      font-family: inherit;
+      font-size: 14px;
       background-color: #582de8;
+      cursor: pointer;
       color: #fff;
       border-radius: 2px;
       height: 30px;

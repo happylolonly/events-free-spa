@@ -2,12 +2,8 @@ import React from 'react';
 
 import './ChristmasTree.scss';
 
-
 const ChristmasTree = () => {
-  return (
-    <span className="christmas-tree">
-    </span>
-  );
+  return <span className="christmas-tree" />;
 };
 
 export default ChristmasTree;

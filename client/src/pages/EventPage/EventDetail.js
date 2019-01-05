@@ -12,7 +12,6 @@ import moment from 'moment';
 
 import './EventDetail.scss';
 
-
 const propTypes = {
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
@@ -23,10 +22,21 @@ const propTypes = {
   // location id
   // routerLocation
   // routerHistory
-}
+};
 
-const EventDetail = ({ title, text, date, images, contacts, location, id, routerHistory, routerLocation, tags, ...rest }) => {
-
+const EventDetail = ({
+  title,
+  text,
+  date,
+  images,
+  contacts,
+  location,
+  id,
+  routerHistory,
+  routerLocation,
+  tags,
+  ...rest
+}) => {
   // maybe move in container
   const isAdmin = routerLocation.pathname.includes('check');
 
@@ -34,50 +44,58 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, router
     <div className="event-detail">
       <h3>{title}</h3>
       <header>
-        <a href="/events" onClick={(event) => { // не Link чтобы учитывался скрол браузером
-          event.preventDefault();
+        <a
+          href="/events"
+          onClick={event => {
+            // не Link чтобы учитывался скрол браузером
+            event.preventDefault();
 
-          if (routerHistory.length < 2) {
-            routerHistory.push('/events');
-          } else {
-            routerHistory.goBack();
-          }
-        }}><span></span>Вернуться</a>
+            if (routerHistory.length < 2) {
+              routerHistory.push('/events');
+            } else {
+              routerHistory.goBack();
+            }
+          }}
+        >
+          <span />Вернуться
+        </a>
 
-        <span>{moment(date).lang('ru').format('HH:mm') !== '00:00' ? moment(date).lang('ru').format('D MMMM YYYY в HH:mm') : moment(date).lang('ru').format('D MMMM YYYY')}</span>
+        <span>
+          {moment(date)
+            .lang('ru')
+            .format('HH:mm') !== '00:00'
+            ? moment(date)
+                .lang('ru')
+                .format('D MMMM YYYY в HH:mm')
+            : moment(date)
+                .lang('ru')
+                .format('D MMMM YYYY')}
+        </span>
       </header>
       <section>
+        {images &&
+          images.map(item => {
+            // const { src, description } = item;
 
-        {images && images.map(item => {
-          // const { src, description } = item;
+            function is_cached(src) {
+              var image = new Image();
+              image.src = src;
 
-          function is_cached(src) {
-            var image = new Image();
-            image.src = src;
+              return image.complete;
+            }
 
-            return image.complete;
-        }
+            if (!navigator.onLine && !is_cached(item)) return null;
 
-
-        if (!navigator.onLine && !is_cached(item)) return null;
-
-
-          return <img key={item} src={item} alt={item} />
-        })}
+            return <img key={item} src={item} alt={item} />;
+          })}
 
         <EventText text={text} />
 
-
         {/* {<hr/>} */}
 
-        <Tags
-          id={id}
-          tags={tags}
-          adminMode={isAdmin}
-          routerHistory={routerHistory}
-        />
+        <Tags id={id} tags={tags} adminMode={isAdmin} routerHistory={routerHistory} />
 
-        <hr/>
+        <hr />
 
         <EventDetailFooter
           location={location}
@@ -89,11 +107,9 @@ const EventDetail = ({ title, text, date, images, contacts, location, id, router
 
         {isAdmin && <Moderation id={id} routerHistory={routerHistory} />}
       </section>
-
-
     </div>
-  )
-}
+  );
+};
 
 EventDetail.propTypes = propTypes;
 

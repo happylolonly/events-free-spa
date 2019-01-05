@@ -15,11 +15,10 @@ import reducers from './reducers';
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 describe('initial render', () => {
-
   it('renders full app without crashing', () => {
     const div = document.createElement('div');
     const Component = (
-    	<Provider store={createStoreWithMiddleware(reducers)}>
+      <Provider store={createStoreWithMiddleware(reducers)}>
         <BrowserRouter>
           <div>{renderRoutes(Routes)}</div>
         </BrowserRouter>
@@ -29,10 +28,8 @@ describe('initial render', () => {
     ReactDOM.unmountComponentAtNode(div);
   });
 
-
   it('app renders with enzyme', () => {
     const wrapper = shallow(<App route={{ routes: [] }} />);
     expect(wrapper.find('.app')).toHaveLength(1);
   });
-
 });

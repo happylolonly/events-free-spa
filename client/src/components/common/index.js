@@ -7,11 +7,4 @@ import Textarea from './Textarea';
 export * from './Loader';
 export * from './Checkbox';
 
-
-
-export {
-    Calendar,
-    Select,
-    Button,
-    Textarea
-};
+export { Calendar, Select, Button, Textarea };

@@ -1,4 +1,4 @@
-import tress  from 'tress';
+import tress from 'tress';
 import cheerio from 'cheerio';
 
 import chrono from 'chrono-node';
@@ -7,23 +7,25 @@ import axios from 'axios';
 
 import { saveEventItemToDB, convertMonths, formatDate, checkText, formatHTML } from './helpers';
 
-
 const URL = 'https://citydog.by/afisha/';
 
 let results = [];
 let pagesCount;
 
-
 var instance = axios.create({
   // baseURL: 'https://some-domain.com/api/',
   // timeout: 1000,
-  headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'}
+  headers: {
+    'User-Agent':
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
+  },
 });
 
-
 const q = tress((url, callback) => {
-  setTimeout(() => { // 1 sec delay for citydog blocks
-    instance.get(url)
+  setTimeout(() => {
+    // 1 sec delay for citydog blocks
+    instance
+      .get(url)
       .then(data => {
         // console.log(data);
 
@@ -35,7 +37,9 @@ const q = tress((url, callback) => {
           pagesCount = $('.afishaMain-items .afishaMain-item').length;
           // console.log(pagesCount);
           $('.afishaMain-items .afishaMain-item').each((item, i) => {
-            const link = $(i).find('h3 a').attr('href');
+            const link = $(i)
+              .find('h3 a')
+              .attr('href');
             q.push(`${link}`);
           });
           callback();
@@ -48,22 +52,35 @@ const q = tress((url, callback) => {
 
         const page = 'div.afishaPage-container';
 
-        if($(page).find('.afishaPost-eventInfoFooter').text().indexOf('бесплатн') === -1) {
+        if (
+          $(page)
+            .find('.afishaPost-eventInfoFooter')
+            .text()
+            .indexOf('бесплатн') === -1
+        ) {
           // console.log('not free');
           pagesCount -= 1;
           callback();
           return;
         }
 
-        const htmlTitle = $(page).find('.afishaPost-Description h3').text();
+        const htmlTitle = $(page)
+          .find('.afishaPost-Description h3')
+          .text();
         const title = htmlTitle.substring(0, htmlTitle.indexOf('('));
 
-        const html = $(page).find('.afishaPost-Description-text').html();
-        const image = $(page).find('.afishaPage-gallery img').attr('src');
+        const html = $(page)
+          .find('.afishaPost-Description-text')
+          .html();
+        const image = $(page)
+          .find('.afishaPage-gallery img')
+          .attr('src');
 
         const originalLink = url.split(`/afisha`)[1];
 
-        let dateBlock = $(page).find('.afishaPost-eventInfoHeader h4').text();
+        let dateBlock = $(page)
+          .find('.afishaPost-eventInfoHeader h4')
+          .text();
         dateBlock = dateBlock.replace('|', '');
 
         let date;
@@ -74,11 +91,9 @@ const q = tress((url, callback) => {
           const day = dateBlock.split('.')[0];
           const month = dateBlock.split('.')[1];
 
-
           date = formatDate(year, month, day);
           // console.log(date);
         } else {
-
           const parsedDate = chrono.parse(convertMonths(dateBlock))[0].start.knownValues;
           // const hour = chrono.parse($(page).find('.event-data__wrapper:nth-of-type(2) > div:first-child').text())[0].start.knownValues.hour;
 
@@ -87,8 +102,6 @@ const q = tress((url, callback) => {
 
           date = formatDate(year, month, day, hour);
         }
-
-
 
         results.push({
           date: date,
@@ -108,8 +121,8 @@ const q = tress((url, callback) => {
         // console.log(error);
         callback();
         // console.log(error);
-      })
-  }, 2000)
+      });
+  }, 2000);
 }, 1);
 
 q.drain = () => {
@@ -123,12 +136,10 @@ q.drain = () => {
   } else {
     // console.log('some error happened');
   }
-
-
 };
 
 const init = () => {
   q.push(URL);
-}
+};
 
 export default { init };

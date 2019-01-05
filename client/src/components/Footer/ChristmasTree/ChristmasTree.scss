@@ -20,9 +20,15 @@
       animation-duration: 500ms;
 
       @keyframes jump {
-        0% {top: 7px}
-        50% {top: 0px}
-        100% {top: 7px}
+        0% {
+          top: 7px;
+        }
+        50% {
+          top: 0px;
+        }
+        100% {
+          top: 7px;
+        }
       }
     }
   }
