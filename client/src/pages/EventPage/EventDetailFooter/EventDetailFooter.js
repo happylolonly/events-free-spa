@@ -48,7 +48,7 @@ class EventDetailFooter extends Component {
           {location && (
             <div>
               <Location location={location} />
-              <button className="btn-link" onClick={this.handleClick}>
+              <button className="btn--link" onClick={this.handleClick}>
                 {!this.state.isShowMap ? 'Показать на карте' : 'Скрыть'}{' '}
               </button>
             </div>
