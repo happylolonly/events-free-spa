@@ -18,21 +18,17 @@ class CalendarButton extends React.Component {
     this.setState({ isDropdownOpen: !this.state.isDropdownOpen });
   }
 
-  formatTime(date) {
-    let formattedDate = moment.utc(date).format('YYYYMMDDTHHmmssZ');
-    return formattedDate.replace('+00:00', 'Z');
-  }
-
   getProperUrl = (item) => {
+    const event = this.props.event[this.props.id];
+    const formattedDate = moment.utc(event.date).format('YYYYMMDDTHHmmssZ').replace('+00:00', 'Z');
     let calendarUrl = '';
-    let event = this.props.event[this.props.id];
 
     switch (item) {
       case 'Google Calendar':
         calendarUrl = 'https://calendar.google.com/calendar/render';
         calendarUrl += '?action=TEMPLATE';
-        calendarUrl += '&dates=' + this.formatTime(event.date);
-        calendarUrl += '/' + this.formatTime(event.date);
+        calendarUrl += '&dates=' + formattedDate;
+        calendarUrl += '/' + formattedDate;
         calendarUrl += '&location=' + encodeURIComponent(event.location);
         calendarUrl += '&text=' + encodeURIComponent(event.title);
         calendarUrl += '&details=' + encodeURIComponent(event.title);
@@ -43,8 +39,8 @@ class CalendarButton extends React.Component {
           'VERSION:2.0',
           'BEGIN:VEVENT',
           'URL:' + document.URL,
-          'DTSTART:' + this.formatTime(event.date),
-          'DTEND:' + this.formatTime(event.date),
+          'DTSTART:' + formattedDate,
+          'DTEND:' + formattedDate,
           'SUMMARY:' + event.title,
           'DESCRIPTION:' + event.title,
           'LOCATION:' + event.location,
@@ -58,7 +54,7 @@ class CalendarButton extends React.Component {
   }
 
   handleDropdownClick = (item, e) => {
-    let url = this.getProperUrl(item);
+    const url = this.getProperUrl(item);
 
     if (url.startsWith('data') || url.startsWith('BEGIN')) {
       let filename;
@@ -67,9 +63,9 @@ class CalendarButton extends React.Component {
       } else {
         filename = 'download.vcs';
       }
-      let blob = new Blob([url], { type: 'text/calendar;charset=utf-8' });
+      const blob = new Blob([url], { type: 'text/calendar;charset=utf-8' });
 
-      let link = document.createElement('a');
+      const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
       link.setAttribute('download', filename);
       document.body.appendChild(link);
