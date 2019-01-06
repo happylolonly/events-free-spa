@@ -86,6 +86,7 @@ export const loadAllEvents = () => {
           full: true,
         },
       });
+      
 
       dispatch(setupEventList(model)); // возможно костыль, потом посмотреть
 

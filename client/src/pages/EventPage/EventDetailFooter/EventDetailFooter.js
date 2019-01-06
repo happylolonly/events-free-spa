@@ -54,7 +54,7 @@ class EventDetailFooter extends Component {
             </div>
           )}
           <div style={{ display: 'none' }}>
-            <CalendarButton />
+            <CalendarButton id={id} />
           </div>
         </div>
         {this.state.isShowMap && <Map location={this.props.location} />}

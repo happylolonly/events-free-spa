@@ -11,7 +11,7 @@ const propTypes = {
 const Dropdown = ({items, handleDropdownClick}) => {
 
   const onClick = (item, e) => {
-    handleDropdownClick(item);
+    handleDropdownClick(item, e);
   }
 
   return (
