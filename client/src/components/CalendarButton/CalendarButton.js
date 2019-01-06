@@ -61,7 +61,12 @@ class CalendarButton extends React.Component {
     let url = this.getProperUrl(item);
 
     if (url.startsWith('data') || url.startsWith('BEGIN')) {
-      let filename = 'download.ics';
+      let filename;
+      if (item === 'iCalendar') {
+        filename = 'download.ics';
+      } else {
+        filename = 'download.vcs';
+      }
       let blob = new Blob([url], { type: 'text/calendar;charset=utf-8' });
 
       let link = document.createElement('a');
