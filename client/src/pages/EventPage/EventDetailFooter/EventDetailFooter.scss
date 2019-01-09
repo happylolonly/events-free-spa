@@ -1,16 +1,23 @@
-.additional-info {
-  .first-row {
+.event-detail-footer {
+  display: flex;
+  flex-direction: column;
+
+  &__row {
     display: flex;
     justify-content: space-between;
 
-    @media (max-width: 900px) {
-      text-align: center;
-      flex-direction: column;
+    @media screen and (max-width: 400px) {
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .btn--link {
-      padding-left: 0;
-      font-size: 14px;
+    p {
+      margin: 5px 0;
     }
+  }
+
+  .btn--link {
+    padding-left: 0;
+    font-size: 14px;
   }
 }
