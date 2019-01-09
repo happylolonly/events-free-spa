@@ -58,4 +58,19 @@
   // z-index: 10;
   // height: 3em;
   // margin-top: -3em;
+
+  &__contact {
+    li {
+      margin: 5px 0;
+      a {
+        color: #fff;
+        text-decoration: underline;
+      }
+    }
+    @media (max-width: 750px) {
+      li {
+        margin: 15px 0;
+      }
+    }
+  }
 }

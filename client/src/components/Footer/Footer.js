@@ -17,9 +17,9 @@ const Footer = () => {
           isShowCount={false}
         />
 
-        <ul>
-          <li>Email: hello@eventsfree.by</li>
-          <li>Позвони нам: +375-29-11-999-40</li>
+        <ul className='footer__contact'>
+          <li>Email: <a href='mailto:hello@eventsfree.by'>hello@eventsfree.by</a></li>
+          <li>Позвони нам: <a href='tel:+375-29-11-999-40'>+375-29-11-999-40</a></li>
         </ul>
       </div>
 

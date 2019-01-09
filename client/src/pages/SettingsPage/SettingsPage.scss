@@ -1,7 +1,117 @@
+@import '../../constants/style/colors';
+
 .settings-page {
   text-align: center;
 
   .toggle {
     margin: 30px 0;
+    display: inline-block;
+  }
+  .checkbox-box {
+    display: flex;
+    justify-content: center;
+    text-align: left;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    &__right {
+      h5 {
+        margin: 0;
+        padding-bottom: 15px;
+        text-align: center;
+      }
+    }
+  }
+  .checkbox {
+    margin-bottom: 25px;
+    padding: 0 25px;
+    input {
+      position: absolute;
+      z-index: -1;
+      opacity: 0;
+      margin: 10px 0 0 20px;
+      &:checked {
+        & + .checkbox__text {
+          &:before {
+            background: $link-color;
+          }
+          &:after {
+            left: 26px;
+          }
+        }
+      }
+      &:focus {
+        & + .checkbox__text {
+          &:before {
+            box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(83, 50, 144, 0.36);
+          }
+        }
+      }
+    }
+    &__text {
+      position: relative;
+      padding: 0 0 0 60px;
+      color: $text-color--muted;
+      cursor: pointer;
+      &:before {
+        content: '';
+        position: absolute;
+        top: -4px;
+        left: 0;
+        width: 50px;
+        height: 26px;
+        border-radius: 13px;
+        background: #CDD1DA;
+        box-shadow: inset 0 2px 3px rgba(0,0,0,.2);
+        transition: .2s;
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: 2px;
+        width: 22px;
+        height: 22px;
+        border-radius: 10px;
+        background: #FFF;
+        box-shadow: 0 2px 5px rgba(0,0,0,.3);
+        transition: .2s;
+      }
+    }
+  }
+  .load-all  {
+    button {
+      background: $link-color;
+      outline: none;
+      border: none;
+      transition: 0.4s all;
+      color: #fff;
+      padding: 12px 18px;
+      font-size: 14px;
+      text-transform: uppercase;
+      transform: perspective(1px) translateZ(0);
+      &::before {
+        pointer-events: none;
+        content: '';
+        position: absolute;
+        border: $link-color solid 2px;
+        top: -16px;
+        right: -16px;
+        bottom: -16px;
+        left: -16px;
+        opacity: 0;
+        transition-duration: 0.3s;
+        transition-property: top, right, bottom, left;
+      }
+      &:hover {
+        background: $link-color--hover;
+        &::before {
+          top: -8px;
+          right: -8px;
+          bottom: -8px;
+          left: -8px;
+          opacity: 1;
+        }
+      }
+    }
   }
 }

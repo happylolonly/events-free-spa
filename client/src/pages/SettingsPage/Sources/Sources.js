@@ -30,64 +30,68 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
         <Checkbox value={isAllChecked} onChange={toggleSources} />
       </div>
 
-      <Checkbox
-        name="meetupBy"
-        value={sources.meetupBy}
-        onChange={updateSources}
-        text="meetup.by"
-      />
-      <Checkbox
-        name="eventsDevBy"
-        value={sources.eventsDevBy}
-        onChange={updateSources}
-        text="events.dev.by"
-      />
-      <Checkbox name="imaguru" value={sources.imaguru} onChange={updateSources} text="imaguru.by" />
-      <Checkbox
-        name="afishaTutBy"
-        value={sources.afishaTutBy}
-        onChange={updateSources}
-        text="afisha.tut.by"
-      />
-      <Checkbox
-        name="minskforfree"
-        value={sources.minskforfree}
-        onChange={updateSources}
-        text="vk.com/minskforfree"
-      />
-      <Checkbox
-        name="freeLanguagesMinsk"
-        value={sources.freeLanguagesMinsk}
-        onChange={updateSources}
-        text="vk.com/free_languages_minsk"
-      />
-      <Checkbox
-        name="citydogAfisha"
-        value={sources.citydogAfisha}
-        onChange={updateSources}
-        text="citydog.by/afisha"
-      />
-      <Checkbox
-        name="citydogVedy"
-        value={sources.citydogVedy}
-        onChange={updateSources}
-        text="citydog.by/vedy"
-      />
-
-      <hr />
-      <h5>Фитнес</h5>
-      <Checkbox
-        name="sportMts"
-        value={sources.sportMts}
-        onChange={updateSources}
-        text="sport.mts.by"
-      />
-      <Checkbox
-        name="freeFitnessMinsk"
-        value={sources.freeFitnessMinsk}
-        onChange={updateSources}
-        text="vk.com/free_fitness_minsk"
-      />
+      <div className="checkbox-box">
+        <div className='checkbox-box__left'>
+          <Checkbox
+            name="meetupBy"
+            value={sources.meetupBy}
+            onChange={updateSources}
+            text="meetup.by"
+          />
+          <Checkbox
+            name="eventsDevBy"
+            value={sources.eventsDevBy}
+            onChange={updateSources}
+            text="events.dev.by"
+          />
+          <Checkbox name="imaguru" value={sources.imaguru} onChange={updateSources} text="imaguru.by" />
+          <Checkbox
+            name="afishaTutBy"
+            value={sources.afishaTutBy}
+            onChange={updateSources}
+            text="afisha.tut.by"
+          />
+          <Checkbox
+            name="minskforfree"
+            value={sources.minskforfree}
+            onChange={updateSources}
+            text="vk.com/minskforfree"
+          />
+          <Checkbox
+            name="freeLanguagesMinsk"
+            value={sources.freeLanguagesMinsk}
+            onChange={updateSources}
+            text="vk.com/free_languages_minsk"
+          />
+          <Checkbox
+            name="citydogAfisha"
+            value={sources.citydogAfisha}
+            onChange={updateSources}
+            text="citydog.by/afisha"
+          />
+          <Checkbox
+            name="citydogVedy"
+            value={sources.citydogVedy}
+            onChange={updateSources}
+            text="citydog.by/vedy"
+          />
+        </div>
+        <div className="checkbox-box__right">
+          <h5>Фитнес</h5>
+          <Checkbox
+            name="sportMts"
+            value={sources.sportMts}
+            onChange={updateSources}
+            text="sport.mts.by"
+          />
+          <Checkbox
+            name="freeFitnessMinsk"
+            value={sources.freeFitnessMinsk}
+            onChange={updateSources}
+            text="vk.com/free_fitness_minsk"
+          />
+        </div>
+      </div>
     </div>
   );
 };
