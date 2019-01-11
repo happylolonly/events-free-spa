@@ -3,6 +3,52 @@ import PropTypes from 'prop-types';
 
 import { Checkbox } from 'components/common';
 
+const variable = [
+  {
+    name: 'meetupBy',
+    text: 'meetup.by',
+  },
+  {
+    name: 'eventsDevBy',
+    text: 'events.dev.by',
+  },
+  {
+    name: 'imaguru',
+    text: 'imaguru.by',
+  },
+  {
+    name: 'afishaTutBy',
+    text: 'afisha.tut.by',
+  },
+  {
+    name: 'minskforfree',
+    text: 'vk.com/minskforfree',
+  },
+  {
+    name: 'freeLanguagesMinsk',
+    text: 'vk.com/free_languages_minsk',
+  },
+  {
+    name: 'citydogAfisha',
+    text: 'citydog.by/afisha',
+  },
+  {
+    name: 'citydogVedy',
+    text: 'citydog.by/vedy',
+  }
+];
+
+const forFitness = [
+  {
+    name: 'sportMts',
+    text: 'sport.mts.by',
+  },
+  {
+    name: 'freeFitnessMinsk',
+    text: 'vk.com/free_fitness_minsk',
+  }
+];
+
 const propTypes = {
   sources: PropTypes.object.isRequired,
   updateSources: PropTypes.func.isRequired,
@@ -30,66 +76,35 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
         <Checkbox value={isAllChecked} onChange={toggleSources} />
       </div>
 
-      <div className="checkbox-box">
-        <div className='checkbox-box__left'>
-          <Checkbox
-            name="meetupBy"
-            value={sources.meetupBy}
-            onChange={updateSources}
-            text="meetup.by"
-          />
-          <Checkbox
-            name="eventsDevBy"
-            value={sources.eventsDevBy}
-            onChange={updateSources}
-            text="events.dev.by"
-          />
-          <Checkbox name="imaguru" value={sources.imaguru} onChange={updateSources} text="imaguru.by" />
-          <Checkbox
-            name="afishaTutBy"
-            value={sources.afishaTutBy}
-            onChange={updateSources}
-            text="afisha.tut.by"
-          />
-          <Checkbox
-            name="minskforfree"
-            value={sources.minskforfree}
-            onChange={updateSources}
-            text="vk.com/minskforfree"
-          />
-          <Checkbox
-            name="freeLanguagesMinsk"
-            value={sources.freeLanguagesMinsk}
-            onChange={updateSources}
-            text="vk.com/free_languages_minsk"
-          />
-          <Checkbox
-            name="citydogAfisha"
-            value={sources.citydogAfisha}
-            onChange={updateSources}
-            text="citydog.by/afisha"
-          />
-          <Checkbox
-            name="citydogVedy"
-            value={sources.citydogVedy}
-            onChange={updateSources}
-            text="citydog.by/vedy"
-          />
+      <div className="content-checkboxes">
+        <div className='content-checkboxes__left'>
+          {variable.map((item, count) => {
+            return (
+              <Checkbox
+              key={count}
+              name={item.name}
+              value={sources[item.name]}
+              onChange={updateSources}
+              text={item.text}
+            />
+            )
+          })
+          }
         </div>
-        <div className="checkbox-box__right">
+        <div className="content-checkboxes__right">
           <h5>Фитнес</h5>
-          <Checkbox
-            name="sportMts"
-            value={sources.sportMts}
-            onChange={updateSources}
-            text="sport.mts.by"
-          />
-          <Checkbox
-            name="freeFitnessMinsk"
-            value={sources.freeFitnessMinsk}
-            onChange={updateSources}
-            text="vk.com/free_fitness_minsk"
-          />
+          {forFitness.map((item, count) => {
+              return (
+                <Checkbox
+                key={count}
+                name={item.name}
+                value={sources[item.name]}
+                onChange={updateSources}
+                text={item.text}
+              />
+              )
+            })
+          }
         </div>
       </div>
     </div>
