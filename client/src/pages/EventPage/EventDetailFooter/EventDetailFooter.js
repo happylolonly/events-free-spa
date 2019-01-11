@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Map from '../Location/Map';
+import Contacts from '../Contacts/Contacts';
+import Location from '../Location/Location';
 import SocialButtons from 'components/SocialButtons/SocialButtons';
 import CalendarButton from 'components/CalendarButton/CalendarButton';
 
@@ -40,24 +42,23 @@ class EventDetailFooter extends PureComponent {
     return (
       <div className="event-detail-footer">
         <div className="event-detail-footer__row">
-          <SocialButtons
-            link={`https://www.eventsfree.by/event/${id}`}
-            title={title}
-            isShowCount={false}
-            image={image}
-          />
+          <Contacts contacts={contacts} />
+          <Location location={location} />
           <CalendarButton id={id} />
-        </div>
-
-        <div className="event-detail-footer__row">
-          {contacts && <p>Контакты: {contacts}</p>}
-          {location && <p>Место: {location}</p>}
         </div>
         <div className="event-detail-footer__map">
           <button className="btn--link" onClick={this.handleClick}>
             {!isShowMap ? 'Показать на карте' : 'Скрыть'}{' '}
           </button>
           {isShowMap && <Map location={location} />}
+        </div>
+        <div className="event-detail-footer__row">
+          <SocialButtons
+            link={`https://www.eventsfree.by/event/${id}`}
+            title={title}
+            isShowCount={false}
+            image={image}
+          />
         </div>
       </div>
     );

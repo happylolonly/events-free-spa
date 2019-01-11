@@ -20,6 +20,9 @@ const OFFSET_LENGTH = 10;
 
 class TodayPageContainer extends PureComponent {
   static propTypes = {
+    location: PropTypes.shape({
+      search: PropTypes.string,
+    }).isRequired,
     events: PropTypes.object.isRequired,
     loadEvents: PropTypes.func.isRequired,
     resetEvents: PropTypes.func.isRequired,
@@ -28,45 +31,38 @@ class TodayPageContainer extends PureComponent {
   constructor(props) {
     super(props);
 
-    const params = this.props.location.search && this.props.location.search.split('=')[1];
+    const { resetEvents, location, events } = this.props;
 
-    let currentFilter = 'today';
+    const params = location.search && location.search.split('=')[1];
+
+    let defaultFilter = 'today';
     let formattedCalendarDate = null;
 
     if (params) {
       if (params.split('_').length === 3) {
-        currentFilter = 'certain';
+        defaultFilter = 'certain';
         formattedCalendarDate = params;
       } else {
-        currentFilter = params;
+        defaultFilter = params;
       }
     }
 
     this.state = {
       search: '',
       offset: 0,
-      currentFilter,
+      defaultFilter,
       isShowCalendar: false,
       formattedCalendarDate,
 
       preload: [],
     };
 
-    if (currentFilter !== this.props.events.data.day) {
-      this.props.resetEvents();
+    if (defaultFilter !== events.data.day) {
+      resetEvents();
       this.loadEvents();
     } else {
-      this.state.offset = this.props.events.data.model.length - OFFSET_LENGTH;
+      this.state.offset = events.data.model.length - OFFSET_LENGTH;
     }
-
-    this.handleSearch = this.handleSearch.bind(this);
-    this.loadMore = this.loadMore.bind(this);
-
-    this.eventsUpdated = this.eventsUpdated.bind(this);
-    this.handleSecretButtonClick = this.handleSecretButtonClick.bind(this);
-    this.toggleCalendar = this.toggleCalendar.bind(this);
-    this.handleCalendarChange = this.handleCalendarChange.bind(this);
-    this.handleMouseOver = this.handleMouseOver.bind(this);
   }
 
   componentDidMount() {
@@ -80,18 +76,18 @@ class TodayPageContainer extends PureComponent {
     this.socket.close();
   }
 
-  eventsUpdated() {
+  eventsUpdated = () => {
     console.log('events updated');
-    // toastr.success('Мероприятия обновлены', 'Успешно!');
-    this.loadEvents();
-  }
 
-  handleSecretButtonClick() {
+    this.loadEvents();
+  };
+
+  handleSecretButtonClick = () => {
     console.log('reparse request');
     this.socket.emit('reparse events');
-  }
+  };
 
-  handleSearch(search) {
+  handleSearch = search => {
     this.props.resetEvents();
     this.setState(
       {
@@ -102,46 +98,51 @@ class TodayPageContainer extends PureComponent {
         this.loadEvents();
       }
     );
-  }
+  };
 
-  loadEvents() {
-    const { search, offset, currentFilter } = this.state;
+  loadEvents = () => {
+    const {
+      state: { search, offset, currentFilter, formattedCalendarDate },
+      props: { loadEvents },
+    } = this;
 
-    this.props.loadEvents({
+    loadEvents({
       search,
       offset,
-      day: currentFilter === 'certain' ? this.state.formattedCalendarDate : currentFilter,
+      day: currentFilter === 'certain' ? formattedCalendarDate : currentFilter,
     });
-  }
+  };
 
-  loadMore() {
+  loadMore = () => {
     this.setState({ offset: this.state.offset + OFFSET_LENGTH }, () => {
       this.loadEvents();
     });
-  }
+  };
 
-  handleFilter = (filter) => {
+  handleFilter = filter => {
     this.props.resetEvents();
-    this.setState({
-      currentFilter: filter,
-      isShowCalendar: filter === 'certain',
-      offset: 0,
-    }, () => {
-      if (filter === 'certain') {
-        window.history.pushState(filter, null, `events?day=`);
-      } else {
-        window.history.pushState(filter, null, `events?day=${filter}`);
-        this.loadEvents();
+    this.setState(
+      {
+        currentFilter: filter,
+        isShowCalendar: filter === 'certain',
+        offset: 0,
+      },
+      () => {
+        if (filter === 'certain') {
+          window.history.pushState(filter, null, `events?day=`);
+        } else {
+          window.history.pushState(filter, null, `events?day=${filter}`);
+          this.loadEvents();
+        }
       }
-    }
     );
-  }
+  };
 
-  toggleCalendar() {
+  toggleCalendar = () => {
     this.setState({ isShowCalendar: !this.state.isShowCalendar });
-  }
+  };
 
-  handleCalendarChange(date) {
+  handleCalendarChange = date => {
     this.props.resetEvents();
     const formattedDate = moment(date).format('DD_MM_YYYY');
     this.setState(
@@ -156,9 +157,9 @@ class TodayPageContainer extends PureComponent {
         this.loadEvents();
       }
     );
-  }
+  };
 
-  handleMouseOver(id) {
+  handleMouseOver = id => {
     if (this.state.preload.includes(id) || this.props.eventInfo.data[id]) {
       return;
     }
@@ -169,7 +170,7 @@ class TodayPageContainer extends PureComponent {
     this.setState({ preload: state }, () => {
       this.props.loadEvent(id);
     });
-  }
+  };
 
   render() {
     return (
