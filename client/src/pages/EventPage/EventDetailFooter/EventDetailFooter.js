@@ -10,17 +10,17 @@ import './EventDetailFooter.scss';
 
 class EventDetailFooter extends PureComponent {
   static propTypes = {
+    id: PropTypes.number,
     image: PropTypes.string,
     title: PropTypes.string,
     location: PropTypes.string,
-    contacts: PropTypes.string,
-    id: PropTypes.number.isRequired,
+    contacts: PropTypes.object,
   };
 
   static defaultProps = {
     id: '',
-    title: '',
     image: '',
+    title: '',
     location: '',
     contacts: '',
   };
@@ -42,16 +42,15 @@ class EventDetailFooter extends PureComponent {
     return (
       <div className="event-detail-footer">
         <div className="event-detail-footer__row">
-          <Contacts contacts={contacts} />
-          <Location location={location} />
+          {contacts ? <Contacts contacts={contacts} /> : null}
+
+          {location ? (
+            <Location location={location} onClick={this.handleClick} isShowMap={isShowMap} />
+          ) : null}
+
           <CalendarButton id={id} />
         </div>
-        <div className="event-detail-footer__map">
-          <button className="btn--link" onClick={this.handleClick}>
-            {!isShowMap ? 'Показать на карте' : 'Скрыть'}{' '}
-          </button>
-          {isShowMap && <Map location={location} />}
-        </div>
+        <div className="event-detail-footer__map">{isShowMap && <Map location={location} />}</div>
         <div className="event-detail-footer__row">
           <SocialButtons
             link={`https://www.eventsfree.by/event/${id}`}

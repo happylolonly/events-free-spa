@@ -2,6 +2,7 @@
   position: relative;
   z-index: 1;
   width: 200px;
+  padding-bottom: 15px;
 
   .calendar-btn {
     position: relative;
@@ -16,7 +17,7 @@
     background-image: url(/images/calendar-icon.png);
     background-repeat: no-repeat;
     background-size: contain;
-    background-position: 0 -1px;
+    background-position: 3px -1px;
     font-size: 13px;
     outline: none;
     width: 100%;

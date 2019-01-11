@@ -35,29 +35,29 @@ class TodayPageContainer extends PureComponent {
 
     const params = location.search && location.search.split('=')[1];
 
-    let defaultFilter = 'today';
+    let currentFilter = 'today';
     let formattedCalendarDate = null;
 
     if (params) {
       if (params.split('_').length === 3) {
-        defaultFilter = 'certain';
+        currentFilter = 'certain';
         formattedCalendarDate = params;
       } else {
-        defaultFilter = params;
+        currentFilter = params;
       }
     }
 
     this.state = {
       search: '',
       offset: 0,
-      defaultFilter,
+      currentFilter,
       isShowCalendar: false,
       formattedCalendarDate,
 
       preload: [],
     };
 
-    if (defaultFilter !== events.data.day) {
+    if (currentFilter !== events.data.day) {
       resetEvents();
       this.loadEvents();
     } else {
