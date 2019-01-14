@@ -20,7 +20,7 @@ const Checkbox = ({ name, value, onChange, text }) => {
       <label>
         <input name={name} type="checkbox" onChange={handleChange} checked={value} />
 
-        <div className="checkbox__text">{text}</div>
+        <a href={text} target="_blank" className="checkbox__text">{text}</a>
       </label>
     </div>
   );
