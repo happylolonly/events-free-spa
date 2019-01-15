@@ -83,14 +83,16 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
         <div className="content-checkboxes__left">
           {common.map((item, i) => {
             return (
-              <Checkbox
-                key={i}
-                name={item.name}
-                value={sources[item.name]}
-                onChange={updateSources}
-                text={item.text}
-              />
-            );
+              <a href={item.text} target="_blank">
+                <Checkbox
+                  key={i}
+                  name={item.name}
+                  value={sources[item.name]}
+                  onChange={updateSources}
+                  text={item.text}
+                />
+              </a>
+            )
           })
           }
         </div>
@@ -98,15 +100,15 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
           <h5>Фитнес</h5>
           {fitness.map((item, i) => {
             return (
-              <Checkbox
+                <Checkbox
                 key={i}
                 name={item.name}
                 value={sources[item.name]}
                 onChange={updateSources}
                 text={item.text}
               />
-            );
-          })
+              )
+            })
           }
         </div>
       </div>
