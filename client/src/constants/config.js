@@ -1,3 +1,3 @@
 export const API = '/api';
-// export const API = 'http://www.eventsfree.by/api';
-// export const API2 = 'http://www.eventsfree.by/';
+// export const API = 'https://www.eventsfree.by/api';
+export const domain = 'https://www.eventsfree.by';

@@ -42,7 +42,7 @@ const SocialButtons = ({ link, title, isShowCount, image }) => {
           description={description}
           image={image || defaultImage}
         >
-          <VKIcon size={size} round={true} />
+          <VKIcon size={size} round />
           {isShowCount && (
             <VKShareCount url={link}>
               {shareCount => <span className="myShareCountWrapper">{shareCount + 74}</span>}
@@ -58,7 +58,7 @@ const SocialButtons = ({ link, title, isShowCount, image }) => {
           description={description}
           picture={image || defaultImage}
         >
-          <FacebookIcon size={size} round={true} />
+          <FacebookIcon size={size} round />
           {isShowCount && (
             <FacebookShareCount url={link}>
               {shareCount => <span className="myShareCountWrapper">{shareCount + 54}</span>}
@@ -69,19 +69,19 @@ const SocialButtons = ({ link, title, isShowCount, image }) => {
 
       <li>
         <TwitterShareButton url={link} title={title}>
-          <TwitterIcon size={size} round={true} />
+          <TwitterIcon size={size} round />
         </TwitterShareButton>
       </li>
 
       <li>
         <TelegramShareButton url={link} title={title}>
-          <TelegramIcon size={size} round={true} />
+          <TelegramIcon size={size} round />
         </TelegramShareButton>
       </li>
 
       <li>
         <LinkedinShareButton url={link} title={title} description={description}>
-          <LinkedinIcon size={size} round={true} />
+          <LinkedinIcon size={size} round />
           {isShowCount && (
             <LinkedinShareCount url={link}>
               {shareCount => <span className="myShareCountWrapper">{shareCount + 9}</span>}
@@ -92,7 +92,7 @@ const SocialButtons = ({ link, title, isShowCount, image }) => {
 
       <li>
         <GooglePlusShareButton url={link}>
-          <GooglePlusIcon size={size} round={true} />
+          <GooglePlusIcon size={size} round />
           {isShowCount && (
             <GooglePlusShareCount url={link}>
               {shareCount => <span className="myShareCountWrapper">{shareCount + 8}</span>}
