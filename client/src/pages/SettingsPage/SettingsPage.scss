@@ -20,6 +20,11 @@
         text-align: center;
       }
     }
+    &__wrapper {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
   }
   .load-all {
     button {

@@ -84,13 +84,15 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
           {common.map((item, i) => {
             const { name, text } = item;
             return (
-              <Checkbox
-                key={i}
-                name={name}
-                value={sources[name]}
-                onChange={updateSources}
-                text={text}
-              />
+              <div className="content-checkboxes__wrapper">
+                <Checkbox
+                  key={i}
+                  name={name}
+                  value={sources[name]}
+                  onChange={updateSources}
+                />
+                <a target="_blank" href={text}>{text}</a>
+              </div>
             );
           })
           }
@@ -100,13 +102,15 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
           {fitness.map((item, i) => {
             const { name, text } = item;
             return (
-              <Checkbox
-                key={i}
-                name={name}
-                value={sources[name]}
-                onChange={updateSources}
-                text={text}
-              />
+              <div className="content-checkboxes__wrapper">
+                <Checkbox
+                  key={i}
+                  name={name}
+                  value={sources[name]}
+                  onChange={updateSources}
+                />
+                <a target="_blank" href={text}>{text}</a>
+              </div>
             );
           })
           }
