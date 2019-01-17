@@ -87,7 +87,7 @@ const EventDetail = ({
 
             if (!navigator.onLine && !is_cached(item)) return null;
 
-            return <img key={item} src={item} alt={item} />;
+            return <img key={item} src={item} alt={item} className="event-detail__event-img" />;
           })}
 
         <EventText text={text} />
