@@ -91,7 +91,7 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
                   value={sources[name]}
                   onChange={updateSources}
                 />
-                <a target="_blank" href={text}>{text}</a>
+                <a target="_blank" href={`//${text}`}>{text}</a>
               </div>
             );
           })
@@ -109,7 +109,7 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
                   value={sources[name]}
                   onChange={updateSources}
                 />
-                <a target="_blank" href={text}>{text}</a>
+                <a target="_blank" href={`//${text}`}>{text}</a>
               </div>
             );
           })

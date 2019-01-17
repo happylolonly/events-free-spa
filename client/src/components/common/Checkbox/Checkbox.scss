@@ -1,5 +1,4 @@
 @import '../../../constants/style/colors';
-@import '../../../constants/style/colors';
 
 .checkbox,
 .radio {
@@ -23,7 +22,7 @@
     &:checked {
       & + .checkbox__text {
         &:before {
-          background: $link-color;
+          background: $primary-color;
         }
         &:after {
           left: 26px;
