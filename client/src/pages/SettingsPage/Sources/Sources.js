@@ -3,6 +3,53 @@ import PropTypes from 'prop-types';
 
 import { Checkbox } from 'components/common';
 
+const SOURCES = {
+  common: [
+    {
+      name: 'meetupBy',
+      text: 'meetup.by',
+    },
+    {
+      name: 'eventsDevBy',
+      text: 'events.dev.by',
+    },
+    {
+      name: 'imaguru',
+      text: 'imaguru.by',
+    },
+    {
+      name: 'afishaTutBy',
+      text: 'afisha.tut.by',
+    },
+    {
+      name: 'minskforfree',
+      text: 'vk.com/minskforfree',
+    },
+    {
+      name: 'freeLanguagesMinsk',
+      text: 'vk.com/free_languages_minsk',
+    },
+    {
+      name: 'citydogAfisha',
+      text: 'citydog.by/afisha',
+    },
+    {
+      name: 'citydogVedy',
+      text: 'citydog.by/vedy',
+    }
+  ],
+  fitness: [
+    {
+      name: 'sportMts',
+      text: 'sport.mts.by',
+    },
+    {
+      name: 'freeFitnessMinsk',
+      text: 'vk.com/free_fitness_minsk',
+    }
+  ],
+};
+
 const propTypes = {
   sources: PropTypes.object.isRequired,
   updateSources: PropTypes.func.isRequired,
@@ -19,6 +66,8 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
 
   isAllChecked = score >= 0;
 
+  const { common, fitness } = SOURCES;
+
   return (
     <div className="settings-page">
       <h3>Настройки</h3>
@@ -30,64 +79,43 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
         <Checkbox value={isAllChecked} onChange={toggleSources} />
       </div>
 
-      <Checkbox
-        name="meetupBy"
-        value={sources.meetupBy}
-        onChange={updateSources}
-        text="meetup.by"
-      />
-      <Checkbox
-        name="eventsDevBy"
-        value={sources.eventsDevBy}
-        onChange={updateSources}
-        text="events.dev.by"
-      />
-      <Checkbox name="imaguru" value={sources.imaguru} onChange={updateSources} text="imaguru.by" />
-      <Checkbox
-        name="afishaTutBy"
-        value={sources.afishaTutBy}
-        onChange={updateSources}
-        text="afisha.tut.by"
-      />
-      <Checkbox
-        name="minskforfree"
-        value={sources.minskforfree}
-        onChange={updateSources}
-        text="vk.com/minskforfree"
-      />
-      <Checkbox
-        name="freeLanguagesMinsk"
-        value={sources.freeLanguagesMinsk}
-        onChange={updateSources}
-        text="vk.com/free_languages_minsk"
-      />
-      <Checkbox
-        name="citydogAfisha"
-        value={sources.citydogAfisha}
-        onChange={updateSources}
-        text="citydog.by/afisha"
-      />
-      <Checkbox
-        name="citydogVedy"
-        value={sources.citydogVedy}
-        onChange={updateSources}
-        text="citydog.by/vedy"
-      />
-
-      <hr />
-      <h5>Фитнес</h5>
-      <Checkbox
-        name="sportMts"
-        value={sources.sportMts}
-        onChange={updateSources}
-        text="sport.mts.by"
-      />
-      <Checkbox
-        name="freeFitnessMinsk"
-        value={sources.freeFitnessMinsk}
-        onChange={updateSources}
-        text="vk.com/free_fitness_minsk"
-      />
+      <div className="content-checkboxes">
+        <div className="content-checkboxes__left">
+          {common.map((item, i) => {
+            const { name, text } = item;
+            return (
+              <div className="content-checkboxes__wrapper">
+                <Checkbox
+                  key={i}
+                  name={name}
+                  value={sources[name]}
+                  onChange={updateSources}
+                />
+                <a target="_blank" href={text}>{text}</a>
+              </div>
+            );
+          })
+          }
+        </div>
+        <div className="content-checkboxes__right">
+          <h5>Фитнес</h5>
+          {fitness.map((item, i) => {
+            const { name, text } = item;
+            return (
+              <div className="content-checkboxes__wrapper">
+                <Checkbox
+                  key={i}
+                  name={name}
+                  value={sources[name]}
+                  onChange={updateSources}
+                />
+                <a target="_blank" href={text}>{text}</a>
+              </div>
+            );
+          })
+          }
+        </div>
+      </div>
     </div>
   );
 };
