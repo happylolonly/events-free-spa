@@ -82,7 +82,7 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
       <div className="content-checkboxes">
         <div className="content-checkboxes__left">
           {common.map((item, i) => {
-            const { name, text } = item;
+            const { name, text: link } = item;
             return (
               <div className="content-checkboxes__wrapper">
                 <Checkbox
@@ -91,7 +91,7 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
                   value={sources[name]}
                   onChange={updateSources}
                 />
-                <a target="_blank" href={`//${text}`}>{text}</a>
+                <a target="_blank" href={`//${link}`}>{link}</a>
               </div>
             );
           })
@@ -100,7 +100,7 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
         <div className="content-checkboxes__right">
           <h5>Фитнес</h5>
           {fitness.map((item, i) => {
-            const { name, text } = item;
+            const { name, text: link } = item;
             return (
               <div className="content-checkboxes__wrapper">
                 <Checkbox
@@ -109,7 +109,7 @@ const Sources = ({ sources, updateSources, toggleSources }) => {
                   value={sources[name]}
                   onChange={updateSources}
                 />
-                <a target="_blank" href={`//${text}`}>{text}</a>
+                <a target="_blank" href={`//${link}`}>{link}</a>
               </div>
             );
           })
