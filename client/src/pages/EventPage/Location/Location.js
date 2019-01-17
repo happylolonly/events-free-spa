@@ -4,6 +4,8 @@ import './Location.scss';
 
 const propTypes = {
   location: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
+  isShowMap: PropTypes.bool.isRequired,
 };
 
 const defaultProps = {
@@ -14,8 +16,7 @@ const Location = ({ location, onClick, isShowMap }) => (
   <div className="location">
     <span className="location__title">Место: </span>
     <span>{location}</span>
-    <br />
-    <button className="btn--link" onClick={onClick}>
+    <button className="location__btn" onClick={onClick}>
       {!isShowMap ? 'Показать на карте' : 'Скрыть'}{' '}
     </button>
   </div>

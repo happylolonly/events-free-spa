@@ -11,26 +11,6 @@
     }
   }
 
-  .btn--link {
-    padding-left: 0;
-    font-size: 14px;
-    padding: 5px 10px;
-    border: solid 1px #eee;
-    border-radius: 4px;
-    background-color: #fff;
-    outline: none;
-    margin: 10px 0;
-
-    &:hover,
-    &:focus {
-      text-decoration: none;
-    }
-
-    &:hover {
-      background-color: darken(#fff, 5%);
-    }
-  }
-
   @media screen and (max-width: 1000px) {
     &__row {
       flex-direction: column;
