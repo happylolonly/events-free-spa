@@ -3,28 +3,41 @@ import PropTypes from 'prop-types';
 import './Contacts.scss';
 
 const propTypes = {
-  contacts: PropTypes.object.isRequired,
+  contacts: PropTypes.shape({
+    phone: PropTypes.string,
+    email: PropTypes.string,
+    link: PropTypes.string,
+  }),
 };
 
-const Contacts = ({ contacts }) => {
-  const dict = {
-    phone: 'Телефон',
-    email: 'Эл. почта',
-    link: 'Ссылка',
-  };
+const defaultProps = {
+  contacts: {
+    phone: '',
+    email: '',
+    link: '',
+  },
+};
 
+const Contacts = ({ contacts: { phone, email, link } }) => {
   return (
     <div className="contacts">
       <span className="contacts__title">Контакты:</span>
       <ul className="contacts__list">
-        {Object.keys(contacts).map(item => {
-          return <li key={item}>{`${dict[item]}: ${contacts[item]}`}</li>;
-        })}
+        { phone && (
+          <li>Позвони нам: <a href={`tel:${phone}`}>{phone}</a></li>
+        )}
+        { email && (
+          <li>Email: <a href={`mailto:${email}`}>{email}</a></li>
+        )}
+        { link && (
+          <li>Сайт: <a href={`https://${link}`} target="_blank" rel="noopener noreferrer">{link}</a></li>
+        )}
       </ul>
     </div>
   );
 };
 
 Contacts.propTypes = propTypes;
+Contacts.defaultProps = defaultProps;
 
 export default Contacts;

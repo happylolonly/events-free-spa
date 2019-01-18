@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 import Map from '../Location/Map';
 import Contacts from '../Contacts/Contacts';
 import Location from '../Location/Location';
@@ -42,11 +43,8 @@ class EventDetailFooter extends PureComponent {
     return (
       <div className="event-detail-footer">
         <div className="event-detail-footer__row">
-          {contacts ? <Contacts contacts={contacts} /> : null}
-
-          {location ? (
-            <Location location={location} onClick={this.handleClick} isShowMap={isShowMap} />
-          ) : null}
+          {!isEmpty(contacts) && <Contacts contacts={contacts} />}
+          {location && <Location location={location} onClick={this.handleClick} isShowMap={isShowMap} /> }
 
           <CalendarButton id={id} />
         </div>
