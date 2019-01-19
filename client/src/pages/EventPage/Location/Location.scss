@@ -1,2 +1,35 @@
 .location {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  &__btn {
+    max-width: 150px;
+    padding-left: 0;
+    font-size: 14px;
+    padding: 5px 10px;
+    border: solid 1px #eee;
+    border-radius: 4px;
+    background-color: #fff;
+    outline: none;
+    margin: 10px 0;
+
+    @media screen and (max-width: 1000px) {
+      align-self: center;
+    }
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+
+    &:hover {
+      background-color: darken(#fff, 5%);
+    }
+  }
 }

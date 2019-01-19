@@ -1,66 +1,65 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
-import './EventDetailFooter.scss';
-
-import Location from '../Location/Location';
+import isEmpty from 'lodash/isEmpty';
 import Map from '../Location/Map';
-
 import Contacts from '../Contacts/Contacts';
-
+import Location from '../Location/Location';
 import SocialButtons from 'components/SocialButtons/SocialButtons';
 import CalendarButton from 'components/CalendarButton/CalendarButton';
 
-const propTypes = {
-  //locaton
-  // title
-  // id
-  // contacts
-};
+import './EventDetailFooter.scss';
 
-class EventDetailFooter extends Component {
-  constructor(props) {
-    super(props);
+class EventDetailFooter extends PureComponent {
+  static propTypes = {
+    id: PropTypes.number,
+    image: PropTypes.string,
+    title: PropTypes.string,
+    location: PropTypes.string,
+    contacts: PropTypes.object,
+  };
 
-    this.state = {
-      isShowMap: false,
-    };
+  static defaultProps = {
+    id: '',
+    image: '',
+    title: '',
+    location: '',
+    contacts: '',
+  };
 
-    this.handleClick = this.handleClick.bind(this);
-  }
+  state = {
+    isShowMap: false,
+  };
 
-  handleClick() {
+  handleClick = () => {
     this.setState({ isShowMap: !this.state.isShowMap });
-  }
+  };
 
   render() {
-    const { title, location, id, contacts, image } = this.props;
+    const {
+      props: { title, location, id, contacts, image },
+      state: { isShowMap },
+    } = this;
+
     return (
-      <div className="additional-info">
-        <div className="first-row">
+      <div className="event-detail-footer">
+        <div className="event-detail-footer__row">
+          {!isEmpty(contacts) && <Contacts contacts={contacts} />}
+          {location && <Location location={location} onClick={this.handleClick} isShowMap={isShowMap} /> }
+
+          <CalendarButton id={id} />
+        </div>
+        <div className="event-detail-footer__map">{isShowMap && <Map location={location} />}</div>
+        <div className="event-detail-footer__row">
           <SocialButtons
             link={`https://www.eventsfree.by/event/${id}`}
             title={title}
             isShowCount={false}
             image={image}
           />
-          {contacts && Object.keys(contacts).length > 0 && <Contacts contacts={contacts} />}
-          {location && (
-            <div>
-              <Location location={location} />
-              <button className="btn--link" onClick={this.handleClick}>
-                {!this.state.isShowMap ? 'Показать на карте' : 'Скрыть'}{' '}
-              </button>
-            </div>
-          )}
-          <CalendarButton id={id} />
         </div>
-        {this.state.isShowMap && <Map location={this.props.location} />}
       </div>
     );
   }
 }
-
-EventDetailFooter.propTypes = propTypes;
 
 export default EventDetailFooter;

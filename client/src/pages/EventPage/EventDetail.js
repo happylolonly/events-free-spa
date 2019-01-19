@@ -57,7 +57,8 @@ const EventDetail = ({
             }
           }}
         >
-          <span />Вернуться
+          <span />
+          Вернуться
         </a>
 
         <span>
@@ -65,11 +66,11 @@ const EventDetail = ({
             .lang('ru')
             .format('HH:mm') !== '00:00'
             ? moment(date)
-                .lang('ru')
-                .format('D MMMM YYYY в HH:mm')
+              .lang('ru')
+              .format('D MMMM YYYY в HH:mm')
             : moment(date)
-                .lang('ru')
-                .format('D MMMM YYYY')}
+              .lang('ru')
+              .format('D MMMM YYYY')}
         </span>
       </header>
       <section>
@@ -86,7 +87,7 @@ const EventDetail = ({
 
             if (!navigator.onLine && !is_cached(item)) return null;
 
-            return <img key={item} src={item} alt={item} />;
+            return <img key={item} src={item} alt={item} className="event-detail__event-img" />;
           })}
 
         <EventText text={text} />
