@@ -84,7 +84,7 @@ class CalendarButton extends React.Component {
   };
 
   render() {
-    const items = ['Google Calendar', 'iCalendar', 'vCalendar'];
+    const items = ['Google Calendar', 'iCalendar'];
     return (
       <div className="calendar-button">
         <button className="calendar-btn" onClick={this.onClick}>
