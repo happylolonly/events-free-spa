@@ -1,29 +1,29 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
+
 import Map from '../Location/Map';
 import Contacts from '../Contacts/Contacts';
 import Location from '../Location/Location';
 import SocialButtons from 'components/SocialButtons/SocialButtons';
 import CalendarButton from 'components/CalendarButton/CalendarButton';
 
+import isEmpty from 'lodash/isEmpty';
+
 import './EventDetailFooter.scss';
 
 class EventDetailFooter extends PureComponent {
   static propTypes = {
-    id: PropTypes.number,
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
     image: PropTypes.string,
-    title: PropTypes.string,
     location: PropTypes.string,
     contacts: PropTypes.object,
   };
 
   static defaultProps = {
-    id: '',
     image: '',
-    title: '',
     location: '',
-    contacts: '',
+    contacts: {},
   };
 
   state = {
@@ -44,7 +44,9 @@ class EventDetailFooter extends PureComponent {
       <div className="event-detail-footer">
         <div className="event-detail-footer__row">
           {!isEmpty(contacts) && <Contacts contacts={contacts} />}
-          {location && <Location location={location} onClick={this.handleClick} isShowMap={isShowMap} /> }
+          {location && (
+            <Location location={location} onClick={this.handleClick} isShowMap={isShowMap} />
+          )}
 
           <CalendarButton id={id} />
         </div>

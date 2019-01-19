@@ -13,7 +13,7 @@ const Location = ({ location, onClick, isShowMap }) => (
     <span className="location__title">Место: </span>
     <span>{location}</span>
     <button className="location__btn" onClick={onClick}>
-      {!isShowMap ? 'Показать на карте' : 'Скрыть'}{' '}
+      {!isShowMap ? 'Показать на карте' : 'Скрыть'}
     </button>
   </div>
 );

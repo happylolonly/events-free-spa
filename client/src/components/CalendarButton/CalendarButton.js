@@ -68,7 +68,7 @@ class CalendarButton extends React.Component {
       } else {
         filename = 'download.vcs';
       }
-      const blob = new Blob([url], { type: 'text/calendar;charset=utf-8' });
+      const blob = new window.Blob([url], { type: 'text/calendar;charset=utf-8' });
 
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);

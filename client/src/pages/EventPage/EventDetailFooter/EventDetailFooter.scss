@@ -15,6 +15,10 @@
     &__row {
       flex-direction: column;
       text-align: center;
+
+      > div {
+        margin: 10px auto;
+      }
     }
 
     &__map {
@@ -23,7 +27,7 @@
 
     .calendar-button,
     .social-buttons {
-      margin: 10px auto;
+      margin: 15px auto;
     }
   }
 }

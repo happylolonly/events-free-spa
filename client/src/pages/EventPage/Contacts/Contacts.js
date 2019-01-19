@@ -7,9 +7,10 @@ const propTypes = {
     phone: PropTypes.string,
     email: PropTypes.string,
     link: PropTypes.string,
-  }),
+  }).isRequired,
 };
 
+// check if this works
 const defaultProps = {
   contacts: {
     phone: '',
@@ -23,14 +24,23 @@ const Contacts = ({ contacts: { phone, email, link } }) => {
     <div className="contacts">
       <span className="contacts__title">Контакты:</span>
       <ul className="contacts__list">
-        { phone && (
-          <li>Позвони нам: <a href={`tel:${phone}`}>{phone}</a></li>
+        {link && (
+          <li>
+            Ссылка:{' '}
+            <a href={`//${link}`} target="_blank" rel="noopener noreferrer">
+              {link}
+            </a>
+          </li>
         )}
-        { email && (
-          <li>Email: <a href={`mailto:${email}`}>{email}</a></li>
+        {phone && (
+          <li>
+            Телефон: <a href={`tel:${phone}`}>{phone}</a>
+          </li>
         )}
-        { link && (
-          <li>Сайт: <a href={`https://${link}`} target="_blank" rel="noopener noreferrer">{link}</a></li>
+        {email && (
+          <li>
+            Email: <a href={`mailto:${email}`}>{email}</a>
+          </li>
         )}
       </ul>
     </div>
