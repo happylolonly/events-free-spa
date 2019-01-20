@@ -22,7 +22,8 @@ class CalendarButton extends React.Component {
 
   getProperUrl = item => {
     const event = this.props.event[this.props.id];
-    const link = `\n${domain}/event/${event._id}`;
+    const { location, title } = event;
+    const link = `\n\n${domain}/event/${event._id}`;
     const formattedDate = moment
       .utc(event.date)
       .format('YYYYMMDDTHHmmssZ')
@@ -35,9 +36,11 @@ class CalendarButton extends React.Component {
         calendarUrl += '?action=TEMPLATE';
         calendarUrl += '&dates=' + formattedDate;
         calendarUrl += '/' + formattedDate;
-        calendarUrl += '&location=' + encodeURIComponent(event.location);
-        calendarUrl += '&text=' + encodeURIComponent(event.title);
-        calendarUrl += '&details=' + encodeURIComponent(event.title) + encodeURIComponent(link);
+        if (location) {
+          calendarUrl += '&location=' + encodeURIComponent(location);
+        }
+        calendarUrl += '&text=' + encodeURIComponent(title);
+        calendarUrl += '&details=' + encodeURIComponent(title) + encodeURIComponent(link);
         break;
       default:
         calendarUrl = [
@@ -47,9 +50,9 @@ class CalendarButton extends React.Component {
           'URL:' + document.URL,
           'DTSTART:' + formattedDate,
           'DTEND:' + formattedDate,
-          'SUMMARY:' + event.title,
-          'DESCRIPTION:' + event.title,
-          'LOCATION:' + event.location,
+          'SUMMARY:' + title,
+          'DESCRIPTION:' + title,
+          'LOCATION:' + location,
           'END:VEVENT',
           'END:VCALENDAR',
         ].join('\n');
