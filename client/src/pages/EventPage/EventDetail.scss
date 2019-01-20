@@ -6,6 +6,12 @@
   margin-bottom: 40px;
   min-height: 800px;
 
+  &__event-img {
+    display: block;
+    margin: 40px auto;
+    max-width: 100%;
+  }
+
   header {
     display: flex;
     justify-content: space-between;
@@ -43,12 +49,6 @@
     background-color: #fff;
     padding: 40px 50px;
     box-shadow: 1px 1px 3px gray;
-
-    img {
-      display: block;
-      margin: 40px auto;
-      max-width: 100%;
-    }
   }
 
   @media (max-width: 650px) {

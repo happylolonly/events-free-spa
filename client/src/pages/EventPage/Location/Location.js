@@ -1,26 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-
 import './Location.scss';
 
 const propTypes = {
-  //locaton
+  location: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  isShowMap: PropTypes.bool.isRequired,
 };
 
-class Location extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className="location">
-        <h5>Место</h5>
-        <p>{this.props.location}</p>
-      </div>
-    );
-  }
-}
+const Location = ({ location, onClick, isShowMap }) => (
+  <div className="location">
+    <span className="location__title">Место: </span>
+    <span>{location}</span>
+    <button className="location__btn" onClick={onClick}>
+      {!isShowMap ? 'Показать на карте' : 'Скрыть'}
+    </button>
+  </div>
+);
 
 Location.propTypes = propTypes;
 

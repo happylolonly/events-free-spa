@@ -1,9 +1,11 @@
 .social-buttons {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+
   li {
-    display: inline-block;
-    // border: 1px solid red;
-    vertical-align: top;
-    margin: 0 5px;
+    margin: 0 5px 5px 0;
+    cursor: pointer;
 
     div[role='button'] {
       outline: none;

@@ -1,9 +1,7 @@
 .calendar-button {
   position: relative;
-
-  @media (max-width: 900px) {
-    margin-top: 25px;
-  }
+  z-index: 1;
+  min-width: 200px;
 
   .calendar-btn {
     position: relative;
@@ -14,17 +12,22 @@
     border-right: none;
     border-radius: 0;
     box-shadow: 0 0 2px grey;
-    padding: 5px 5px 5px 40px;
+    padding: 10px 10px 10px 40px;
     background-image: url(/images/calendar-icon.png);
     background-repeat: no-repeat;
-    background-size: contain;
-    background-position: 0 -1px;
+    background-size: 25px;
+    background-position: 10px 5px;
     font-size: 13px;
     outline: none;
+    width: 100%;
 
     &:hover,
     &:focus {
       opacity: 0.75;
+    }
+
+    span {
+      text-align: right;
     }
   }
 }

@@ -68,7 +68,7 @@ class CalendarButton extends React.Component {
       } else {
         filename = 'download.vcs';
       }
-      const blob = new Blob([url], { type: 'text/calendar;charset=utf-8' });
+      const blob = new window.Blob([url], { type: 'text/calendar;charset=utf-8' });
 
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
@@ -84,7 +84,7 @@ class CalendarButton extends React.Component {
   };
 
   render() {
-    const items = ['Google Calendar', 'iCalendar', 'vCalendar'];
+    const items = ['Google Calendar', 'iCalendar'];
     return (
       <div className="calendar-button">
         <button className="calendar-btn" onClick={this.onClick}>

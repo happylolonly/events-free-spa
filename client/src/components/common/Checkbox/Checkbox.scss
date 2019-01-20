@@ -1,4 +1,5 @@
 @import '../../../constants/style/colors';
+@import '../../../constants/style/colors';
 
 .checkbox,
 .radio {
@@ -9,5 +10,62 @@
 
   label {
     color: $text-color--muted;
+  }
+}
+.checkbox {
+  margin-bottom: 25px;
+  padding: 0 25px;
+  input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    margin: 10px 0 0 20px;
+    &:checked {
+      & + .checkbox__text {
+        &:before {
+          background: $link-color;
+        }
+        &:after {
+          left: 26px;
+        }
+      }
+    }
+    &:focus {
+      & + .checkbox__text {
+        &:before {
+          box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(83, 50, 144, 0.36);
+        }
+      }
+    }
+  }
+  &__text {
+    position: relative;
+    padding: 0 0 0 60px;
+    color: $text-color--muted;
+    cursor: pointer;
+    &:before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: 0;
+      width: 50px;
+      height: 26px;
+      border-radius: 13px;
+      background: #CDD1DA;
+      box-shadow: inset 0 2px 3px rgba(0,0,0,.2);
+      transition: .2s;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 2px;
+      width: 22px;
+      height: 22px;
+      border-radius: 10px;
+      background: #FFF;
+      box-shadow: 0 2px 5px rgba(0,0,0,.3);
+      transition: .2s;
+    }
   }
 }
