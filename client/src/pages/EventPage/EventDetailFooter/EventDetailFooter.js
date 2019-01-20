@@ -6,6 +6,7 @@ import Contacts from '../Contacts/Contacts';
 import Location from '../Location/Location';
 import SocialButtons from 'components/SocialButtons/SocialButtons';
 import CalendarButton from 'components/CalendarButton/CalendarButton';
+import InviteFriend from 'components/InviteFriend/InviteFriend';
 
 import isEmpty from 'lodash/isEmpty';
 
@@ -58,6 +59,9 @@ class EventDetailFooter extends PureComponent {
             isShowCount={false}
             image={image}
           />
+        </div>
+        <div className="event-detail-footer__row">
+          <InviteFriend />
         </div>
       </div>
     );
