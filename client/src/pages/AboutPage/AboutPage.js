@@ -1,7 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import { Link } from 'react-router-dom';
 
 import SocialButtons from 'components/SocialButtons/SocialButtons';
 import FeedbackForm from './FeedbackForm/FeedbackForm';
@@ -14,11 +11,12 @@ const AboutPage = () => {
   return (
     <div className="about-page">
       <h3>О приложении</h3>
-      <p>Все бесплатные мероприятия в одном месте)</p>
-      <p>Мероприятия собираются автоматически, так что ты точно ничего не пропустишь.</p>
       <p>
-        Откуда получать мероприятия можно выбрать в <Link to="/settings">настройках</Link>
+        Приложение собирает бесплатные мероприятия с различных источников и показывает все в одном
+        месте
       </p>
+      <p>Мероприятия собираются автоматически, так что ты точно ничего не пропустишь.</p>
+      <hr />
       <p>Знаешь JavaScript и хочешь помочь/поучиться?) Дай знать)</p>
       <p>
         Открытый код{' '}
@@ -26,11 +24,12 @@ const AboutPage = () => {
           https://github.com/happylolonly/events-free-spa
         </a>
       </p>
+      <hr />
       <h5>Поделись с друзьями!</h5>
       <SocialButtons
         link="https://www.eventsfree.by"
         title="Все бесплатные мероприятия в одном месте!"
-        isShowCount={true}
+        isShowCount
       />
       <FeedbackForm />
     </div>
