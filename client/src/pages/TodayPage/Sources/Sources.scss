@@ -1,0 +1,41 @@
+@import '../../../constants/style/colors';
+
+.sources {
+  text-align: center;
+  margin-top: 15px;
+
+  .toggle {
+    display: inline-block;
+  }
+
+  .content-checkboxes {
+    display: flex;
+    justify-content: center;
+    text-align: left;
+    flex-wrap: wrap;
+    margin-top: 30px;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    &__right {
+      h5 {
+        margin: 0;
+        padding-bottom: 15px;
+        text-align: center;
+
+        @media (max-width: 600px) {
+          padding: 15px 0;
+        }
+      }
+    }
+
+    &__wrapper {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+  }
+}

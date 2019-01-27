@@ -1,0 +1,44 @@
+@import '../../../constants/style/colors';
+
+.load-all {
+  text-align: center;
+  margin-top: 30px;
+
+  button {
+    background: $primary-color;
+    outline: none;
+    border: none;
+    transition: 0.4s all;
+    color: #fff;
+    padding: 12px 18px;
+    font-size: 14px;
+    text-transform: uppercase;
+    transform: perspective(1px) translateZ(0);
+
+    &::before {
+      pointer-events: none;
+      content: '';
+      position: absolute;
+      border: $primary-color solid 2px;
+      top: -16px;
+      right: -16px;
+      bottom: -16px;
+      left: -16px;
+      opacity: 0;
+      transition-duration: 0.3s;
+      transition-property: top, right, bottom, left;
+    }
+
+    &:hover {
+      background: $link-color--hover;
+
+      &::before {
+        top: -8px;
+        right: -8px;
+        bottom: -8px;
+        left: -8px;
+        opacity: 1;
+      }
+    }
+  }
+}

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import axios from 'axios';
 import { API } from 'constants/config';
+
+import { loadAllEvents } from 'actions/events';
 
 import './LoadAll.scss';
 
@@ -83,6 +86,15 @@ class LoadAll extends Component {
   }
 }
 
+const mapStateToProps = ({ sources }) => {
+  return {
+    sources,
+  };
+};
+
 LoadAll.propTypes = propTypes;
 
-export default LoadAll;
+export default connect(
+  mapStateToProps,
+  { loadAllEvents }
+)(LoadAll);

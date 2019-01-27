@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import io from 'socket.io-client';
 
 import Search from './Search/Search';
 import Filters from './Filters/Filters';
+import Sources from './Sources/Sources';
+import LoadAll from './LoadAll/LoadAll';
 import TodayPage from './TodayPage';
 import { Loader, Calendar } from 'components/common';
 import ScrollUpButton from 'components/ScrollUpButton/ScrollUpButton';
@@ -24,8 +25,10 @@ class TodayPageContainer extends PureComponent {
       search: PropTypes.string,
     }).isRequired,
     events: PropTypes.object.isRequired,
+    sources: PropTypes.object.isRequired,
     loadEvents: PropTypes.func.isRequired,
     resetEvents: PropTypes.func.isRequired,
+    loadEvent: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -52,6 +55,7 @@ class TodayPageContainer extends PureComponent {
       offset: 0,
       currentFilter,
       isShowCalendar: false,
+      isSourcesOpen: false,
       formattedCalendarDate,
 
       preload: [],
@@ -74,6 +78,12 @@ class TodayPageContainer extends PureComponent {
 
   componentWillUnmount() {
     this.socket.close();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.sources !== this.props.sources) {
+      this.loadEvents();
+    }
   }
 
   eventsUpdated = () => {
@@ -138,6 +148,10 @@ class TodayPageContainer extends PureComponent {
     );
   };
 
+  toggleSources = () => {
+    this.setState({ isSourcesOpen: !this.state.isSourcesOpen });
+  };
+
   toggleCalendar = () => {
     this.setState({ isShowCalendar: !this.state.isShowCalendar });
   };
@@ -183,8 +197,12 @@ class TodayPageContainer extends PureComponent {
         <Search handleSearch={this.handleSearch} search={this.state.search} />
         <Filters handleFilter={this.handleFilter} currentFilter={this.state.currentFilter} />
         <p className="event-sources">
-          Откуда получать мероприятия можно выбрать <Link to="/settings">тут</Link>
+          <button className="btn--link" onClick={this.toggleSources}>
+            {!this.state.isSourcesOpen ? 'Выбрать источники' : 'Cкрыть'}
+          </button>
         </p>
+
+        {this.state.isSourcesOpen && <Sources />}
 
         <div className="calendar-wrapper">
           {this.state.currentFilter === 'certain' && (
@@ -201,6 +219,9 @@ class TodayPageContainer extends PureComponent {
           <Loader />
         ) : (
           <div>
+            {this.state.currentFilter === 'today' && this.props.events.data.model.length && (
+              <LoadAll />
+            )}
             <TodayPage
               events={this.props.events.data.model}
               currentFilter={this.state.currentFilter}
@@ -209,18 +230,22 @@ class TodayPageContainer extends PureComponent {
 
             {this.props.events.data.model.length < this.props.events.data.totalCount &&
               !this.props.events.isLoading && (
-              <button className="show-more" onClick={this.loadMore}>
+                <button className="show-more" onClick={this.loadMore}>
                   Показать еще
-              </button>
-            )}
+                </button>
+              )}
           </div>
         )}
 
-        {this.props.events.data.totalCount === 0 && (
+        {!this.props.events.data.totalCount && (
           <div className="no-results">
             <p>Ничего не найдено:(</p>
             <p>
-              Попробуй изменить откуда получать мероприятия в <Link to="/settings">настройках</Link>
+              Попробуй{' '}
+              <button className="btn--link" onClick={this.toggleSources}>
+                изменить источники
+              </button>{' '}
+              откуда будут показываться мероприятия
             </p>
           </div>
         )}
@@ -230,8 +255,8 @@ class TodayPageContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ events, event }) => {
-  return { events, eventInfo: event };
+const mapStateToProps = ({ events, event, sources }) => {
+  return { events, eventInfo: event, sources };
 };
 
 export default {

@@ -21,9 +21,6 @@ const Header = () => {
           <li className="nav__item">
             <Link to="/about">О приложении</Link>
           </li>
-          <li className="nav__item">
-            <Link to="/settings">Настройки</Link>
-          </li>
         </ul>
       </nav>
     </div>

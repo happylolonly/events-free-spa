@@ -1,8 +1,6 @@
 @import '../../constants/style/colors';
 
 .today-page-container {
-  // min-height: 800px;
-
   .event-sources {
     text-align: center;
     margin: 5px;
@@ -27,7 +25,6 @@
 
   > div > button {
     display: block;
-    // margin: 20px auto;
     min-width: 150px;
 
     &:focus,
@@ -59,6 +56,10 @@
 
   .no-results {
     text-align: center;
+
+    .btn--link {
+      padding: 0;
+    }
   }
 
   .calendar-wrapper {
