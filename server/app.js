@@ -13,6 +13,8 @@ import logger from './helpers/logger';
 import config from './configs';
 import serverConfig from './configs/main';
 
+import tasks from './tasks';
+
 const app = express();
 const port = process.env.PORT || config.port;
 
@@ -39,6 +41,7 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 logger.init();
+tasks.init();
 
 app.use(async (req, res) => {
   const shouldSSR = serverConfig.ssr.pages.some(page => {
