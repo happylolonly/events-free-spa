@@ -316,7 +316,7 @@ module.exports = app => {
         date: { $gte: Date.parse(new Date()) - 1000 * 60 * 60 * 24 * (!past ? 1 : 2 * 30) },
         $or: [
           { $where: '!this.tags || this.tags.length === 0', status: { $ne: 'rejected' } },
-          { status: 'noactive' }
+          { status: 'noactive' },
         ],
       })
         .sort({ date: !past ? 1 : -1 })
@@ -356,7 +356,7 @@ module.exports = app => {
     const event = await Event.findById(id);
     const { text } = event.toObject();
 
-    const url = 'https://python-ml-server.herokuapp.com';
+    const url = 'https://eventsfree-ml.herokuapp.com';
     // const url = 'http://0.0.0.0:5000/';
 
     try {
