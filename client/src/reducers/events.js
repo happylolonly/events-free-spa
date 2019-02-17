@@ -4,7 +4,7 @@ const initialState = {
   isLoading: false,
   data: {
     model: [],
-    totalCount: null,
+    totalCount: 0,
   },
   error: null,
 };

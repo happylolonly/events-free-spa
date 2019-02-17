@@ -9,7 +9,7 @@ import './Footer.scss';
 
 const Footer = () => {
   return (
-    <footer className="footer">
+    <footer className="footer" id="js-footer">
       <div>
         <SocialButtons
           link="https://www.eventsfree.by"
