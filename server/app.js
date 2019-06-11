@@ -37,7 +37,7 @@ require('./routes').default(app);
 
 if (process.env.NODE_ENV !== 'development') {
   setTimeout(ssr.init, 1000 * 20);
-  onliner.init();
+  // onliner.init();
 }
 
 logger.init();
