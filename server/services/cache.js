@@ -18,6 +18,10 @@ client.on('connect', () => {
   });
 });
 
+client.on('error', error => {
+  console.log(error);
+});
+
 client.hget = util.promisify(client.hget);
 
 const exec = mongoose.Query.prototype.exec;
