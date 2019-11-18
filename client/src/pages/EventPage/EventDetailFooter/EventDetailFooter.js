@@ -50,7 +50,11 @@ class EventDetailFooter extends PureComponent {
 
           <CalendarButton id={id} />
         </div>
-        <div className="event-detail-footer__map">{isShowMap && <Map location={location} />}</div>
+        {isShowMap && (
+          <div className="event-detail-footer__map">
+            <Map location={location} />
+          </div>
+        )}
         <div className="event-detail-footer__row">
           <SocialButtons
             link={`https://www.eventsfree.by/event/${id}`}
