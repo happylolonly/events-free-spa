@@ -24,7 +24,10 @@ function convertSources(sources) {
     // citydogAfisha: 'citydog.by/afisha',
   };
 
-  return sources.split(',').map(item => dict[item]);
+  return sources
+    .split(',')
+    .map(item => dict[item])
+    .concat(['direct']); // TODO: fix 'direct' type
 }
 
 module.exports = app => {

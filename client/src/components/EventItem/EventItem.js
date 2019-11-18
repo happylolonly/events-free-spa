@@ -36,18 +36,20 @@ const EventItem = ({ date, title, link, originalLink, source, mouseOver, adminMo
               .locale('ru')
               .format('HH:mm') !== '00:00'
               ? moment(date)
-                .locale('ru')
-                .format('HH:mm')
+                  .locale('ru')
+                  .format('HH:mm')
               : 'Время не указано'}
           </span>
         </div>
       </header>
-      <p className="source">
-        Источник:{' '}
-        <a target="_blank" href={`http://${source}${originalLink}`}>
-          {source}
-        </a>
-      </p>
+      {source !== 'direct' && (
+        <p className="source">
+          Источник:{' '}
+          <a target="_blank" href={`http://${source}${originalLink}`}>
+            {source}
+          </a>
+        </p>
+      )}
       <div className="tag__container">
         {tags.map((text, i) => (
           <Tag text={text} key={i} />
