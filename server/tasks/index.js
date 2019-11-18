@@ -3,7 +3,7 @@ import ff from './freefitness';
 
 export default {
   init() {
-    trainMlModel();
+    // trainMlModel();
     ff();
   },
 };
