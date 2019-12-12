@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import io from 'socket.io-client';
 
 import Search from './Search/Search';
 import Filters from './Filters/Filters';
-import Sources from './Sources/Sources';
-import LoadAll from './LoadAll/LoadAll';
 import TodayPage from './TodayPage';
 import { Loader, Calendar } from 'components/common';
 import ScrollUpButton from 'components/ScrollUpButton/ScrollUpButton';
@@ -21,20 +20,33 @@ const OFFSET_LENGTH = 10;
 
 class TodayPageContainer extends PureComponent {
   static propTypes = {
+    eventInfo: PropTypes.shape({
+      data: PropTypes.object,
+    }),
+    filterBy: PropTypes.string,
+    isLoading: PropTypes.bool.isRequired,
+    loadEvent: PropTypes.func.isRequired,
+    loadEvents: PropTypes.func.isRequired,
+    resetEvents: PropTypes.func.isRequired,
     location: PropTypes.shape({
       search: PropTypes.string,
     }).isRequired,
-    events: PropTypes.object.isRequired,
-    sources: PropTypes.object.isRequired,
-    loadEvents: PropTypes.func.isRequired,
-    resetEvents: PropTypes.func.isRequired,
-    loadEvent: PropTypes.func.isRequired,
+    amountOfLoadedEvents: PropTypes.number.isRequired,
+    totalEventsAmount: PropTypes.number.isRequired,
   };
+
+  static defaultProps = {
+    filterBy: null,
+  }
 
   constructor(props) {
     super(props);
 
-    const { resetEvents, location, events } = this.props;
+    const {
+      filterBy,
+      location,
+      amountOfLoadedEvents,
+    } = props;
 
     const params = location.search && location.search.split('=')[1];
 
@@ -55,17 +67,16 @@ class TodayPageContainer extends PureComponent {
       offset: 0,
       currentFilter,
       isShowCalendar: false,
-      isSourcesOpen: false,
       formattedCalendarDate,
 
       preload: [],
     };
 
-    if (currentFilter !== events.data.day) {
-      resetEvents();
+    if (currentFilter !== filterBy) {
+      this.props.resetEvents();
       this.loadEvents();
     } else {
-      this.state.offset = events.data.model.length - OFFSET_LENGTH;
+      this.state.offset = amountOfLoadedEvents - OFFSET_LENGTH;
     }
   }
 
@@ -80,15 +91,8 @@ class TodayPageContainer extends PureComponent {
     this.socket.close();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.sources !== this.props.sources) {
-      this.loadEvents();
-    }
-  }
-
   eventsUpdated = () => {
     console.log('events updated');
-
     this.loadEvents();
   };
 
@@ -111,15 +115,12 @@ class TodayPageContainer extends PureComponent {
   };
 
   loadEvents = () => {
-    const {
-      state: { search, offset, currentFilter, formattedCalendarDate },
-      props: { loadEvents },
-    } = this;
+    const { search, offset, currentFilter } = this.state;
 
-    loadEvents({
+    this.props.loadEvents({
       search,
       offset,
-      day: currentFilter === 'certain' ? formattedCalendarDate : currentFilter,
+      day: currentFilter === 'certain' ? this.state.formattedCalendarDate : currentFilter,
     });
   };
 
@@ -146,10 +147,6 @@ class TodayPageContainer extends PureComponent {
         }
       }
     );
-  };
-
-  toggleSources = () => {
-    this.setState({ isSourcesOpen: !this.state.isSourcesOpen });
   };
 
   toggleCalendar = () => {
@@ -187,9 +184,19 @@ class TodayPageContainer extends PureComponent {
   };
 
   render() {
+    const {
+      props: {
+        isLoading,
+        totalEventsAmount,
+        amountOfLoadedEvents,
+        location: { search },
+      },
+      state: { currentFilter, isShowCalendar, calendarDate },
+    } = this;
+
     return (
       <div className="today-page-container">
-        {this.props.location.search === '?test' && (
+        {search === '?test' && (
           <button className="test-button" onClick={this.handleSecretButtonClick}>
             секретная кнопка
           </button>
@@ -197,55 +204,33 @@ class TodayPageContainer extends PureComponent {
         <Search handleSearch={this.handleSearch} search={this.state.search} />
         <Filters handleFilter={this.handleFilter} currentFilter={this.state.currentFilter} />
         <p className="event-sources">
-          <button className="btn--link" onClick={this.toggleSources}>
-            {!this.state.isSourcesOpen ? 'Выбрать источники' : 'Cкрыть'}
-          </button>
+          Откуда получать мероприятия можно выбрать <Link to="/settings">тут</Link>
         </p>
 
-        {this.state.isSourcesOpen && <Sources />}
-
         <div className="calendar-wrapper">
-          {this.state.currentFilter === 'certain' && (
+          {currentFilter === 'certain' && (
             <button className="btn--link" onClick={this.toggleCalendar}>
-              {!this.state.isShowCalendar ? 'Показать' : 'Cкрыть'} календарь
+              {!isShowCalendar ? 'Показать' : 'Cкрыть'} календарь
             </button>
           )}
-          {this.state.isShowCalendar && (
-            <Calendar value={this.state.calendarDate} onChange={this.handleCalendarChange} />
-          )}
+          {isShowCalendar && <Calendar value={calendarDate} onChange={this.handleCalendarChange} />}
         </div>
 
-        {this.props.events.isLoading && !this.props.events.data.model.length ? (
+        {isLoading && !amountOfLoadedEvents ? (
           <Loader />
         ) : (
-          <div>
-            {this.state.currentFilter === 'today' && this.props.events.data.model.length && (
-              <LoadAll />
-            )}
-            <TodayPage
-              events={this.props.events.data.model}
-              currentFilter={this.state.currentFilter}
-              handleMouseOver={this.handleMouseOver}
-            />
-
-            {this.props.events.data.model.length < this.props.events.data.totalCount &&
-              !this.props.events.isLoading && (
-                <button className="show-more" onClick={this.loadMore}>
-                  Показать еще
-                </button>
-              )}
-          </div>
+          <TodayPage
+            loadEvents={this.loadMore}
+            currentFilter={currentFilter}
+            handleMouseOver={this.handleMouseOver}
+          />
         )}
 
-        {!this.props.events.data.totalCount && (
+        {totalEventsAmount === 0 && (
           <div className="no-results">
             <p>Ничего не найдено:(</p>
             <p>
-              Попробуй{' '}
-              <button className="btn--link" onClick={this.toggleSources}>
-                изменить источники
-              </button>{' '}
-              откуда будут показываться мероприятия
+              Попробуй изменить источники мероприятий в <Link to="/settings">настройках</Link>
             </p>
           </div>
         )}
@@ -255,8 +240,14 @@ class TodayPageContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ events, event, sources }) => {
-  return { events, eventInfo: event, sources };
+const mapStateToProps = ({ events, event }) => {
+  return {
+    eventInfo: event,
+    filterBy: events.data.day,
+    isLoading: events.isLoading,
+    totalEventsAmount: events.data.totalCount,
+    amountOfLoadedEvents: events.data.model.length,
+  };
 };
 
 export default {

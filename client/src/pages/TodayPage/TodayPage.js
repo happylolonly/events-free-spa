@@ -1,18 +1,60 @@
 import React from 'react';
+import throttle from 'lodash/throttle';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import EventItem from 'components/EventItem/EventItem';
 
-// import './TodayPage.scss';
+class TodayPage extends React.PureComponent {
+  static propTypes = {
+    events: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    loadEvents: PropTypes.func.isRequired,
+    currentFilter: PropTypes.string.isRequired,
+    handleMouseOver: PropTypes.func.isRequired,
+    totalEventsAmount: PropTypes.number.isRequired,
+    amountOfLoadedEvents: PropTypes.number.isRequired,
+  }
 
-const propTypes = {
-  events: PropTypes.array.isRequired,
-  currentFilter: PropTypes.string.isRequired,
-};
+  componentDidMount() {
+    window.addEventListener('scroll', this.trottledScrollHandler);
+  }
 
-const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
-  const showTitle = () => {
-    switch (currentFilter) {
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.trottledScrollHandler);
+  }
+
+  handleScrolling = (e) => {
+    const {
+      amountOfLoadedEvents,
+      totalEventsAmount,
+      loadEvents,
+    } = this.props;
+
+    if (amountOfLoadedEvents === totalEventsAmount) return;
+
+    const footer = document.getElementById('js-footer');
+
+    const rect = footer.getBoundingClientRect();
+    const isAtEnd = (
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+
+    if (isAtEnd) {
+      if (this.props.isLoading) return;
+      loadEvents();
+    }
+  }
+
+  trottledScrollHandler = throttle(this.handleScrolling, 200);
+
+  getRef = (node) => {
+    this.ref = node;
+  }
+
+  showTitle = () => {
+    switch (this.props.currentFilter) {
       case 'today':
         return <h3>Мероприятия на сегодня</h3>;
       case 'tomorrow':
@@ -55,28 +97,34 @@ const TodayPage = ({ events, currentFilter, handleMouseOver }) => {
         return <h3 className="today-page__title">Все мероприятия</h3>;
     }
   };
-  return (
-    <div className="today-page">
-      {showTitle()}
-      {events.map(item => {
-        const { date, title, id, originalLink, source, tags } = item;
-        return (
-          <EventItem
-            key={id}
-            date={date}
-            title={title}
-            link={id}
-            originalLink={originalLink}
-            source={source}
-            mouseOver={() => handleMouseOver(id)}
-            tags={tags}
-          />
-        );
-      })}
-    </div>
-  );
-};
 
-TodayPage.propTypes = propTypes;
+  render() {
+    const { events, handleMouseOver } = this.props;
 
-export default TodayPage;
+    return (
+      <div className="today-page" ref={this.getRef}>
+        {this.showTitle()}
+        {events.map(item => {
+          const { id } = item;
+          return (
+            <EventItem
+              {...item}
+              key={id}
+              link={id}
+              mouseOver={() => handleMouseOver(id)}
+            />
+          );
+        })}
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = ({ events }) => ({
+  amountOfLoadedEvents: events.data.model.length,
+  totalEventsAmount: events.data.totalCount,
+  isLoading: events.isLoading,
+  events: events.data.model,
+});
+
+export default connect(mapStateToProps)(TodayPage);
